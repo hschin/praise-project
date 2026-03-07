@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 1 context gathered
-last_updated: "2026-03-07T16:49:08.990Z"
+stopped_at: Completed 01-auth-foundation 01-02-PLAN.md
+last_updated: "2026-03-07T17:40:34.739Z"
 last_activity: 2026-03-08 — Roadmap created
 progress:
   total_phases: 4
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  total_plans: 3
+  completed_plans: 2
   percent: 0
 ---
 
@@ -50,6 +50,8 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: -
 
 *Updated after each plan completion*
+| Phase 01-auth-foundation P01 | 8 | 2 tasks | 5 files |
+| Phase 01-auth-foundation P02 | 2 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -62,6 +64,10 @@ Recent decisions affecting current work:
 - [Research]: Claude-first lyric recall with Nokogiri scraper fallback; never generate lyrics, only structure provided text
 - [Research]: All Claude API and PPTX generation calls must run in Solid Queue background jobs — never inline in controllers (Thruster timeout risk)
 - [Research]: DeckSong.arrangement as JSONB array is the authoritative slide order; Slide records are a derived projection
+- [Phase 01-auth-foundation]: Assert decks_path not root_path after sign-up — Devise resolves after_sign_up_path_for to decks_path directly
+- [Phase 01-auth-foundation]: Use ActionMailer::Base.deliveries to verify password reset email in test delivery mode
+- [Phase 01-auth-foundation]: Nav uses devise_controller? guard so any new Devise pages are automatically hidden without code changes
+- [Phase 01-auth-foundation]: mailer_sender set to noreply@praiseproject.app so password reset emails have valid From address
 
 ### Pending Todos
 
@@ -75,6 +81,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-07T16:49:08.980Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-auth-foundation/01-CONTEXT.md
+Last session: 2026-03-07T17:40:34.736Z
+Stopped at: Completed 01-auth-foundation 01-02-PLAN.md
+Resume file: None

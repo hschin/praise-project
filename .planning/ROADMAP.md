@@ -76,7 +76,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Auth + Foundation | 0/3 | Not started | - |
+| 1. Auth + Foundation | 2/3 | In Progress|  |
 | 2. Lyrics Pipeline | 0/TBD | Not started | - |
 | 3. Deck Editor | 0/TBD | Not started | - |
 | 4. PPTX Export | 0/TBD | Not started | - |
