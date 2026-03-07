@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_07_132253) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_07_134357) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -51,7 +51,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_07_132253) do
     t.text "content"
     t.datetime "created_at", null: false
     t.bigint "deck_song_id", null: false
-    t.bigint "lyric_id", null: false
+    t.bigint "lyric_id"
     t.integer "position"
     t.datetime "updated_at", null: false
     t.index ["deck_song_id"], name: "index_slides_on_deck_song_id"
@@ -83,5 +83,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_07_132253) do
   add_foreign_key "decks", "users"
   add_foreign_key "lyrics", "songs"
   add_foreign_key "slides", "deck_songs"
-  add_foreign_key "slides", "lyrics"
+  add_foreign_key "slides", "lyrics", on_delete: :nullify
 end
