@@ -28,7 +28,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. User session persists across browser refresh without re-login
   3. User can reset a forgotten password via email link
   4. Solid Queue background worker runs in both development and production (confirmed via job execution, not just boot)
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Test scaffold: Wave 0 auth integration tests (fixture fix, new registrations/passwords tests, repair decks/songs tests)
+- [ ] 01-02-PLAN.md — Auth UI polish: fix nav bar per spec, style passwords/new, add app name headings, fix mailer_sender
+- [ ] 01-03-PLAN.md — Solid Queue wiring + empty states + human verification checkpoint
 
 ### Phase 2: Lyrics Pipeline
 **Goal**: Users can search for any worship song and receive structured Chinese lyrics with tone-marked pinyin, saved to a shared team library
@@ -71,7 +76,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Auth + Foundation | 0/TBD | Not started | - |
+| 1. Auth + Foundation | 0/3 | Not started | - |
 | 2. Lyrics Pipeline | 0/TBD | Not started | - |
 | 3. Deck Editor | 0/TBD | Not started | - |
 | 4. PPTX Export | 0/TBD | Not started | - |
