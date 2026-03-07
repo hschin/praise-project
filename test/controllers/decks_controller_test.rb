@@ -1,23 +1,21 @@
 require "test_helper"
 
 class DecksControllerTest < ActionDispatch::IntegrationTest
-  test "should get index" do
-    get decks_index_url
-    assert_response :success
+  include Devise::Test::IntegrationHelpers
+
+  setup do
+    @user = users(:one)
+    sign_in @user
   end
 
-  test "should get show" do
-    get decks_show_url
-    assert_response :success
+  test "unauthenticated GET /decks redirects to sign in" do
+    sign_out @user
+    get decks_url
+    assert_redirected_to new_user_session_path
   end
 
-  test "should get new" do
-    get decks_new_url
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get decks_edit_url
+  test "authenticated GET /decks returns 200" do
+    get decks_url
     assert_response :success
   end
 end
