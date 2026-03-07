@@ -12,7 +12,7 @@ ChurchSlides ships in four strictly sequential phases driven by hard data depend
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Auth + Foundation** - User accounts, core data models, and background job infrastructure
+- [x] **Phase 1: Auth + Foundation** - User accounts, core data models, and background job infrastructure (completed 2026-03-07)
 - [ ] **Phase 2: Lyrics Pipeline** - AI-powered song search, lyric enrichment, pinyin generation, and song library
 - [ ] **Phase 3: Deck Editor** - Service/setlist creation, slide arrangement, inline editing, and theme selection
 - [ ] **Phase 4: PPTX Export** - Background PPTX generation with CJK fonts and download delivery
@@ -76,7 +76,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Auth + Foundation | 2/3 | In Progress|  |
+| 1. Auth + Foundation | 3/3 | Complete   | 2026-03-07 |
 | 2. Lyrics Pipeline | 0/TBD | Not started | - |
 | 3. Deck Editor | 0/TBD | Not started | - |
 | 4. PPTX Export | 0/TBD | Not started | - |
