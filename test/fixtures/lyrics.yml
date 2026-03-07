@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  song: one
+  section_type: MyString
+  position: 1
+  content: MyText
+  pinyin: MyText
+
+two:
+  song: two
+  section_type: MyString
+  position: 1
+  content: MyText
+  pinyin: MyText
