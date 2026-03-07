@@ -4,6 +4,7 @@ class SongsController < ApplicationController
 
   def index
     @songs = Song.order(:title)
+    @songs = @songs.where("title ILIKE ? OR artist ILIKE ?", "%#{params[:q]}%", "%#{params[:q]}%") if params[:q].present?
   end
 
   def show

@@ -3,7 +3,7 @@ class DeckSongsController < ApplicationController
   before_action :set_deck
 
   def create
-    @deck_song = @deck.deck_songs.new(deck_song_params)
+    @deck_song = @deck.deck_songs.new(song_id: params[:song_id], key: params[:key])
     @deck_song.position = @deck.deck_songs.count + 1
     if @deck_song.save
       redirect_to @deck, notice: "Song added to deck."
