@@ -7,9 +7,9 @@
 
 ### Authentication
 
-- [ ] **AUTH-01**: User can sign up with email and password
-- [ ] **AUTH-02**: User session persists across browser refresh
-- [ ] **AUTH-03**: User can reset password via email link
+- [x] **AUTH-01**: User can sign up with email and password
+- [x] **AUTH-02**: User session persists across browser refresh
+- [x] **AUTH-03**: User can reset password via email link
 
 ### Song Import
 
@@ -91,9 +91,9 @@ Phase mapping confirmed during roadmap creation (2026-03-08).
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 — Auth + Foundation | Pending |
-| AUTH-02 | Phase 1 — Auth + Foundation | Pending |
-| AUTH-03 | Phase 1 — Auth + Foundation | Pending |
+| AUTH-01 | Phase 1 — Auth + Foundation | Complete |
+| AUTH-02 | Phase 1 — Auth + Foundation | Complete |
+| AUTH-03 | Phase 1 — Auth + Foundation | Complete |
 | SONG-01 | Phase 2 — Lyrics Pipeline | Pending |
 | SONG-02 | Phase 2 — Lyrics Pipeline | Pending |
 | SONG-03 | Phase 2 — Lyrics Pipeline | Pending |
