@@ -87,35 +87,35 @@
 
 ## Traceability
 
-Which phases cover which requirements. Updated during roadmap creation.
+Phase mapping confirmed during roadmap creation (2026-03-08).
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 | Pending |
-| AUTH-02 | Phase 1 | Pending |
-| AUTH-03 | Phase 1 | Pending |
-| SONG-01 | Phase 2 | Pending |
-| SONG-02 | Phase 2 | Pending |
-| SONG-03 | Phase 2 | Pending |
-| SONG-04 | Phase 2 | Pending |
-| LIB-01 | Phase 2 | Pending |
-| LIB-02 | Phase 2 | Pending |
-| LIB-03 | Phase 2 | Pending |
-| SLIDE-01 | Phase 3 | Pending |
-| SLIDE-02 | Phase 3 | Pending |
-| SLIDE-03 | Phase 3 | Pending |
-| SLIDE-04 | Phase 3 | Pending |
-| SLIDE-05 | Phase 3 | Pending |
-| DECK-01 | Phase 3 | Pending |
-| DECK-02 | Phase 3 | Pending |
-| DECK-03 | Phase 3 | Pending |
-| DECK-04 | Phase 3 | Pending |
-| THEME-01 | Phase 3 | Pending |
-| THEME-02 | Phase 3 | Pending |
-| THEME-03 | Phase 3 | Pending |
-| EXPORT-01 | Phase 4 | Pending |
-| EXPORT-02 | Phase 4 | Pending |
-| EXPORT-03 | Phase 4 | Pending |
+| AUTH-01 | Phase 1 — Auth + Foundation | Pending |
+| AUTH-02 | Phase 1 — Auth + Foundation | Pending |
+| AUTH-03 | Phase 1 — Auth + Foundation | Pending |
+| SONG-01 | Phase 2 — Lyrics Pipeline | Pending |
+| SONG-02 | Phase 2 — Lyrics Pipeline | Pending |
+| SONG-03 | Phase 2 — Lyrics Pipeline | Pending |
+| SONG-04 | Phase 2 — Lyrics Pipeline | Pending |
+| LIB-01 | Phase 2 — Lyrics Pipeline | Pending |
+| LIB-02 | Phase 2 — Lyrics Pipeline | Pending |
+| LIB-03 | Phase 2 — Lyrics Pipeline | Pending |
+| SLIDE-01 | Phase 3 — Deck Editor | Pending |
+| SLIDE-02 | Phase 3 — Deck Editor | Pending |
+| SLIDE-03 | Phase 3 — Deck Editor | Pending |
+| SLIDE-04 | Phase 3 — Deck Editor | Pending |
+| SLIDE-05 | Phase 3 — Deck Editor | Pending |
+| DECK-01 | Phase 3 — Deck Editor | Pending |
+| DECK-02 | Phase 3 — Deck Editor | Pending |
+| DECK-03 | Phase 3 — Deck Editor | Pending |
+| DECK-04 | Phase 3 — Deck Editor | Pending |
+| THEME-01 | Phase 3 — Deck Editor | Pending |
+| THEME-02 | Phase 3 — Deck Editor | Pending |
+| THEME-03 | Phase 3 — Deck Editor | Pending |
+| EXPORT-01 | Phase 4 — PPTX Export | Pending |
+| EXPORT-02 | Phase 4 — PPTX Export | Pending |
+| EXPORT-03 | Phase 4 — PPTX Export | Pending |
 
 **Coverage:**
 - v1 requirements: 25 total
@@ -124,4 +124,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-03-08*
-*Last updated: 2026-03-08 after initial definition*
+*Last updated: 2026-03-08 — traceability confirmed after roadmap creation*
