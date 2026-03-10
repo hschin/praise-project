@@ -12,7 +12,7 @@ ChurchSlides ships in four strictly sequential phases driven by hard data depend
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [x] **Phase 1: Auth + Foundation** - User accounts, core data models, and background job infrastructure (completed 2026-03-07)
+- [x] **Phase 1: Auth + Foundation** - User accounts, core data models, and background job infrastructure (completed 2026-03-07)
 - [ ] **Phase 2: Lyrics Pipeline** - AI-powered song search, lyric enrichment, pinyin generation, and song library
 - [ ] **Phase 3: Deck Editor** - Service/setlist creation, slide arrangement, inline editing, and theme selection
 - [ ] **Phase 4: PPTX Export** - Background PPTX generation with CJK fonts and download delivery
@@ -45,7 +45,15 @@ Plans:
   3. User can paste raw lyrics manually when search fails and receive the same structured output
   4. Imported song is immediately visible to all team members in the shared library
   5. User can browse, search, and edit a saved song's lyrics and pinyin from the library
-**Plans**: TBD
+**Plans**: 6 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Gems + migration + Wave 0 test scaffold (anthropic/serpapi/faraday, import_status enum, RED test files)
+- [ ] 02-02-PLAN.md — Service layer: ClaudeLyricsService, LyricsSearchService, LyricsScraperService (all tests GREEN)
+- [ ] 02-03-PLAN.md — ImportSongJob (3-stage pipeline, Turbo broadcasts) + songs#import controller action
+- [ ] 02-04-PLAN.md — Song show page (Turbo states, ruby-annotated lyrics, pinyin toggle) + index search/cards
+- [ ] 02-05-PLAN.md — Song edit page with nested lyric fields (section_type, content, pinyin all editable)
+- [ ] 02-06-PLAN.md — Human verification: end-to-end browser test with live API credentials
 
 ### Phase 3: Deck Editor
 **Goal**: Users can assemble a complete service deck — adding songs, arranging slides, editing text, and choosing a visual theme — ready for export
@@ -77,6 +85,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Auth + Foundation | 3/3 | Complete   | 2026-03-07 |
-| 2. Lyrics Pipeline | 0/TBD | Not started | - |
+| 2. Lyrics Pipeline | 0/6 | Not started | - |
 | 3. Deck Editor | 0/TBD | Not started | - |
 | 4. PPTX Export | 0/TBD | Not started | - |
