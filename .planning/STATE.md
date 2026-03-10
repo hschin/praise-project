@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 02-lyrics-pipeline-01-PLAN.md
-last_updated: "2026-03-10T16:14:27.533Z"
+stopped_at: Completed 02-lyrics-pipeline-02-PLAN.md
+last_updated: "2026-03-10T16:19:15.699Z"
 last_activity: 2026-03-08 — Roadmap created
 progress:
   total_phases: 4
   completed_phases: 1
   total_plans: 9
-  completed_plans: 4
+  completed_plans: 5
   percent: 0
 ---
 
@@ -55,6 +55,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01-auth-foundation P03 | 10 | 1 tasks | 5 files |
 | Phase 01-auth-foundation P03 | 10 | 2 tasks | 5 files |
 | Phase 02-lyrics-pipeline P01 | 8 | 2 tasks | 11 files |
+| Phase 02-lyrics-pipeline P02 | 5 | 1 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -76,6 +77,8 @@ Recent decisions affecting current work:
 - [Phase 01-auth-foundation]: Human checkpoint Task 2 approved: Solid Queue executes jobs in development (SmokeTestJob confirmed via jobs process log output)
 - [Phase 02-lyrics-pipeline]: minitest 6.0.2 (Ruby 4.0.1) removed Object#stub and Minitest::Mock — both restored in test_helper as minimal shims to unblock Wave 0 scaffold pattern
 - [Phase 02-lyrics-pipeline]: enum :import_status uses explicit string values for readability and null: false default: 'pending' on songs table
+- [Phase 02-lyrics-pipeline]: ENV.fetch with nil default used in services so Minitest stubs intercept client constructors before key is needed — avoids KeyError in test environment
+- [Phase 02-lyrics-pipeline]: Faraday connection instantiated inline in LyricsScraperService#call (not class-level constant) to preserve Faraday.stub compatibility in tests
 
 ### Pending Todos
 
@@ -89,6 +92,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-10T16:14:27.531Z
-Stopped at: Completed 02-lyrics-pipeline-01-PLAN.md
+Last session: 2026-03-10T16:19:15.697Z
+Stopped at: Completed 02-lyrics-pipeline-02-PLAN.md
 Resume file: None
