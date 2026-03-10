@@ -13,14 +13,14 @@
 
 ### Song Import
 
-- [ ] **SONG-01**: User can search for a song by title; Claude recalls lyrics first, Nokogiri scrapers used as fallback if Claude doesn't know the song
-- [ ] **SONG-02**: Claude automatically detects and labels lyric sections (verse, chorus, bridge, etc.)
-- [ ] **SONG-03**: Claude automatically generates tone-marked pinyin for all Simplified Chinese lyrics
-- [ ] **SONG-04**: User can manually paste raw lyrics if search and scrapers both fail
+- [x] **SONG-01**: User can search for a song by title; Claude recalls lyrics first, Nokogiri scrapers used as fallback if Claude doesn't know the song
+- [x] **SONG-02**: Claude automatically detects and labels lyric sections (verse, chorus, bridge, etc.)
+- [x] **SONG-03**: Claude automatically generates tone-marked pinyin for all Simplified Chinese lyrics
+- [x] **SONG-04**: User can manually paste raw lyrics if search and scrapers both fail
 
 ### Song Library
 
-- [ ] **LIB-01**: Imported songs are automatically saved to the shared team library
+- [x] **LIB-01**: Imported songs are automatically saved to the shared team library
 - [ ] **LIB-02**: User can browse and search saved songs in the library
 - [ ] **LIB-03**: User can edit a song's lyrics and pinyin in the library
 
@@ -94,11 +94,11 @@ Phase mapping confirmed during roadmap creation (2026-03-08).
 | AUTH-01 | Phase 1 — Auth + Foundation | Complete |
 | AUTH-02 | Phase 1 — Auth + Foundation | Complete |
 | AUTH-03 | Phase 1 — Auth + Foundation | Complete |
-| SONG-01 | Phase 2 — Lyrics Pipeline | Pending |
-| SONG-02 | Phase 2 — Lyrics Pipeline | Pending |
-| SONG-03 | Phase 2 — Lyrics Pipeline | Pending |
-| SONG-04 | Phase 2 — Lyrics Pipeline | Pending |
-| LIB-01 | Phase 2 — Lyrics Pipeline | Pending |
+| SONG-01 | Phase 2 — Lyrics Pipeline | Complete |
+| SONG-02 | Phase 2 — Lyrics Pipeline | Complete |
+| SONG-03 | Phase 2 — Lyrics Pipeline | Complete |
+| SONG-04 | Phase 2 — Lyrics Pipeline | Complete |
+| LIB-01 | Phase 2 — Lyrics Pipeline | Complete |
 | LIB-02 | Phase 2 — Lyrics Pipeline | Pending |
 | LIB-03 | Phase 2 — Lyrics Pipeline | Pending |
 | SLIDE-01 | Phase 3 — Deck Editor | Pending |

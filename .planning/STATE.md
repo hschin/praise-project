@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 2 context gathered
-last_updated: "2026-03-10T14:29:59.765Z"
+stopped_at: Completed 02-lyrics-pipeline-01-PLAN.md
+last_updated: "2026-03-10T16:14:27.533Z"
 last_activity: 2026-03-08 — Roadmap created
 progress:
   total_phases: 4
   completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
+  total_plans: 9
+  completed_plans: 4
   percent: 0
 ---
 
@@ -54,6 +54,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01-auth-foundation P02 | 2 | 2 tasks | 5 files |
 | Phase 01-auth-foundation P03 | 10 | 1 tasks | 5 files |
 | Phase 01-auth-foundation P03 | 10 | 2 tasks | 5 files |
+| Phase 02-lyrics-pipeline P01 | 8 | 2 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -73,6 +74,8 @@ Recent decisions affecting current work:
 - [Phase 01-auth-foundation]: Songs empty state: existing search form above list satisfies spec search bar requirement; only message text updated
 - [Phase 01-auth-foundation]: Decks empty state restructured to block div with New Deck button for visual prominence per spec
 - [Phase 01-auth-foundation]: Human checkpoint Task 2 approved: Solid Queue executes jobs in development (SmokeTestJob confirmed via jobs process log output)
+- [Phase 02-lyrics-pipeline]: minitest 6.0.2 (Ruby 4.0.1) removed Object#stub and Minitest::Mock — both restored in test_helper as minimal shims to unblock Wave 0 scaffold pattern
+- [Phase 02-lyrics-pipeline]: enum :import_status uses explicit string values for readability and null: false default: 'pending' on songs table
 
 ### Pending Todos
 
@@ -86,6 +89,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-10T14:29:59.760Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-lyrics-pipeline/02-CONTEXT.md
+Last session: 2026-03-10T16:14:27.531Z
+Stopped at: Completed 02-lyrics-pipeline-01-PLAN.md
+Resume file: None
