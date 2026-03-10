@@ -21,7 +21,7 @@
 ### Song Library
 
 - [x] **LIB-01**: Imported songs are automatically saved to the shared team library
-- [ ] **LIB-02**: User can browse and search saved songs in the library
+- [x] **LIB-02**: User can browse and search saved songs in the library
 - [ ] **LIB-03**: User can edit a song's lyrics and pinyin in the library
 
 ### Slide Editor
@@ -99,7 +99,7 @@ Phase mapping confirmed during roadmap creation (2026-03-08).
 | SONG-03 | Phase 2 — Lyrics Pipeline | Complete |
 | SONG-04 | Phase 2 — Lyrics Pipeline | Complete |
 | LIB-01 | Phase 2 — Lyrics Pipeline | Complete |
-| LIB-02 | Phase 2 — Lyrics Pipeline | Pending |
+| LIB-02 | Phase 2 — Lyrics Pipeline | Complete |
 | LIB-03 | Phase 2 — Lyrics Pipeline | Pending |
 | SLIDE-01 | Phase 3 — Deck Editor | Pending |
 | SLIDE-02 | Phase 3 — Deck Editor | Pending |

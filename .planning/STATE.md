@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 02-lyrics-pipeline-03-PLAN.md
-last_updated: "2026-03-10T16:24:17.154Z"
+stopped_at: Completed 02-lyrics-pipeline-04-PLAN.md
+last_updated: "2026-03-10T16:28:36.239Z"
 last_activity: 2026-03-08 — Roadmap created
 progress:
   total_phases: 4
   completed_phases: 1
   total_plans: 9
-  completed_plans: 6
+  completed_plans: 8
   percent: 0
 ---
 
@@ -57,6 +57,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02-lyrics-pipeline P01 | 8 | 2 tasks | 11 files |
 | Phase 02-lyrics-pipeline P02 | 5 | 1 tasks | 4 files |
 | Phase 02-lyrics-pipeline P03 | 15 | 2 tasks | 8 files |
+| Phase 02-lyrics-pipeline P04 | 2 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -82,6 +83,8 @@ Recent decisions affecting current work:
 - [Phase 02-lyrics-pipeline]: Faraday connection instantiated inline in LyricsScraperService#call (not class-level constant) to preserve Faraday.stub compatibility in tests
 - [Phase 02-lyrics-pipeline]: Turbo broadcast partials created in Task 1 as Rule 3 fix — Turbo::StreamsChannel.broadcast_replace_to raises ActionView::MissingTemplate without them
 - [Phase 02-lyrics-pipeline]: update_column used for import_step updates to skip callbacks/validations, avoiding triggering Turbo model callbacks during broadcast
+- [Phase 02-lyrics-pipeline]: eagerLoadControllersFrom auto-registers pinyin_toggle_controller — no explicit registration needed in index.js
+- [Phase 02-lyrics-pipeline]: show.html.erb owns the song_status_ Turbo target div; partials render without their own wrapper divs to avoid duplicate IDs on broadcast replace
 
 ### Pending Todos
 
@@ -95,6 +98,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-10T16:24:17.152Z
-Stopped at: Completed 02-lyrics-pipeline-03-PLAN.md
+Last session: 2026-03-10T16:28:25.335Z
+Stopped at: Completed 02-lyrics-pipeline-04-PLAN.md
 Resume file: None
