@@ -2,14 +2,14 @@
 
 one:
   song: one
-  section_type: MyString
+  section_type: "verse"
   position: 1
-  content: MyText
-  pinyin: MyText
+  content: "宇宙之光，照亮黑暗"
+  pinyin: "yǔ zhòu zhī guāng，zhào liàng hēi àn"
 
 two:
-  song: two
-  section_type: MyString
-  position: 1
-  content: MyText
-  pinyin: MyText
+  song: one
+  section_type: "chorus"
+  position: 2
+  content: "我願意跟隨祢"
+  pinyin: "wǒ yuàn yì gēn suí nǐ"
