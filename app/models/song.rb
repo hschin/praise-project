@@ -4,4 +4,11 @@ class Song < ApplicationRecord
   has_many :decks, through: :deck_songs
 
   validates :title, presence: true
+
+  enum :import_status, {
+    pending:    "pending",
+    processing: "processing",
+    done:       "done",
+    failed:     "failed"
+  }
 end
