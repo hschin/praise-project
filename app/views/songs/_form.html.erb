@@ -1,31 +1,70 @@
-<%= form_with model: song, class: "space-y-4" do |f| %>
+<%= form_with model: song, class: "space-y-6" do |f| %>
   <% if song.errors.any? %>
-    <div class="bg-red-50 border border-red-200 text-red-700 text-sm rounded p-3">
+    <div class="bg-red-50 border border-red-200 rounded p-3 text-sm text-red-700">
       <% song.errors.full_messages.each do |msg| %>
         <p><%= msg %></p>
       <% end %>
     </div>
   <% end %>
 
-  <div>
-    <%= f.label :title, "Title", class: "block text-sm font-medium text-gray-700 mb-1" %>
-    <%= f.text_field :title, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+  <%# Song metadata %>
+  <div class="space-y-4">
+    <div>
+      <%= f.label :title, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :title,
+            class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+    </div>
+    <div>
+      <%= f.label :artist, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :artist,
+            class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+    </div>
+    <div>
+      <%= f.label :default_key, "Default Key", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.select :default_key, ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"],
+          { include_blank: "Select key" },
+          class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+    </div>
   </div>
 
-  <div>
-    <%= f.label :artist, "Artist", class: "block text-sm font-medium text-gray-700 mb-1" %>
-    <%= f.text_field :artist, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
-  </div>
-
-  <div>
-    <%= f.label :default_key, "Default Key", class: "block text-sm font-medium text-gray-700 mb-1" %>
-    <%= f.select :default_key, ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"],
-        { include_blank: "Select key" },
-        class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
-  </div>
+  <%# Nested lyric sections — LOCKED: section_type, content, and pinyin all editable %>
+  <% if song.lyrics.any? %>
+    <div class="space-y-5">
+      <h2 class="text-sm font-semibold text-gray-700 border-b pb-2">Lyrics Sections</h2>
+      <%= f.fields_for :lyrics, song.lyrics.order(:position) do |lf| %>
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-3">
+          <div>
+            <%= lf.label :section_type, "Section Label", class: "block text-xs font-medium text-gray-600 mb-1" %>
+            <%= lf.text_field :section_type,
+                  class: "border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500",
+                  placeholder: "verse, chorus, bridge..." %>
+          </div>
+          <div>
+            <%= lf.label :content, "Lyrics (Chinese)", class: "block text-xs font-medium text-gray-600 mb-1" %>
+            <%= lf.text_area :content,
+                  rows: 4,
+                  class: "w-full border border-gray-300 rounded px-2 py-1 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500",
+                  placeholder: "One character per token, lines separated by newlines" %>
+          </div>
+          <div>
+            <%= lf.label :pinyin, "Pinyin", class: "block text-xs font-medium text-gray-600 mb-1" %>
+            <%= lf.text_area :pinyin,
+                  rows: 4,
+                  class: "w-full border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500",
+                  placeholder: "Space-separated tone-marked pinyin, lines separated by newlines" %>
+          </div>
+          <%= lf.hidden_field :id %>
+          <%= lf.hidden_field :position %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-sm text-gray-400 italic">No lyrics yet — lyrics appear here after import completes.</p>
+  <% end %>
 
   <div class="flex gap-3 pt-2">
-    <%= f.submit class: "bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 cursor-pointer" %>
-    <%= link_to "Cancel", songs_path, class: "text-sm text-gray-500 hover:underline self-center" %>
+    <%= f.submit "Save Changes",
+          class: "bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 cursor-pointer" %>
+    <%= link_to "Cancel", song_path(song), class: "text-sm text-gray-500 hover:underline self-center" %>
   </div>
 <% end %>

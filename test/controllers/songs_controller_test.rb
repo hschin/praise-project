@@ -36,4 +36,29 @@ class SongsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "body", /宇宙之光/
   end
+
+  # LIB-03: PATCH /songs/:id updates lyrics and pinyin
+  test "PATCH update saves edited lyrics and pinyin" do
+    song = songs(:one)
+    lyric = lyrics(:one)
+    patch song_path(song), params: {
+      song: {
+        title: song.title,
+        lyrics_attributes: {
+          "0" => {
+            id: lyric.id,
+            section_type: "bridge",
+            content: "新的歌詞",
+            pinyin: "xīn de gē cí",
+            position: lyric.position
+          }
+        }
+      }
+    }
+    assert_redirected_to song_path(song)
+    lyric.reload
+    assert_equal "bridge", lyric.section_type
+    assert_equal "新的歌詞", lyric.content
+    assert_equal "xīn de gē cí", lyric.pinyin
+  end
 end
