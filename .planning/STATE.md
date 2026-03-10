@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 02-lyrics-pipeline-04-PLAN.md
-last_updated: "2026-03-10T16:28:36.239Z"
+stopped_at: Completed 02-lyrics-pipeline-05-PLAN.md
+last_updated: "2026-03-10T16:28:52.490Z"
 last_activity: 2026-03-08 — Roadmap created
 progress:
   total_phases: 4
@@ -58,6 +58,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02-lyrics-pipeline P02 | 5 | 1 tasks | 4 files |
 | Phase 02-lyrics-pipeline P03 | 15 | 2 tasks | 8 files |
 | Phase 02-lyrics-pipeline P04 | 2 | 2 tasks | 6 files |
+| Phase 02-lyrics-pipeline P05 | 5 | 1 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -85,6 +86,8 @@ Recent decisions affecting current work:
 - [Phase 02-lyrics-pipeline]: update_column used for import_step updates to skip callbacks/validations, avoiding triggering Turbo model callbacks during broadcast
 - [Phase 02-lyrics-pipeline]: eagerLoadControllersFrom auto-registers pinyin_toggle_controller — no explicit registration needed in index.js
 - [Phase 02-lyrics-pipeline]: show.html.erb owns the song_status_ Turbo target div; partials render without their own wrapper divs to avoid duplicate IDs on broadcast replace
+- [Phase 02-lyrics-pipeline]: default_key select field preserved in _form.html.erb alongside new lyrics fields — no metadata fields removed
+- [Phase 02-lyrics-pipeline]: Cancel link targets song_path(song) in both edit wrapper and form footer — consistent UX
 
 ### Pending Todos
 
@@ -98,6 +101,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-10T16:28:25.335Z
-Stopped at: Completed 02-lyrics-pipeline-04-PLAN.md
+Last session: 2026-03-10T16:28:52.488Z
+Stopped at: Completed 02-lyrics-pipeline-05-PLAN.md
 Resume file: None
