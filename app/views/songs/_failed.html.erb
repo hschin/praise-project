@@ -1,3 +1,21 @@
-<div id="song_status_<%= song.id %>" class="text-sm text-red-600">
-  Import failed. Please paste lyrics manually below.
+<div class="bg-red-50 border border-red-200 rounded-lg p-6">
+  <div class="flex items-start gap-3">
+    <span class="text-red-500 text-xl">✗</span>
+    <div>
+      <h3 class="text-sm font-semibold text-red-800">Could not find lyrics for "<%= song.title %>"</h3>
+      <p class="mt-1 text-sm text-red-600">The search and web scraper both came up empty.</p>
+      <div class="mt-4">
+        <p class="text-sm font-medium text-gray-700 mb-2">Paste lyrics manually:</p>
+        <%= form_with url: import_songs_path, method: :post, class: "space-y-3" do |f| %>
+          <%= hidden_field_tag :title, song.title %>
+          <%= f.text_area :raw_lyrics,
+                placeholder: "Paste raw lyrics here — any format accepted",
+                rows: 8,
+                class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+          <%= f.submit "Import Pasted Lyrics",
+                class: "bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 cursor-pointer" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
