@@ -10,7 +10,11 @@ Rails.application.routes.draw do
     resources :deck_songs, only: [:create, :update, :destroy]
   end
 
-  resources :songs
+  resources :songs do
+    collection do
+      post :import
+    end
+  end
 
   get "up" => "rails/health#show", as: :rails_health_check
 end
