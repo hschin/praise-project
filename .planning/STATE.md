@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 02-lyrics-pipeline-02-PLAN.md
-last_updated: "2026-03-10T16:19:15.699Z"
+stopped_at: Completed 02-lyrics-pipeline-03-PLAN.md
+last_updated: "2026-03-10T16:24:17.154Z"
 last_activity: 2026-03-08 — Roadmap created
 progress:
   total_phases: 4
   completed_phases: 1
   total_plans: 9
-  completed_plans: 5
+  completed_plans: 6
   percent: 0
 ---
 
@@ -56,6 +56,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01-auth-foundation P03 | 10 | 2 tasks | 5 files |
 | Phase 02-lyrics-pipeline P01 | 8 | 2 tasks | 11 files |
 | Phase 02-lyrics-pipeline P02 | 5 | 1 tasks | 4 files |
+| Phase 02-lyrics-pipeline P03 | 15 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -79,6 +80,8 @@ Recent decisions affecting current work:
 - [Phase 02-lyrics-pipeline]: enum :import_status uses explicit string values for readability and null: false default: 'pending' on songs table
 - [Phase 02-lyrics-pipeline]: ENV.fetch with nil default used in services so Minitest stubs intercept client constructors before key is needed — avoids KeyError in test environment
 - [Phase 02-lyrics-pipeline]: Faraday connection instantiated inline in LyricsScraperService#call (not class-level constant) to preserve Faraday.stub compatibility in tests
+- [Phase 02-lyrics-pipeline]: Turbo broadcast partials created in Task 1 as Rule 3 fix — Turbo::StreamsChannel.broadcast_replace_to raises ActionView::MissingTemplate without them
+- [Phase 02-lyrics-pipeline]: update_column used for import_step updates to skip callbacks/validations, avoiding triggering Turbo model callbacks during broadcast
 
 ### Pending Todos
 
@@ -92,6 +95,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-10T16:19:15.697Z
-Stopped at: Completed 02-lyrics-pipeline-02-PLAN.md
+Last session: 2026-03-10T16:24:17.152Z
+Stopped at: Completed 02-lyrics-pipeline-03-PLAN.md
 Resume file: None
