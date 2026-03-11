@@ -1,59 +1,61 @@
 class ImportSongJob < ApplicationJob
   queue_as :default
 
-  STEP_SEARCH = "Searching web..."
-  STEP_SCRAPE = "Fetching lyrics..."
-  STEP_CLAUDE = "Generating pinyin..."
-  STEP_DONE   = "Done"
+  STEP_SEARCH = "searching"
+  STEP_CLAUDE = "generating"
 
-  def perform(song_id, raw_lyrics: nil)
-    song = Song.find(song_id)
-    song.update!(import_status: "processing", import_step: raw_lyrics ? STEP_CLAUDE : STEP_SEARCH)
-    broadcast_processing(song)
+  def perform(title, raw_lyrics: nil)
+    stream_key = stream_for(title)
+    broadcast_step(stream_key, raw_lyrics ? STEP_CLAUDE : STEP_SEARCH)
 
-    raw_text = raw_lyrics || fetch_raw_text(song)
-    result   = call_claude(song, raw_text)
+    result = ClaudeLyricsService.call(title: title, raw_lyrics: raw_lyrics)
 
-    if result["unknown"] && raw_lyrics.nil?
-      fail_song!(song)
+    if result["unknown"]
+      broadcast_failed(stream_key, title)
       return
     end
 
+    song = Song.create!(title: title, import_status: "done")
     save_lyrics!(song, result["sections"])
-    song.update!(import_status: "done", import_step: STEP_DONE)
-    Turbo::StreamsChannel.broadcast_replace_to(
-      song,
-      target: "song_status_#{song.id}",
-      partial: "songs/lyrics",
-      locals: { song: song }
-    )
+    broadcast_done(stream_key, song)
   rescue => e
-    Rails.logger.error("[ImportSongJob] song_id=#{song_id} #{e.class}: #{e.message}")
-    fail_song!(Song.find_by(id: song_id))
+    Rails.logger.error("[ImportSongJob] title=#{title} #{e.class}: #{e.message}")
+    broadcast_failed(stream_for(title), title)
   end
 
   private
 
-  def fetch_raw_text(song)
-    broadcast_step(song, STEP_SEARCH)
-    urls = LyricsSearchService.call(song.title)
-    return nil if urls.empty?
-
-    broadcast_step(song, STEP_SCRAPE)
-    urls.each do |url|
-      text = LyricsScraperService.call(url)
-      return text if text.present?
-    end
-    nil
+  def stream_for(title)
+    "song_import_#{title.parameterize}"
   end
 
-  def call_claude(song, raw_text)
-    broadcast_step(song, STEP_CLAUDE)
-    ClaudeLyricsService.call(title: song.title, raw_lyrics: raw_text)
+  def broadcast_step(stream_key, step)
+    Turbo::StreamsChannel.broadcast_update_to(
+      stream_key,
+      target: "import_status",
+      partial: "songs/processing",
+      locals: { step: step }
+    )
+  end
+
+  def broadcast_done(stream_key, song)
+    Turbo::StreamsChannel.broadcast_update_to(
+      stream_key,
+      target: "import_status",
+      html: %(<div data-controller="redirect" data-redirect-url-value="#{Rails.application.routes.url_helpers.song_path(song)}"></div>)
+    )
+  end
+
+  def broadcast_failed(stream_key, title)
+    Turbo::StreamsChannel.broadcast_update_to(
+      stream_key,
+      target: "import_status",
+      partial: "songs/failed",
+      locals: { title: title }
+    )
   end
 
   def save_lyrics!(song, sections)
-    song.lyrics.destroy_all
     sections.each_with_index do |section, idx|
       lines_content = section["lines"].map { |l| l["chars"].join }.join("\n")
       lines_pinyin  = section["lines"].map { |l| l["pinyin"].join(" ") }.join("\n")
@@ -64,35 +66,5 @@ class ImportSongJob < ApplicationJob
         pinyin:       lines_pinyin
       )
     end
-  end
-
-  def broadcast_step(song, step)
-    song.update_column(:import_step, step)
-    Turbo::StreamsChannel.broadcast_replace_to(
-      song,
-      target: "song_status_#{song.id}",
-      partial: "songs/processing",
-      locals: { song: song }
-    )
-  end
-
-  def broadcast_processing(song)
-    Turbo::StreamsChannel.broadcast_replace_to(
-      song,
-      target: "song_status_#{song.id}",
-      partial: "songs/processing",
-      locals: { song: song }
-    )
-  end
-
-  def fail_song!(song)
-    return unless song
-    song.update!(import_status: "failed", import_step: nil)
-    Turbo::StreamsChannel.broadcast_replace_to(
-      song,
-      target: "song_status_#{song.id}",
-      partial: "songs/failed",
-      locals: { song: song }
-    )
   end
 end
