@@ -20,41 +20,11 @@ class ClaudeLyricsService
     If raw lyrics are not provided, use web search to find the complete lyrics before structuring them.
     If you cannot find the song after searching, return sections: [] and unknown: true.
     Never fabricate lyrics you do not know.
+
+    Respond with raw JSON only — no markdown code fences, no explanation text.
   PROMPT
 
   WEB_SEARCH_TOOL = { type: "web_search_20250305", name: "web_search" }.freeze
-
-  OUTPUT_SCHEMA = {
-    type: "object",
-    properties: {
-      unknown: { type: "boolean" },
-      sections: {
-        type: "array",
-        items: {
-          type: "object",
-          properties: {
-            section_type: { type: "string" },
-            lines: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  chars:  { type: "array", items: { type: "string" } },
-                  pinyin: { type: "array", items: { type: "string" } }
-                },
-                required: ["chars", "pinyin"],
-                additionalProperties: false
-              }
-            }
-          },
-          required: ["section_type", "lines"],
-          additionalProperties: false
-        }
-      }
-    },
-    required: ["unknown", "sections"],
-    additionalProperties: false
-  }.freeze
 
   def self.call(title:, raw_lyrics: nil)
     new(title: title, raw_lyrics: raw_lyrics).call
@@ -73,13 +43,15 @@ class ClaudeLyricsService
       model: MODEL,
       max_tokens: 4096,
       system: SYSTEM_PROMPT,
-      messages: [{ role: "user", content: user_message }],
-      output_config: { format: { type: "json_schema", schema: OUTPUT_SCHEMA } }
+      messages: [
+        { role: "user", content: user_message },
+        { role: "assistant", content: "{" }
+      ]
     }
     params[:tools] = [ WEB_SEARCH_TOOL ] if @raw_lyrics.blank?
     response = client.messages.create(**params)
-    text_block = response.content.reverse.find { |b| b.type == "text" }
-    JSON.parse(text_block.text)
+    text_block = response.content.reverse.find { |b| b.type == :text }
+    JSON.parse("{" + text_block.text)
   end
 
   def mock_response

@@ -6,7 +6,7 @@
   <%# Search and import form %>
   <div class="bg-white border border-gray-200 rounded-lg p-4 mb-6">
     <h2 class="text-sm font-semibold text-gray-700 mb-3">Search for a song</h2>
-    <%= form_with url: import_songs_path, method: :post, class: "flex gap-2 mb-4" do |f| %>
+    <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex gap-2 mb-4" do |f| %>
       <%= f.text_field :title,
             placeholder: "Song title (Chinese or English)...",
             class: "flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
@@ -18,7 +18,7 @@
     <details class="text-sm">
       <summary class="cursor-pointer text-gray-500 hover:text-gray-700">Paste lyrics manually instead</summary>
       <div class="mt-3">
-        <%= form_with url: import_songs_path, method: :post, class: "space-y-2" do |f| %>
+        <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "space-y-2" do |f| %>
           <%= f.text_field :title,
                 placeholder: "Song title",
                 class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
