@@ -19,13 +19,12 @@ class SongsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  # LIB-01: POST /songs/import creates song and enqueues job
-  test "POST import creates song and redirects to show" do
-    assert_difference("Song.count", 1) do
+  # LIB-01: POST /songs/import enqueues job and redirects to processing page
+  test "POST import enqueues job and redirects to processing" do
+    assert_enqueued_with(job: ImportSongJob) do
       post import_songs_path, params: { title: "讚美之泉" }
     end
-    assert_redirected_to song_path(Song.last)
-    assert_enqueued_with(job: ImportSongJob)
+    assert_redirected_to processing_songs_path(title: "讚美之泉")
   end
 
   # LIB-02: GET /songs?q= returns filtered results

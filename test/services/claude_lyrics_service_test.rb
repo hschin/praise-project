@@ -19,7 +19,8 @@ class ClaudeLyricsServiceTest < ActiveSupport::TestCase
     mock_response = Minitest::Mock.new
     mock_content = Minitest::Mock.new
 
-    mock_content.expect(:text, JSON.generate(fake_response))
+    mock_content.expect(:type, :text)
+    mock_content.expect(:text, JSON.generate(fake_response)[1..])
     mock_response.expect(:content, [mock_content])
     mock_messages.expect(:create, mock_response, [Hash])
     mock_client.expect(:messages, mock_messages)
@@ -39,7 +40,8 @@ class ClaudeLyricsServiceTest < ActiveSupport::TestCase
     mock_response = Minitest::Mock.new
     mock_content = Minitest::Mock.new
 
-    mock_content.expect(:text, JSON.generate(fake_response))
+    mock_content.expect(:type, :text)
+    mock_content.expect(:text, JSON.generate(fake_response)[1..])
     mock_response.expect(:content, [mock_content])
     mock_messages.expect(:create, mock_response, [Hash])
     mock_client.expect(:messages, mock_messages)

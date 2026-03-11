@@ -36,8 +36,6 @@ class ClaudeLyricsService
   end
 
   def call
-    return mock_response if Rails.env.development? && ENV["ANTHROPIC_API_KEY"].blank?
-
     client = Anthropic::Client.new(api_key: ENV.fetch("ANTHROPIC_API_KEY", nil))
     params = {
       model: MODEL,
@@ -52,28 +50,6 @@ class ClaudeLyricsService
     response = client.messages.create(**params)
     text_block = response.content.reverse.find { |b| b.type == :text }
     JSON.parse("{" + text_block.text)
-  end
-
-  def mock_response
-    {
-      "unknown" => false,
-      "sections" => [
-        {
-          "section_type" => "Verse 1",
-          "lines" => [
-            { "chars" => ["你", "是", "我", "的", "神"], "pinyin" => ["nǐ", "shì", "wǒ", "de", "shén"] },
-            { "chars" => ["我", "要", "赞", "美", "你"], "pinyin" => ["wǒ", "yào", "zàn", "měi", "nǐ"] }
-          ]
-        },
-        {
-          "section_type" => "Chorus",
-          "lines" => [
-            { "chars" => ["哈", "利", "路", "亚"], "pinyin" => ["hā", "lì", "lù", "yà"] },
-            { "chars" => ["荣", "耀", "归", "于", "主"], "pinyin" => ["róng", "yào", "guī", "yú", "zhǔ"] }
-          ]
-        }
-      ]
-    }
   end
 
   private
