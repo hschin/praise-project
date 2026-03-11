@@ -10,17 +10,6 @@
  */
 
 /* Pinyin toggle — hides <rt> and <rp> elements when .pinyin-hidden applied to ancestor */
-/* Import success — 2-second green border flash on Turbo Stream replace (LOCKED decision) */
-@keyframes import-success-fade {
-  0%   { box-shadow: 0 0 0 2px #4ade80; }
-  80%  { box-shadow: 0 0 0 2px #4ade80; }
-  100% { box-shadow: 0 0 0 0px transparent; }
-}
-
-.import-success {
-  animation: import-success-fade 2s ease-out forwards;
-}
-
 .pinyin-hidden ruby rt,
 .pinyin-hidden ruby rp {
   display: none;

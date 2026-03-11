@@ -46,7 +46,7 @@
   <% if @songs.any? %>
     <div class="space-y-2">
       <% @songs.each do |song| %>
-        <%= link_to song_path(song), class: "block bg-white border border-gray-200 rounded-lg p-4 hover:border-indigo-300 hover:shadow-sm transition-all" do %>
+        <%= link_to song_path(song), class: "block bg-white border border-gray-200 rounded-lg p-4 hover:border-indigo-300 hover:shadow-sm transition-all focus:outline-none" do %>
           <p class="font-medium text-gray-900"><%= song.title %></p>
           <%# LOCKED: First lyric line preview (not section count) %>
           <% first_lyric = song.lyrics.order(:position).first %>
