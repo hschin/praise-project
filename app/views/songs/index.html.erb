@@ -47,19 +47,12 @@
     <div class="space-y-2">
       <% @songs.each do |song| %>
         <%= link_to song_path(song), class: "block bg-white border border-gray-200 rounded-lg p-4 hover:border-indigo-300 hover:shadow-sm transition-all" do %>
-          <div class="flex items-start justify-between">
-            <div>
-              <p class="font-medium text-gray-900"><%= song.title %></p>
-              <%# LOCKED: First lyric line preview (not section count) %>
-              <% first_lyric = song.lyrics.order(:position).first %>
-              <% if first_lyric %>
-                <p class="text-sm text-gray-500 mt-0.5 truncate"><%= first_lyric.content.to_s.split("\n").first %></p>
-              <% end %>
-            </div>
-            <span class="text-xs px-2 py-0.5 rounded-full ml-3 flex-shrink-0 <%= song.done? ? 'bg-green-100 text-green-700' : song.failed? ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700' %>">
-              <%= song.import_status %>
-            </span>
-          </div>
+          <p class="font-medium text-gray-900"><%= song.title %></p>
+          <%# LOCKED: First lyric line preview (not section count) %>
+          <% first_lyric = song.lyrics.order(:position).first %>
+          <% if first_lyric %>
+            <p class="text-sm text-gray-500 mt-0.5 truncate"><%= first_lyric.content.to_s.split("\n").first %></p>
+          <% end %>
         <% end %>
       <% end %>
     </div>

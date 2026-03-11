@@ -2,12 +2,12 @@
   <div class="flex items-start gap-3">
     <span class="text-red-500 text-xl">✗</span>
     <div>
-      <h3 class="text-sm font-semibold text-red-800">Could not find lyrics for "<%= song.title %>"</h3>
-      <p class="mt-1 text-sm text-red-600">The search and web scraper both came up empty.</p>
+      <h3 class="text-sm font-semibold text-red-800">Could not find lyrics for "<%= title %>"</h3>
+      <p class="mt-1 text-sm text-red-600">Claude searched the web but couldn't find this song. Try pasting the lyrics manually below.</p>
       <div class="mt-4">
         <p class="text-sm font-medium text-gray-700 mb-2">Paste lyrics manually:</p>
         <%= form_with url: import_songs_path, method: :post, class: "space-y-3" do |f| %>
-          <%= hidden_field_tag :title, song.title %>
+          <%= hidden_field_tag :title, title %>
           <%= f.text_area :raw_lyrics,
                 placeholder: "Paste raw lyrics here — any format accepted",
                 rows: 8,

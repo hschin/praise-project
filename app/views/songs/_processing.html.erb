@@ -7,10 +7,8 @@
   <div class="space-y-2">
     <%
       steps = [
-        ["Searching web",    %w[processing done failed].include?(song.import_status)],
-        ["Fetching lyrics",  song.import_step&.include?("Fetching") || song.import_step&.include?("Generating") || song.done? || song.failed?],
-        ["Generating pinyin", song.import_step&.include?("Generating") || song.done? || song.failed?],
-        ["Done",              song.done?]
+        ["Searching web",     %w[searching generating].include?(step)],
+        ["Generating pinyin", step == "generating"]
       ]
     %>
     <% steps.each do |label, active| %>
@@ -22,8 +20,4 @@
       </div>
     <% end %>
   </div>
-
-  <% if song.import_step.present? %>
-    <p class="mt-3 text-xs text-gray-500 italic"><%= song.import_step %></p>
-  <% end %>
 </div>
