@@ -3,10 +3,11 @@ class SongsController < ApplicationController
   before_action :set_song, only: [:show, :edit, :update, :destroy]
 
   def index
+    scope = Song.where(import_status: "done")
     @songs = if params[:q].present?
-      Song.where("title ILIKE ?", "%#{Song.sanitize_sql_like(params[:q])}%").order(:title)
+      scope.where("title ILIKE ?", "%#{Song.sanitize_sql_like(params[:q])}%").order(:title)
     else
-      Song.order(:title)
+      scope.order(:title)
     end
   end
 
@@ -19,15 +20,13 @@ class SongsController < ApplicationController
       return
     end
 
-    # LOCKED DECISION: manual paste on failed song replaces in place (no duplicate)
-    song = Song.find_by(title: title, import_status: "failed") if raw_lyrics
-    song ||= Song.create!(
-      title: title,
-      import_status: "pending"
-    )
+    ImportSongJob.perform_later(title, raw_lyrics: raw_lyrics)
+    redirect_to processing_songs_path(title: title)
+  end
 
-    ImportSongJob.perform_later(song.id, raw_lyrics: raw_lyrics)
-    redirect_to song_path(song), notice: "Importing \"#{title}\"..."
+  def processing
+    @title = params[:title].to_s.strip
+    redirect_to songs_path if @title.blank?
   end
 
   def show
@@ -66,6 +65,8 @@ class SongsController < ApplicationController
 
   def set_song
     @song = Song.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to songs_path, notice: "That song couldn't be found. Try importing it again."
   end
 
   def song_params

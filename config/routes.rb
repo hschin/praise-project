@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :songs do
     collection do
       post :import
+      get :processing
     end
   end
 
