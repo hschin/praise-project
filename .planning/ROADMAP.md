@@ -65,7 +65,14 @@ Plans:
   3. User can edit, reorder, delete, and repeat individual slides inline within the browser
   4. User can preview how slides will look in the browser before downloading
   5. User can apply a visual theme (AI-suggested, custom colors, or uploaded background image) to the entire deck
-**Plans**: TBD
+**Plans**: 5 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Wave 0 scaffold: Theme model + migrations, arrangement init on DeckSong create, date pre-fill, test fixtures
+- [ ] 03-02-PLAN.md — Deck editor UI: sortable song list, slide arrangement per song (reorder/remove/repeat), slide preview section
+- [ ] 03-03-PLAN.md — Custom theme form: color pickers, font size select, background image upload (THEME-02, THEME-03)
+- [ ] 03-04-PLAN.md — AI theme suggestions: ClaudeThemeService, GenerateThemeSuggestionsJob, Unsplash fetch, suggestion cards (THEME-01)
+- [ ] 03-05-PLAN.md — DeckSong model tests + full suite gate + human verification checkpoint
 
 ### Phase 4: PPTX Export
 **Goal**: Users can download a complete, presentation-ready .pptx file that renders Chinese characters and pinyin correctly on any projector
@@ -86,5 +93,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Auth + Foundation | 3/3 | Complete   | 2026-03-07 |
 | 2. Lyrics Pipeline | 5/6 | In Progress|  |
-| 3. Deck Editor | 0/TBD | Not started | - |
+| 3. Deck Editor | 0/5 | Ready to execute | - |
 | 4. PPTX Export | 0/TBD | Not started | - |
