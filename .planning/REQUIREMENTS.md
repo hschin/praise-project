@@ -34,16 +34,16 @@
 
 ### Decks
 
-- [ ] **DECK-01**: User can create a deck with a title field pre-filled with the upcoming Sunday's date (editable)
-- [ ] **DECK-02**: User can add songs from the library to a deck in order
+- [x] **DECK-01**: User can create a deck with a title field pre-filled with the upcoming Sunday's date (editable)
+- [x] **DECK-02**: User can add songs from the library to a deck in order
 - [ ] **DECK-03**: User can reorder songs within a deck
-- [ ] **DECK-04**: User can remove a song from a deck without deleting it from the library
+- [x] **DECK-04**: User can remove a song from a deck without deleting it from the library
 
 ### Themes
 
 - [ ] **THEME-01**: User can request AI-generated theme suggestions; Claude produces 5 themes with Unsplash background photos for the user to pick from
-- [ ] **THEME-02**: User can create a custom theme by setting background color, text color, and font size
-- [ ] **THEME-03**: User can upload their own background image for a deck theme
+- [x] **THEME-02**: User can create a custom theme by setting background color, text color, and font size
+- [x] **THEME-03**: User can upload their own background image for a deck theme
 
 ### Export
 
@@ -106,13 +106,13 @@ Phase mapping confirmed during roadmap creation (2026-03-08).
 | SLIDE-03 | Phase 3 — Deck Editor | Pending |
 | SLIDE-04 | Phase 3 — Deck Editor | Pending |
 | SLIDE-05 | Phase 3 — Deck Editor | Pending |
-| DECK-01 | Phase 3 — Deck Editor | Pending |
-| DECK-02 | Phase 3 — Deck Editor | Pending |
+| DECK-01 | Phase 3 — Deck Editor | Complete |
+| DECK-02 | Phase 3 — Deck Editor | Complete |
 | DECK-03 | Phase 3 — Deck Editor | Pending |
-| DECK-04 | Phase 3 — Deck Editor | Pending |
+| DECK-04 | Phase 3 — Deck Editor | Complete |
 | THEME-01 | Phase 3 — Deck Editor | Pending |
-| THEME-02 | Phase 3 — Deck Editor | Pending |
-| THEME-03 | Phase 3 — Deck Editor | Pending |
+| THEME-02 | Phase 3 — Deck Editor | Complete |
+| THEME-03 | Phase 3 — Deck Editor | Complete |
 | EXPORT-01 | Phase 4 — PPTX Export | Pending |
 | EXPORT-02 | Phase 4 — PPTX Export | Pending |
 | EXPORT-03 | Phase 4 — PPTX Export | Pending |

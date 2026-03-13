@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 3 context gathered
-last_updated: "2026-03-11T17:14:56.215Z"
+stopped_at: Completed 03-deck-editor/03-01-PLAN.md
+last_updated: "2026-03-13T14:21:09.155Z"
 last_activity: 2026-03-08 — Roadmap created
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 9
-  completed_plans: 9
+  total_plans: 14
+  completed_plans: 10
   percent: 0
 ---
 
@@ -59,6 +59,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02-lyrics-pipeline P03 | 15 | 2 tasks | 8 files |
 | Phase 02-lyrics-pipeline P04 | 2 | 2 tasks | 6 files |
 | Phase 02-lyrics-pipeline P05 | 5 | 1 tasks | 3 files |
+| Phase 03-deck-editor P01 | 5 | 3 tasks | 15 files |
 
 ## Accumulated Context
 
@@ -88,6 +89,9 @@ Recent decisions affecting current work:
 - [Phase 02-lyrics-pipeline]: show.html.erb owns the song_status_ Turbo target div; partials render without their own wrapper divs to avoid duplicate IDs on broadcast replace
 - [Phase 02-lyrics-pipeline]: default_key select field preserved in _form.html.erb alongside new lyrics fields — no metadata fields removed
 - [Phase 02-lyrics-pipeline]: Cancel link targets song_path(song) in both edit wrapper and form footer — consistent UX
+- [Phase 03-deck-editor]: assigns() removed in Rails 8 - DECK-01 test uses assert_select on rendered form input value instead
+- [Phase 03-deck-editor]: Theme and Deck bidirectional optional association via deck_id on themes and theme_id on decks, both with on_delete: nullify
+- [Phase 03-deck-editor]: deck_songs fixture arrangement uses FixtureSet.identify for stable deterministic integer lyric IDs
 
 ### Pending Todos
 
@@ -101,6 +105,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11T17:14:56.210Z
-Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-deck-editor/03-CONTEXT.md
+Last session: 2026-03-13T14:21:09.153Z
+Stopped at: Completed 03-deck-editor/03-01-PLAN.md
+Resume file: None
