@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: "Checkpoint: Phase 3 human verification pending (03-05 Task 2)"
-last_updated: "2026-03-13T14:33:32.935Z"
+stopped_at: Phase 3 complete — deck editor verified
+last_updated: "2026-03-13T15:19:59.868Z"
 last_activity: 2026-03-08 — Roadmap created
 progress:
   total_phases: 4
@@ -64,6 +64,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03-deck-editor P02 | 3 | 3 tasks | 6 files |
 | Phase 03-deck-editor PP04 | 2 | 2 tasks | 7 files |
 | Phase 03-deck-editor P05 | 5 | 1 tasks | 1 files |
+| Phase 03-deck-editor P05 | 30 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -103,6 +104,8 @@ Recent decisions affecting current work:
 - [Phase 03-deck-editor]: decks/show.html.erb preserved existing theme section content from Plan 03-03 while adding sortable song list and slide preview sections
 - [Phase 03-deck-editor]: ClaudeThemeService uses claude-3-5-haiku model for theme suggestions; source param preserved in theme_params so AI suggestions retain source: ai
 - [Phase 03-deck-editor]: Full suite green (50 runs) confirmed before human checkpoint — no production code changes needed
+- [Phase 03-deck-editor]: update_arrangement redirects for form posts and returns head :ok for JSON/DnD requests — single action handles both callers
+- [Phase 03-deck-editor]: insert(arrangement_index + 1, lyric.id) places +Repeat duplicate immediately after current slide, not at array end
 
 ### Pending Todos
 
@@ -116,6 +119,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-13T14:33:32.932Z
-Stopped at: Checkpoint: Phase 3 human verification pending (03-05 Task 2)
+Last session: 2026-03-13T15:19:59.865Z
+Stopped at: Phase 3 complete — deck editor verified
 Resume file: None
