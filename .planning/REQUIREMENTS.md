@@ -29,7 +29,7 @@
 - [x] **SLIDE-01**: User can edit slide Chinese text and pinyin inline
 - [x] **SLIDE-02**: User can reorder slides within a song in the deck
 - [x] **SLIDE-03**: User can delete or hide individual slides from the deck
-- [ ] **SLIDE-04**: User can preview slides in the browser before export
+- [x] **SLIDE-04**: User can preview slides in the browser before export
 - [x] **SLIDE-05**: User can repeat sections within a song (e.g., add chorus again after verse 2)
 
 ### Decks
@@ -104,7 +104,7 @@ Phase mapping confirmed during roadmap creation (2026-03-08).
 | SLIDE-01 | Phase 3 — Deck Editor | Complete |
 | SLIDE-02 | Phase 3 — Deck Editor | Complete |
 | SLIDE-03 | Phase 3 — Deck Editor | Complete |
-| SLIDE-04 | Phase 3 — Deck Editor | Pending |
+| SLIDE-04 | Phase 3 — Deck Editor | Complete |
 | SLIDE-05 | Phase 3 — Deck Editor | Complete |
 | DECK-01 | Phase 3 — Deck Editor | Complete |
 | DECK-02 | Phase 3 — Deck Editor | Complete |

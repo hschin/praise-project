@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Auth + Foundation** - User accounts, core data models, and background job infrastructure (completed 2026-03-07)
 - [ ] **Phase 2: Lyrics Pipeline** - AI-powered song search, lyric enrichment, pinyin generation, and song library
-- [ ] **Phase 3: Deck Editor** - Service/setlist creation, slide arrangement, inline editing, and theme selection
+- [x] **Phase 3: Deck Editor** - Service/setlist creation, slide arrangement, inline editing, and theme selection (completed 2026-03-13)
 - [ ] **Phase 4: PPTX Export** - Background PPTX generation with CJK fonts and download delivery
 
 ## Phase Details
@@ -93,5 +93,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Auth + Foundation | 3/3 | Complete   | 2026-03-07 |
 | 2. Lyrics Pipeline | 5/6 | In Progress|  |
-| 3. Deck Editor | 4/5 | In Progress|  |
+| 3. Deck Editor | 5/5 | Complete   | 2026-03-13 |
 | 4. PPTX Export | 0/TBD | Not started | - |
