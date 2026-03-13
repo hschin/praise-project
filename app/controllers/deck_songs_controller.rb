@@ -5,6 +5,7 @@ class DeckSongsController < ApplicationController
   def create
     @deck_song = @deck.deck_songs.new(song_id: params[:song_id], key: params[:key])
     @deck_song.position = @deck.deck_songs.count + 1
+    @deck_song.arrangement = @deck_song.song.lyrics.order(:position).pluck(:id).map(&:to_i)
     if @deck_song.save
       redirect_to @deck, notice: "Song added to deck."
     else
@@ -34,6 +35,6 @@ class DeckSongsController < ApplicationController
   end
 
   def deck_song_params
-    params.require(:deck_song).permit(:song_id, :key, :arrangement)
+    params.require(:deck_song).permit(:song_id, :key, arrangement: [])
   end
 end

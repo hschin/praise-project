@@ -4,12 +4,12 @@ one:
   deck: one
   song: one
   position: 1
-  key: MyString
-  arrangement: 
+  key: C
+  arrangement: <%= [ActiveRecord::FixtureSet.identify(:one, :integer), ActiveRecord::FixtureSet.identify(:two, :integer)].to_json %>
 
 two:
   deck: two
   song: two
   position: 1
-  key: MyString
-  arrangement: 
+  key: G
+  arrangement:

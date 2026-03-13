@@ -10,7 +10,8 @@ class DecksController < ApplicationController
   end
 
   def new
-    @deck = current_user.decks.new
+    next_sunday = Date.today.next_occurring(:sunday)
+    @deck = current_user.decks.new(date: next_sunday)
   end
 
   def create
