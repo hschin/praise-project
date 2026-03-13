@@ -38,16 +38,60 @@
         <% end %>
       </div>
 
-      <%# Add Song form %>
-      <div class="pt-3 border-t border-gray-100">
-        <p class="text-xs font-semibold text-gray-500 mb-2">Add a song</p>
-        <%= form_with url: deck_deck_songs_path(@deck), class: "space-y-2" do |f| %>
-          <%= f.select :song_id,
-              Song.order(:title).map { |s| [s.title, s.id] },
-              { include_blank: "Select a song..." },
-              class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
-          <%= f.submit "Add to deck", class: "w-full bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 cursor-pointer" %>
-        <% end %>
+      <%# Add Song — search library or import new %>
+      <div class="pt-3 border-t border-gray-100 space-y-3" data-controller="song-search">
+        <p class="text-xs font-semibold text-gray-500">Add a song</p>
+
+        <%# Filter existing library %>
+        <input type="text"
+               placeholder="Search library..."
+               data-song-search-target="input"
+               data-action="input->song-search#filter"
+               class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+        <div class="max-h-52 overflow-y-auto space-y-1">
+          <% library_songs = Song.where(import_status: "done").order(:title) %>
+          <% library_songs.each do |song| %>
+            <div data-song-search-target="item" data-title="<%= song.title %>">
+              <%= form_with url: deck_deck_songs_path(@deck) do |f| %>
+                <%= f.hidden_field :song_id, value: song.id %>
+                <button type="submit" class="w-full text-left px-2 py-1.5 rounded text-sm hover:bg-indigo-50 flex items-center justify-between group">
+                  <span class="truncate text-gray-800"><%= song.title %></span>
+                  <span class="text-indigo-500 text-xs opacity-0 group-hover:opacity-100 shrink-0 ml-2">+ Add</span>
+                </button>
+              <% end %>
+            </div>
+          <% end %>
+          <% if library_songs.empty? %>
+            <p class="text-xs text-gray-400 px-2 py-1">No songs in library yet.</p>
+          <% end %>
+          <p data-song-search-target="empty" hidden class="text-xs text-gray-400 px-2 py-1">No matches.</p>
+        </div>
+
+        <%# Import a new song %>
+        <details class="border-t border-gray-100 pt-3">
+          <summary class="text-xs text-indigo-500 cursor-pointer hover:underline">Import a new song from web</summary>
+          <div class="mt-2 space-y-2">
+            <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex gap-2" do |f| %>
+              <%= hidden_field_tag :deck_id, @deck.id %>
+              <%= f.text_field :title,
+                    placeholder: "Song title...",
+                    class: "flex-1 min-w-0 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+              <%= f.submit "Import", class: "bg-indigo-600 text-white text-sm px-3 py-2 rounded hover:bg-indigo-700 cursor-pointer shrink-0" %>
+            <% end %>
+            <details class="text-xs">
+              <summary class="cursor-pointer text-gray-400 hover:text-gray-600">Paste lyrics manually</summary>
+              <div class="mt-2">
+                <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "space-y-2" do |f| %>
+                  <%= hidden_field_tag :deck_id, @deck.id %>
+                  <%= f.text_field :title, placeholder: "Song title", class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+                  <%= f.text_area :raw_lyrics, placeholder: "Paste raw lyrics here...", rows: 5, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+                  <%= f.submit "Import Pasted Lyrics", class: "w-full bg-gray-700 text-white text-sm px-3 py-2 rounded hover:bg-gray-800 cursor-pointer" %>
+                <% end %>
+              </div>
+            </details>
+          </div>
+        </details>
       </div>
     </div>
 

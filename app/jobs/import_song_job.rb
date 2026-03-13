@@ -4,7 +4,7 @@ class ImportSongJob < ApplicationJob
   STEP_SEARCH = "searching"
   STEP_CLAUDE = "generating"
 
-  def perform(title, raw_lyrics: nil)
+  def perform(title, raw_lyrics: nil, deck_id: nil)
     stream_key = stream_for(title)
     broadcast_step(stream_key, raw_lyrics ? STEP_CLAUDE : STEP_SEARCH)
 
@@ -17,7 +17,19 @@ class ImportSongJob < ApplicationJob
 
     song = Song.create!(title: title, import_status: "done")
     save_lyrics!(song, result["sections"])
-    broadcast_done(stream_key, song)
+
+    if deck_id.present? && (deck = Deck.find_by(id: deck_id))
+      deck.deck_songs.create!(
+        song: song,
+        position: deck.deck_songs.count + 1,
+        arrangement: song.lyrics.order(:position).pluck(:id).map(&:to_i)
+      )
+      redirect_url = Rails.application.routes.url_helpers.deck_path(deck_id)
+    else
+      redirect_url = Rails.application.routes.url_helpers.song_path(song)
+    end
+
+    broadcast_done(stream_key, redirect_url)
   rescue => e
     Rails.logger.error("[ImportSongJob] title=#{title} #{e.class}: #{e.message}")
     broadcast_failed(stream_for(title), title)
@@ -38,11 +50,11 @@ class ImportSongJob < ApplicationJob
     )
   end
 
-  def broadcast_done(stream_key, song)
+  def broadcast_done(stream_key, redirect_url)
     Turbo::StreamsChannel.broadcast_update_to(
       stream_key,
       target: "import_status",
-      html: %(<div data-controller="redirect" data-redirect-url-value="#{Rails.application.routes.url_helpers.song_path(song)}"></div>)
+      html: %(<div data-controller="redirect" data-redirect-url-value="#{redirect_url}"></div>)
     )
   end
 

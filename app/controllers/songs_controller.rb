@@ -14,18 +14,20 @@ class SongsController < ApplicationController
   def import
     title      = params[:title].to_s.strip
     raw_lyrics = params[:raw_lyrics].to_s.strip.presence
+    deck_id    = params[:deck_id].presence
 
     if title.blank?
       redirect_to songs_path, alert: "Please enter a song title."
       return
     end
 
-    ImportSongJob.perform_later(title, raw_lyrics: raw_lyrics)
-    redirect_to processing_songs_path(title: title)
+    ImportSongJob.perform_later(title, raw_lyrics: raw_lyrics, deck_id: deck_id)
+    redirect_to processing_songs_path(title: title, deck_id: deck_id)
   end
 
   def processing
-    @title = params[:title].to_s.strip
+    @title   = params[:title].to_s.strip
+    @deck_id = params[:deck_id].presence
     redirect_to songs_path if @title.blank?
   end
 
