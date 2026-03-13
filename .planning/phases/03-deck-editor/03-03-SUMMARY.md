@@ -78,7 +78,7 @@ Each task was committed atomically:
 1. **Task 1: ThemesController with create action and nested route** - `815e65c` (feat)
 2. **Task 2: Custom theme form partial and deck show integration** - `f58398a` (feat)
 
-**Plan metadata:** (docs commit — see final_commit step)
+**Plan metadata:** `87b5163` (docs: complete custom theme form plan)
 
 _Note: Task 1 followed TDD flow — tests were RED before controller/route implementation_
 
@@ -111,6 +111,16 @@ None - no external service configuration required.
 - deck.theme association correctly set after form submission
 - turbo_stream_from and #theme_suggestions placeholder in place for Plan 05 AI suggestion broadcasts
 - Plan 04 (DeckSong arrangement UI) and Plan 05 (AI theme suggestions) can proceed
+
+## Self-Check: PASSED
+
+- FOUND: app/controllers/themes_controller.rb
+- FOUND: app/views/themes/_form.html.erb
+- FOUND: app/views/themes/_applied_theme.html.erb
+- FOUND: .planning/phases/03-deck-editor/03-03-SUMMARY.md
+- FOUND commit: 815e65c (Task 1)
+- FOUND commit: f58398a (Task 2)
+- FOUND commit: 87b5163 (Plan metadata)
 
 ---
 *Phase: 03-deck-editor*
