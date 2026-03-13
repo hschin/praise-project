@@ -18,4 +18,38 @@ class DecksControllerTest < ActionDispatch::IntegrationTest
     get decks_url
     assert_response :success
   end
+
+  # DECK-01
+  test "GET new pre-fills date with next Sunday" do
+    get new_deck_url
+    next_sunday = Date.today.next_occurring(:sunday)
+    assert_response :success
+    assert_select "input[name='deck[date]'][value='#{next_sunday}']"
+  end
+
+  # SLIDE-01
+  test "deck show page includes Edit lyrics link for each deck_song" do
+    get deck_url(decks(:one))
+    assert_select "a[href*='songs']", minimum: 1
+  end
+
+  # SLIDE-04
+  test "deck show page renders slide preview divs for arrangement entries" do
+    get deck_url(decks(:one))
+    assert_select ".slide-preview"
+  end
+
+  test "deck show page renders without error when arrangement contains stale lyric ID" do
+    ds = deck_songs(:one)
+    ds.update_column(:arrangement, [999999])
+    get deck_url(decks(:one))
+    assert_response :success
+  end
+
+  test "deck show page renders without error when arrangement is nil" do
+    ds = deck_songs(:one)
+    ds.update_column(:arrangement, nil)
+    get deck_url(decks(:one))
+    assert_response :success
+  end
 end
