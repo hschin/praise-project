@@ -1,0 +1,20 @@
+<%# locals: (theme:, deck:) %>
+<div class="flex items-center gap-4 p-3 bg-gray-50 rounded border border-gray-200">
+  <div class="flex items-center gap-2">
+    <div class="w-6 h-6 rounded border border-gray-300 shrink-0"
+         style="background-color: <%= theme.background_color %>;" title="Background"></div>
+    <div class="w-6 h-6 rounded border border-gray-300 shrink-0"
+         style="background-color: <%= theme.text_color %>;" title="Text color"></div>
+  </div>
+  <div class="flex-1 min-w-0">
+    <p class="text-sm font-medium text-gray-900 truncate"><%= theme.name %></p>
+    <p class="text-xs text-gray-500">
+      <%= theme.source.capitalize %> ·
+      Font: <%= theme.font_size %>
+      <% if theme.background_image.attached? %>
+        · Custom background image
+      <% end %>
+    </p>
+  </div>
+  <p class="text-xs text-gray-400 italic">Applied</p>
+</div>
