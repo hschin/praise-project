@@ -22,6 +22,20 @@ class DeckSongsController < ApplicationController
     end
   end
 
+  def reorder
+    @deck_song = @deck.deck_songs.find(params[:id])
+    new_position = params[:position].to_i
+    @deck_song.update!(position: new_position)
+    head :ok
+  end
+
+  def update_arrangement
+    @deck_song = @deck.deck_songs.find(params[:id])
+    new_arrangement = Array(params[:arrangement]).map(&:to_i)
+    @deck_song.update!(arrangement: new_arrangement)
+    head :ok
+  end
+
   def destroy
     @deck_song = @deck.deck_songs.find(params[:id])
     @deck_song.destroy
