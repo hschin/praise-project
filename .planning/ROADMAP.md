@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Auth + Foundation** - User accounts, core data models, and background job infrastructure (completed 2026-03-07)
 - [ ] **Phase 2: Lyrics Pipeline** - AI-powered song search, lyric enrichment, pinyin generation, and song library
-- [x] **Phase 3: Deck Editor** - Service/setlist creation, slide arrangement, inline editing, and theme selection (completed 2026-03-13)
+- [x] **Phase 3: Deck Editor** - Service/setlist creation, slide arrangement, inline editing, and theme selection (completed 2026-03-13)
 - [ ] **Phase 4: PPTX Export** - Background PPTX generation with CJK fonts and download delivery
 
 ## Phase Details
@@ -82,7 +82,12 @@ Plans:
   1. User clicks export and sees a "Generating..." status indicator; button becomes a download link when the file is ready
   2. Downloaded .pptx renders Chinese characters (not empty rectangles) and pinyin correctly in Windows PowerPoint
   3. User can re-export a deck after editing slides or changing the theme and receive an updated file
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Python PPTX generator script with bundled Noto Sans SC CJK font and pinyin layout
+- [ ] 04-02-PLAN.md — GeneratePptxJob + DecksController#export + export button UI with Turbo Stream status
+- [ ] 04-03-PLAN.md — Human verification checkpoint: CJK rendering, download flow, re-export
 
 ## Progress
 
@@ -94,4 +99,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Auth + Foundation | 3/3 | Complete   | 2026-03-07 |
 | 2. Lyrics Pipeline | 5/6 | In Progress|  |
 | 3. Deck Editor | 5/5 | Complete    | 2026-03-13 |
-| 4. PPTX Export | 0/TBD | Not started | - |
+| 4. PPTX Export | 0/3 | Not started | - |
