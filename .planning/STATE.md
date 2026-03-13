@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 03-deck-editor/03-01-PLAN.md
-last_updated: "2026-03-13T14:21:09.155Z"
+stopped_at: Completed 03-deck-editor/03-03-PLAN.md
+last_updated: "2026-03-13T14:25:53.871Z"
 last_activity: 2026-03-08 — Roadmap created
 progress:
   total_phases: 4
   completed_phases: 2
   total_plans: 14
-  completed_plans: 10
+  completed_plans: 11
   percent: 0
 ---
 
@@ -60,6 +60,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02-lyrics-pipeline P04 | 2 | 2 tasks | 6 files |
 | Phase 02-lyrics-pipeline P05 | 5 | 1 tasks | 3 files |
 | Phase 03-deck-editor P01 | 5 | 3 tasks | 15 files |
+| Phase 03-deck-editor P03 | 3 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -92,6 +93,8 @@ Recent decisions affecting current work:
 - [Phase 03-deck-editor]: assigns() removed in Rails 8 - DECK-01 test uses assert_select on rendered form input value instead
 - [Phase 03-deck-editor]: Theme and Deck bidirectional optional association via deck_id on themes and theme_id on decks, both with on_delete: nullify
 - [Phase 03-deck-editor]: deck_songs fixture arrangement uses FixtureSet.identify for stable deterministic integer lyric IDs
+- [Phase 03-deck-editor]: update_column(:theme_id) used to set theme association on Deck, bypassing validations
+- [Phase 03-deck-editor]: turbo_stream_from and #theme_suggestions div added in Plan 03 for Plan 05 broadcast target — must exist before AI suggestion job implementation
 
 ### Pending Todos
 
@@ -105,6 +108,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-13T14:21:09.153Z
-Stopped at: Completed 03-deck-editor/03-01-PLAN.md
+Last session: 2026-03-13T14:25:53.868Z
+Stopped at: Completed 03-deck-editor/03-03-PLAN.md
 Resume file: None
