@@ -1,4 +1,5 @@
-<div class="max-w-screen-xl mx-auto px-6 py-8">
+<% content_for :main_class, 'w-full px-6 py-8' %>
+<div>
 
   <%# Header — full width %>
   <div class="flex items-center justify-between mb-6">
@@ -18,10 +19,10 @@
   </div>
 
   <%# 3-column editor layout %>
-  <div class="grid grid-cols-12 gap-6 items-start">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-start">
 
     <%# LEFT — Song & slide arrangement %>
-    <div class="col-span-3 space-y-4">
+    <div class="md:col-span-1 lg:col-span-3 space-y-4">
       <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-400">Arrangement</h2>
 
       <%# Sortable song list %>
@@ -51,7 +52,7 @@
     </div>
 
     <%# MIDDLE — Slide preview %>
-    <div class="col-span-6" id="slide_preview_section">
+    <div class="md:col-span-1 lg:col-span-6" id="slide_preview_section">
       <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-4">Slide Preview <span class="normal-case font-normal text-gray-300 ml-1">— approximate</span></h2>
       <% if @deck.deck_songs.any? %>
         <div class="space-y-6">
@@ -98,7 +99,7 @@
     </div>
 
     <%# RIGHT — Theme %>
-    <div class="col-span-3" id="theme_section">
+    <div class="md:col-span-2 lg:col-span-3" id="theme_section">
       <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-4">Theme</h2>
 
       <%= turbo_stream_from "deck_themes_#{@deck.id}" %>
