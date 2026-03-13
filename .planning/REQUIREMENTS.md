@@ -41,7 +41,7 @@
 
 ### Themes
 
-- [ ] **THEME-01**: User can request AI-generated theme suggestions; Claude produces 5 themes with Unsplash background photos for the user to pick from
+- [x] **THEME-01**: User can request AI-generated theme suggestions; Claude produces 5 themes with Unsplash background photos for the user to pick from
 - [x] **THEME-02**: User can create a custom theme by setting background color, text color, and font size
 - [x] **THEME-03**: User can upload their own background image for a deck theme
 
@@ -110,7 +110,7 @@ Phase mapping confirmed during roadmap creation (2026-03-08).
 | DECK-02 | Phase 3 — Deck Editor | Complete |
 | DECK-03 | Phase 3 — Deck Editor | Complete |
 | DECK-04 | Phase 3 — Deck Editor | Complete |
-| THEME-01 | Phase 3 — Deck Editor | Pending |
+| THEME-01 | Phase 3 — Deck Editor | Complete |
 | THEME-02 | Phase 3 — Deck Editor | Complete |
 | THEME-03 | Phase 3 — Deck Editor | Complete |
 | EXPORT-01 | Phase 4 — PPTX Export | Pending |
