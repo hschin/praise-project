@@ -1,0 +1,45 @@
+<%# locals: (deck:, deck_song:) %>
+<div data-id="<%= deck_song.id %>"
+     class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+  <div class="px-4 py-3 flex items-center justify-between border-b border-gray-100">
+    <div class="flex items-center gap-3">
+      <span data-drag-handle class="cursor-grab text-gray-300 select-none text-lg">&#x2837;</span>
+      <div>
+        <p class="font-medium text-gray-900"><%= deck_song.song.title %></p>
+        <p class="text-xs text-gray-400">
+          <%= deck_song.song.artist.presence || "—" %> &middot;
+          Key: <%= deck_song.key.presence || deck_song.song.default_key || "—" %>
+        </p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <%= link_to "Edit lyrics &rarr;".html_safe,
+          edit_song_path(deck_song.song),
+          target: "_blank",
+          class: "text-xs text-indigo-500 hover:underline" %>
+      <%= button_to "Remove song",
+          deck_deck_song_path(deck, deck_song),
+          method: :delete,
+          data: { turbo_confirm: "Remove #{deck_song.song.title} from this deck?" },
+          class: "text-xs text-red-400 hover:text-red-600 bg-transparent border-0 cursor-pointer" %>
+    </div>
+  </div>
+
+  <% if deck_song.arrangement&.any? %>
+    <div data-controller="sortable"
+         data-sortable-url-value="<%= update_arrangement_deck_deck_song_path(deck, deck_song) %>"
+         data-sortable-param-value="arrangement"
+         class="divide-y divide-gray-100 p-2 space-y-1">
+      <% deck_song.arrangement.each_with_index do |lyric_id, idx| %>
+        <% lyric = Lyric.find_by(id: lyric_id) %>
+        <% next if lyric.nil? %>
+        <%= render "deck_songs/slide_item",
+            deck_song: deck_song,
+            lyric: lyric,
+            arrangement_index: idx %>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-xs text-gray-400 px-4 py-3">No slides in arrangement.</p>
+  <% end %>
+</div>
