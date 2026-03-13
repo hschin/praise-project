@@ -33,7 +33,11 @@ class DeckSongsController < ApplicationController
     @deck_song = @deck.deck_songs.find(params[:id])
     new_arrangement = Array(params[:arrangement]).map(&:to_i)
     @deck_song.update!(arrangement: new_arrangement)
-    head :ok
+    if request.content_type&.include?("application/json")
+      head :ok
+    else
+      redirect_to @deck
+    end
   end
 
   def destroy
