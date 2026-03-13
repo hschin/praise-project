@@ -64,9 +64,9 @@
               <div class="grid grid-cols-2 gap-3">
                 <% slides.each do |lyric| %>
                   <div class="slide-preview rounded-lg shadow overflow-hidden relative w-full"
-                       style="aspect-ratio: 16/9; background-color: <%= @deck.theme&.background_color.presence || '#1a1a2e' %>;<%= @deck.theme&.background_image&.attached? ? "background-image: url('#{url_for(@deck.theme.background_image)}'); background-size: cover; background-position: center;" : "" %>">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <div class="text-center" style="color: <%= @deck.theme&.text_color.presence || '#ffffff' %>; font-size: 0.7rem; line-height: 1.6;">
+                       style="aspect-ratio: 16/9; container-type: inline-size; background-color: <%= @deck.theme&.background_color.presence || '#1a1a2e' %>;<%= @deck.theme&.background_image&.attached? ? "background-image: url('#{url_for(@deck.theme.background_image)}'); background-size: cover; background-position: center;" : "" %>">
+                    <div class="absolute inset-0 flex items-center justify-center" style="padding: 4cqw;">
+                      <div class="text-center" style="color: <%= @deck.theme&.text_color.presence || '#ffffff' %>; font-size: 3.5cqw; line-height: 1.8;">
                         <% lyric.content.to_s.split("\n").each_with_index do |line, li| %>
                           <% pinyin_line = lyric.pinyin.to_s.split("\n")[li] || "" %>
                           <div>
@@ -75,14 +75,14 @@
                             <% pi = 0 %>
                             <% chars.each do |char| %>
                               <% if char.match?(/\p{Han}/) %>
-                                <ruby><%= char %><rt style="font-size:0.55em"><%= tokens[pi] %></rt></ruby><% pi += 1 %>
+                                <ruby><%= char %><rt style="font-size:0.6em"><%= tokens[pi] %></rt></ruby><% pi += 1 %>
                               <% else %><%= char %><% end %>
                             <% end %>
                           </div>
                         <% end %>
                       </div>
                     </div>
-                    <div class="absolute bottom-1 right-2 text-xs opacity-40" style="color: <%= @deck.theme&.text_color.presence || '#ffffff' %>;">
+                    <div class="absolute bottom-0 right-0 opacity-40" style="font-size: 1.8cqw; padding: 1cqw 2cqw; color: <%= @deck.theme&.text_color.presence || '#ffffff' %>;">
                       <%= lyric.section_type %>
                     </div>
                   </div>
