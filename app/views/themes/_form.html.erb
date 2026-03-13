@@ -1,30 +1,29 @@
 <%# locals: (deck:) %>
 <%= form_with url: deck_themes_path(deck), multipart: true, class: "space-y-4" do |f| %>
-  <div>
-    <%= label_tag :theme_name, "Theme Name", class: "block text-sm font-medium text-gray-700 mb-1" %>
-    <%= text_field_tag "theme[name]", nil,
-        placeholder: "e.g. Worship Blue",
-        class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
-  </div>
-
   <div class="flex gap-6">
-    <div>
+    <div data-controller="color-picker">
       <%= label_tag :theme_background_color, "Background Color", class: "block text-sm font-medium text-gray-700 mb-1" %>
       <div class="flex items-center gap-2">
-        <%= color_field_tag "theme[background_color]", "#000000", class: "w-10 h-8 rounded border border-gray-300 cursor-pointer p-0.5" %>
-        <%= text_field_tag "theme[background_color_hex]", "#000000",
+        <%= color_field_tag "theme[background_color]", "#000000",
+            data: { "color-picker-target": "picker", action: "input->color-picker#pickerChanged" },
+            class: "w-10 h-8 rounded border border-gray-300 cursor-pointer p-0.5" %>
+        <%= text_field_tag nil, "#000000",
+            data: { "color-picker-target": "hex", action: "input->color-picker#hexChanged" },
             class: "w-24 border border-gray-300 rounded px-2 py-1 text-xs font-mono",
-            data: { color_field: "background_color" } %>
+            placeholder: "#000000" %>
       </div>
     </div>
 
-    <div>
+    <div data-controller="color-picker">
       <%= label_tag :theme_text_color, "Text Color", class: "block text-sm font-medium text-gray-700 mb-1" %>
       <div class="flex items-center gap-2">
-        <%= color_field_tag "theme[text_color]", "#ffffff", class: "w-10 h-8 rounded border border-gray-300 cursor-pointer p-0.5" %>
-        <%= text_field_tag "theme[text_color_hex]", "#ffffff",
+        <%= color_field_tag "theme[text_color]", "#ffffff",
+            data: { "color-picker-target": "picker", action: "input->color-picker#pickerChanged" },
+            class: "w-10 h-8 rounded border border-gray-300 cursor-pointer p-0.5" %>
+        <%= text_field_tag nil, "#ffffff",
+            data: { "color-picker-target": "hex", action: "input->color-picker#hexChanged" },
             class: "w-24 border border-gray-300 rounded px-2 py-1 text-xs font-mono",
-            data: { color_field: "text_color" } %>
+            placeholder: "#ffffff" %>
       </div>
     </div>
   </div>
@@ -38,6 +37,12 @@
 
   <div>
     <%= label_tag :theme_background_image, "Background Image (optional)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <% if deck.theme&.background_image&.attached? %>
+      <label class="flex items-center gap-2 mb-2 text-sm text-gray-600 cursor-pointer">
+        <%= check_box_tag "theme[remove_background_image]", "1", false, class: "rounded" %>
+        Remove current background image
+      </label>
+    <% end %>
     <%= file_field_tag "theme[background_image]",
         accept: "image/*",
         class: "text-sm text-gray-500 file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-sm file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" %>

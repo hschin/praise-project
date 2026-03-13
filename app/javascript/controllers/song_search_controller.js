@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["input", "item", "empty"]
+  static targets = ["input", "item", "empty", "importSection", "importTitle"]
 
   filter() {
     const query = this.inputTarget.value.toLowerCase().trim()
@@ -13,8 +13,17 @@ export default class extends Controller {
       if (match) visible++
     })
 
+    const noMatches = visible === 0 && query !== ""
+
     if (this.hasEmptyTarget) {
-      this.emptyTarget.hidden = visible > 0 || query === ""
+      this.emptyTarget.hidden = !noMatches
+    }
+
+    if (this.hasImportSectionTarget) {
+      this.importSectionTarget.hidden = !noMatches
+      if (noMatches) {
+        this.importTitleTargets.forEach(el => { el.value = this.inputTarget.value.trim() })
+      }
     }
   }
 }

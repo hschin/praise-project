@@ -68,30 +68,32 @@
           <p data-song-search-target="empty" hidden class="text-xs text-gray-400 px-2 py-1">No matches.</p>
         </div>
 
-        <%# Import a new song %>
-        <details class="border-t border-gray-100 pt-3">
-          <summary class="text-xs text-indigo-500 cursor-pointer hover:underline">Import a new song from web</summary>
-          <div class="mt-2 space-y-2">
-            <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex gap-2" do |f| %>
-              <%= hidden_field_tag :deck_id, @deck.id %>
-              <%= f.text_field :title,
-                    placeholder: "Song title...",
-                    class: "flex-1 min-w-0 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
-              <%= f.submit "Import", class: "bg-indigo-600 text-white text-sm px-3 py-2 rounded hover:bg-indigo-700 cursor-pointer shrink-0" %>
-            <% end %>
-            <details class="text-xs">
-              <summary class="cursor-pointer text-gray-400 hover:text-gray-600">Paste lyrics manually</summary>
-              <div class="mt-2">
-                <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "space-y-2" do |f| %>
-                  <%= hidden_field_tag :deck_id, @deck.id %>
-                  <%= f.text_field :title, placeholder: "Song title", class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
-                  <%= f.text_area :raw_lyrics, placeholder: "Paste raw lyrics here...", rows: 5, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
-                  <%= f.submit "Import Pasted Lyrics", class: "w-full bg-gray-700 text-white text-sm px-3 py-2 rounded hover:bg-gray-800 cursor-pointer" %>
-                <% end %>
-              </div>
-            </details>
-          </div>
-        </details>
+        <%# Import a new song — shown inline when search has no library matches %>
+        <div data-song-search-target="importSection" hidden class="border-t border-gray-100 pt-3 space-y-2">
+          <p class="text-xs text-gray-500">Not in library — import from web:</p>
+          <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex gap-2" do |f| %>
+            <%= hidden_field_tag :deck_id, @deck.id %>
+            <%= f.text_field :title,
+                  placeholder: "Song title...",
+                  data: { "song-search-target": "importTitle" },
+                  class: "flex-1 min-w-0 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+            <%= f.submit "Import", class: "bg-indigo-600 text-white text-sm px-3 py-2 rounded hover:bg-indigo-700 cursor-pointer shrink-0" %>
+          <% end %>
+          <details class="text-xs">
+            <summary class="cursor-pointer text-gray-400 hover:text-gray-600">Paste lyrics manually</summary>
+            <div class="mt-2">
+              <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "space-y-2" do |f| %>
+                <%= hidden_field_tag :deck_id, @deck.id %>
+                <%= f.text_field :title,
+                      placeholder: "Song title",
+                      data: { "song-search-target": "importTitle" },
+                      class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+                <%= f.text_area :raw_lyrics, placeholder: "Paste raw lyrics here...", rows: 5, class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+                <%= f.submit "Import Pasted Lyrics", class: "w-full bg-gray-700 text-white text-sm px-3 py-2 rounded hover:bg-gray-800 cursor-pointer" %>
+              <% end %>
+            </div>
+          </details>
+        </div>
       </div>
     </div>
 
@@ -110,7 +112,8 @@
                   <div class="slide-preview rounded-lg shadow overflow-hidden relative w-full"
                        style="aspect-ratio: 16/9; container-type: inline-size; background-color: <%= @deck.theme&.background_color.presence || '#1a1a2e' %>;<%= @deck.theme&.background_image&.attached? ? "background-image: url('#{url_for(@deck.theme.background_image)}'); background-size: cover; background-position: center;" : "" %>">
                     <div class="absolute inset-0 flex items-center justify-center" style="padding: 4cqw;">
-                      <div class="text-center" style="color: <%= @deck.theme&.text_color.presence || '#ffffff' %>; font-size: 3.5cqw; line-height: 1.8;">
+                      <% font_cqw = { "small" => "2.8", "large" => "4.5" }.fetch(@deck.theme&.font_size.to_s, "3.5") %>
+                      <div class="text-center" style="color: <%= @deck.theme&.text_color.presence || '#ffffff' %>; font-size: <%= font_cqw %>cqw; line-height: 1.8;">
                         <% lyric.content.to_s.split("\n").each_with_index do |line, li| %>
                           <% pinyin_line = lyric.pinyin.to_s.split("\n")[li] || "" %>
                           <div>

@@ -3,8 +3,14 @@ class ThemesController < ApplicationController
   before_action :set_deck
 
   def create
-    @theme = @deck.build_theme(theme_params)
-    @theme.source ||= "custom"
+    attrs = theme_params.merge(source: "custom")
+    attrs[:name] = "Custom" if attrs[:name].blank?
+    remove_image = attrs.delete(:remove_background_image) == "1"
+
+    @theme = @deck.theme || Theme.new
+    @theme.background_image.purge if remove_image && @theme.background_image.attached?
+    @theme.assign_attributes(attrs)
+
     if @theme.save
       @deck.update_column(:theme_id, @theme.id)
       redirect_to @deck, notice: "Theme applied."
@@ -25,6 +31,6 @@ class ThemesController < ApplicationController
   end
 
   def theme_params
-    params.require(:theme).permit(:name, :source, :background_color, :text_color, :font_size, :background_image, :unsplash_url)
+    params.require(:theme).permit(:name, :source, :background_color, :text_color, :font_size, :background_image, :unsplash_url, :remove_background_image)
   end
 end
