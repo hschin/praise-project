@@ -57,7 +57,16 @@
       <%= render "themes/form", deck: @deck %>
     <% end %>
 
-    <%# AI suggestion row — populated by Plan 05 %>
+    <%# Get AI Suggestions button %>
+    <div class="mb-4">
+      <%= button_to "Get AI Suggestions",
+          suggest_deck_themes_path(@deck),
+          method: :post,
+          class: "text-sm bg-white border border-indigo-300 text-indigo-600 px-3 py-2 rounded hover:bg-indigo-50 cursor-pointer" %>
+      <p class="text-xs text-gray-400 mt-1">Claude will suggest 5 themes with worship photography.</p>
+    </div>
+
+    <%# AI suggestion row — populated by GenerateThemeSuggestionsJob %>
     <%= turbo_stream_from "deck_themes_#{@deck.id}" %>
     <div id="theme_suggestions" class="mt-4"></div>
   </div>

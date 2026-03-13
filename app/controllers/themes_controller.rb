@@ -4,13 +4,18 @@ class ThemesController < ApplicationController
 
   def create
     @theme = @deck.build_theme(theme_params)
-    @theme.source = "custom"
+    @theme.source ||= "custom"
     if @theme.save
       @deck.update_column(:theme_id, @theme.id)
       redirect_to @deck, notice: "Theme applied."
     else
       redirect_to @deck, alert: "Could not apply theme: #{@theme.errors.full_messages.to_sentence}"
     end
+  end
+
+  def suggest
+    GenerateThemeSuggestionsJob.perform_later(@deck.id)
+    redirect_to @deck, notice: "Generating theme suggestions..."
   end
 
   private
@@ -20,6 +25,6 @@ class ThemesController < ApplicationController
   end
 
   def theme_params
-    params.require(:theme).permit(:name, :background_color, :text_color, :font_size, :background_image)
+    params.require(:theme).permit(:name, :source, :background_color, :text_color, :font_size, :background_image, :unsplash_url)
   end
 end

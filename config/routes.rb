@@ -13,7 +13,11 @@ Rails.application.routes.draw do
         patch :update_arrangement
       end
     end
-    resources :themes, only: [:create]
+    resources :themes, only: [:create] do
+      collection do
+        post :suggest
+      end
+    end
   end
 
   resources :songs do
