@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_10_170352) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_13_221615) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -77,9 +77,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_170352) do
     t.datetime "created_at", null: false
     t.date "date"
     t.text "notes"
+    t.bigint "theme_id"
     t.string "title"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.index ["theme_id"], name: "index_decks_on_theme_id"
     t.index ["user_id"], name: "index_decks_on_user_id"
   end
 
@@ -103,6 +105,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_170352) do
     t.datetime "updated_at", null: false
     t.index ["deck_song_id"], name: "index_slides_on_deck_song_id"
     t.index ["lyric_id"], name: "index_slides_on_lyric_id"
+  end
+
+  create_table "solid_cable_messages", force: :cascade do |t|
+    t.binary "channel", null: false
+    t.bigint "channel_hash", null: false
+    t.datetime "created_at", null: false
+    t.binary "payload", null: false
+    t.index ["channel"], name: "index_solid_cable_messages_on_channel"
+    t.index ["channel_hash"], name: "index_solid_cable_messages_on_channel_hash"
+    t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
   end
 
   create_table "solid_queue_blocked_executions", force: :cascade do |t|
@@ -236,6 +248,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_170352) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "themes", force: :cascade do |t|
+    t.string "background_color", default: "#000000"
+    t.datetime "created_at", null: false
+    t.bigint "deck_id"
+    t.string "font_size", default: "medium"
+    t.string "name", null: false
+    t.string "source", default: "custom", null: false
+    t.string "text_color", default: "#ffffff"
+    t.string "unsplash_url"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
@@ -252,6 +276,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_170352) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "deck_songs", "decks"
   add_foreign_key "deck_songs", "songs"
+  add_foreign_key "decks", "themes", on_delete: :nullify
   add_foreign_key "decks", "users"
   add_foreign_key "lyrics", "songs"
   add_foreign_key "slides", "deck_songs"
@@ -262,4 +287,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_170352) do
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "themes", "decks", on_delete: :nullify
 end

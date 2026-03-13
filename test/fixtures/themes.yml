@@ -1,0 +1,16 @@
+custom_theme:
+  name: "Worship Blue"
+  source: "custom"
+  background_color: "#1a3a5c"
+  text_color: "#ffffff"
+  font_size: "medium"
+  deck: one
+
+ai_theme:
+  name: "Heavenly Morning"
+  source: "ai"
+  background_color: "#2c1654"
+  text_color: "#ffe082"
+  font_size: "large"
+  unsplash_url: "https://images.unsplash.com/photo-test"
+  deck: two
