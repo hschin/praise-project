@@ -1,6 +1,6 @@
 <%# locals: (deck_song:, lyric:, arrangement_index:) %>
 <% new_arrangement_without = deck_song.arrangement.dup.tap { |a| a.delete_at(arrangement_index) } %>
-<% new_arrangement_repeat = deck_song.arrangement + [lyric.id] %>
+<% new_arrangement_repeat = deck_song.arrangement.dup.insert(arrangement_index + 1, lyric.id) %>
 
 <div data-id="<%= lyric.id %>"
      class="bg-white border border-gray-200 rounded p-3 flex items-start gap-3 cursor-default">
