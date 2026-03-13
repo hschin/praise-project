@@ -26,17 +26,17 @@
 
 ### Slide Editor
 
-- [ ] **SLIDE-01**: User can edit slide Chinese text and pinyin inline
-- [ ] **SLIDE-02**: User can reorder slides within a song in the deck
-- [ ] **SLIDE-03**: User can delete or hide individual slides from the deck
+- [x] **SLIDE-01**: User can edit slide Chinese text and pinyin inline
+- [x] **SLIDE-02**: User can reorder slides within a song in the deck
+- [x] **SLIDE-03**: User can delete or hide individual slides from the deck
 - [ ] **SLIDE-04**: User can preview slides in the browser before export
-- [ ] **SLIDE-05**: User can repeat sections within a song (e.g., add chorus again after verse 2)
+- [x] **SLIDE-05**: User can repeat sections within a song (e.g., add chorus again after verse 2)
 
 ### Decks
 
 - [x] **DECK-01**: User can create a deck with a title field pre-filled with the upcoming Sunday's date (editable)
 - [x] **DECK-02**: User can add songs from the library to a deck in order
-- [ ] **DECK-03**: User can reorder songs within a deck
+- [x] **DECK-03**: User can reorder songs within a deck
 - [x] **DECK-04**: User can remove a song from a deck without deleting it from the library
 
 ### Themes
@@ -101,14 +101,14 @@ Phase mapping confirmed during roadmap creation (2026-03-08).
 | LIB-01 | Phase 2 — Lyrics Pipeline | Complete |
 | LIB-02 | Phase 2 — Lyrics Pipeline | Complete |
 | LIB-03 | Phase 2 — Lyrics Pipeline | Complete |
-| SLIDE-01 | Phase 3 — Deck Editor | Pending |
-| SLIDE-02 | Phase 3 — Deck Editor | Pending |
-| SLIDE-03 | Phase 3 — Deck Editor | Pending |
+| SLIDE-01 | Phase 3 — Deck Editor | Complete |
+| SLIDE-02 | Phase 3 — Deck Editor | Complete |
+| SLIDE-03 | Phase 3 — Deck Editor | Complete |
 | SLIDE-04 | Phase 3 — Deck Editor | Pending |
-| SLIDE-05 | Phase 3 — Deck Editor | Pending |
+| SLIDE-05 | Phase 3 — Deck Editor | Complete |
 | DECK-01 | Phase 3 — Deck Editor | Complete |
 | DECK-02 | Phase 3 — Deck Editor | Complete |
-| DECK-03 | Phase 3 — Deck Editor | Pending |
+| DECK-03 | Phase 3 — Deck Editor | Complete |
 | DECK-04 | Phase 3 — Deck Editor | Complete |
 | THEME-01 | Phase 3 — Deck Editor | Pending |
 | THEME-02 | Phase 3 — Deck Editor | Complete |
