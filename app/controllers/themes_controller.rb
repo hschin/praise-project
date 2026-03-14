@@ -3,13 +3,14 @@ class ThemesController < ApplicationController
   before_action :set_deck
 
   def create
-    attrs = theme_params.merge(source: "custom")
+    attrs = theme_params.to_h
     attrs[:name] = "Custom" if attrs[:name].blank?
-    remove_image = attrs.delete(:remove_background_image) == "1"
+    remove_image = attrs.delete("remove_background_image") == "1"
 
     @theme = @deck.theme || Theme.new
     @theme.background_image.purge if remove_image && @theme.background_image.attached?
     @theme.assign_attributes(attrs)
+    @theme.source ||= "custom"
 
     if @theme.save
       @deck.update_column(:theme_id, @theme.id)

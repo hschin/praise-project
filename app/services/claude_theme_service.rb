@@ -1,5 +1,5 @@
 class ClaudeThemeService
-  MODEL = "claude-3-5-haiku-20241022"
+  MODEL = "claude-haiku-4-5-20251001"
 
   def self.call(deck:)
     new(deck: deck).call
@@ -19,9 +19,6 @@ class ClaudeThemeService
     )
     raw_json = response.content.first.text
     JSON.parse(raw_json.match(/\[.*\]/m)&.to_s || "[]")
-  rescue => e
-    Rails.logger.error("[ClaudeThemeService] #{e.class}: #{e.message}")
-    []
   end
 
   private

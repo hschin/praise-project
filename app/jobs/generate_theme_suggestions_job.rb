@@ -9,7 +9,7 @@ class GenerateThemeSuggestionsJob < ApplicationJob
     suggestions = ClaudeThemeService.call(deck: deck)
 
     if suggestions.empty?
-      broadcast_error(deck_id)
+      broadcast_error(deck_id, "No suggestions returned from Claude")
       return
     end
 
@@ -30,7 +30,7 @@ class GenerateThemeSuggestionsJob < ApplicationJob
     )
   rescue => e
     Rails.logger.error("[GenerateThemeSuggestionsJob] deck_id=#{deck_id} #{e.class}: #{e.message}")
-    broadcast_error(deck_id)
+    broadcast_error(deck_id, e.message)
   end
 
   private
@@ -57,11 +57,12 @@ class GenerateThemeSuggestionsJob < ApplicationJob
     { url: nil, name: nil, profile_url: nil }
   end
 
-  def broadcast_error(deck_id)
+  def broadcast_error(deck_id, message = nil)
+    text = message ? "Could not generate suggestions: #{message}" : "Could not generate suggestions. Please try again."
     Turbo::StreamsChannel.broadcast_update_to(
       "deck_themes_#{deck_id}",
       target: "theme_suggestions",
-      html: '<p class="text-xs text-red-400 py-2">Could not generate suggestions. Please try again.</p>'
+      html: %(<p class="text-xs text-red-400 py-2">#{ERB::Util.html_escape(text)}</p>)
     )
   end
 end
