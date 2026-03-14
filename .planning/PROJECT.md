@@ -38,9 +38,26 @@ Worship leaders can go from song title to a complete, formatted Chinese+pinyin P
 - ✓ PPTX generation runs as a background job with live status indicator — v1.0
 - ✓ User can re-export a deck after making edits to slides or theme — v1.0
 
+## Current Milestone: v1.1 Design
+
+**Goal:** Replace the generic SaaS feel with a warm, worshipful visual identity and streamline the UI so non-technical worship leaders can navigate the deck creation flow without confusion.
+
+**Target features:**
+- Warm custom color palette, rounded components, consistent typography
+- Deck creation as the primary nav entry point (songs added within deck flow)
+- Consistent forms, inputs, and spacing across all pages
+- Helpful error states, clear loading indicators, polished flash messages
+- Onboarding cues and empty states guiding new users through the full workflow
+
 ### Active
 
-- [ ] UI polish — navigation, layout consistency, mobile usability, error states
+- [ ] UI has a warm, worshipful visual identity (custom palette, typography, rounded components)
+- [ ] Deck creation is the primary navigation flow; songs can be added inline
+- [ ] Song library page is retained but de-emphasized in navigation
+- [ ] All forms use consistent input styles, labels, and spacing
+- [ ] Error states provide actionable messages; loading states are clearly indicated
+- [ ] Flash messages are visually polished and contextually appropriate
+- [ ] Empty states guide new users on what to do next
 - [ ] Song can store English title as alias for bilingual search (META-01)
 - [ ] Song can store CCLI number, key, and artist/composer (META-02)
 - [ ] User can add Bible verse slides to a deck (SCRIP-01)
@@ -90,4 +107,4 @@ Worship leaders can go from song title to a complete, formatted Chinese+pinyin P
 | Solid Cache for export tokens | Bridge async job output to sync download without ActiveStorage | ✓ Good — 10-minute TTL cache key; no temp file cleanup needed |
 
 ---
-*Last updated: 2026-03-15 after v1.0 milestone*
+*Last updated: 2026-03-15 after v1.1 milestone start*
