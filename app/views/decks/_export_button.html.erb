@@ -1,0 +1,33 @@
+<% state ||= :idle %>
+<% token ||= nil %>
+<% error_message ||= nil %>
+
+<div id="export_button_<%= deck.id %>">
+  <% if state == :generating %>
+    <button disabled
+      class="bg-indigo-400 text-white text-sm px-4 py-2 rounded cursor-not-allowed flex items-center gap-2">
+      <span class="animate-spin inline-block w-3 h-3 border-2 border-white border-t-transparent rounded-full"></span>
+      Generating...
+    </button>
+  <% elsif state == :ready %>
+    <%= link_to "Download .pptx \u2192",
+        download_export_deck_path(deck, token: token),
+        class: "bg-green-600 text-white text-sm px-4 py-2 rounded hover:bg-green-700 inline-block" %>
+    <span class="text-xs text-gray-400 ml-2">Ready</span>
+    <%# Also show re-export button below %>
+    <div class="mt-1">
+      <%= button_to "Re-export", export_deck_path(deck), method: :post,
+          class: "text-xs text-indigo-500 hover:underline bg-transparent border-none cursor-pointer" %>
+    </div>
+  <% elsif state == :error %>
+    <%= button_to "Export PPTX", export_deck_path(deck), method: :post,
+        class: "bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 cursor-pointer" %>
+    <% if error_message.present? %>
+      <p class="text-xs text-red-500 mt-1"><%= error_message %></p>
+    <% end %>
+  <% else %>
+    <%# :idle — default %>
+    <%= button_to "Export PPTX", export_deck_path(deck), method: :post,
+        class: "bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 cursor-pointer" %>
+  <% end %>
+</div>
