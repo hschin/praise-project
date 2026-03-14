@@ -25,8 +25,9 @@ Rails.application.configure do
     config.action_controller.perform_caching = false
   end
 
-  # Change to :null_store to avoid any caching.
-  config.cache_store = :memory_store
+  # Use Solid Cache so background jobs (Solid Queue) and the web process share the same cache.
+  # :memory_store is per-process — tokens written by the job would not be visible to the web server.
+  config.cache_store = :solid_cache_store
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local

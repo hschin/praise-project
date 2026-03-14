@@ -91,7 +91,7 @@ def add_slide(prs, slide_data, theme):
     content = slide_data.get("content", "")
     pinyin = slide_data.get("pinyin", "")
 
-    # Build paragraphs: pinyin lines first (if present), then Chinese lines
+    # Interleave pinyin above each Chinese line, matching the preview's ruby-annotation layout
     first_para = True
 
     def add_text_paragraph(text_lines, font_pt, is_first):
@@ -111,13 +111,15 @@ def add_slide(prs, slide_data, theme):
             set_ea_font(run, FONT_NAME)
         return is_first
 
-    if pinyin:
-        pinyin_lines = pinyin.split("\n")
-        first_para = add_text_paragraph(pinyin_lines, pinyin_pt, first_para)
+    content_lines = content.split("\n") if content else []
+    pinyin_lines = pinyin.split("\n") if pinyin else []
 
-    if content:
-        content_lines = content.split("\n")
-        add_text_paragraph(content_lines, chinese_pt, first_para)
+    for i, chinese_line in enumerate(content_lines):
+        p_line = pinyin_lines[i] if i < len(pinyin_lines) else ""
+        if p_line:
+            first_para = add_text_paragraph([p_line], pinyin_pt, first_para)
+        if chinese_line:
+            first_para = add_text_paragraph([chinese_line], chinese_pt, first_para)
 
 
 def embed_cjk_font(pptx_path):
