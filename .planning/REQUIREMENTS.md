@@ -49,7 +49,7 @@
 
 - [x] **EXPORT-01**: User can download a deck as a .pptx file with Chinese characters, pinyin, and theme applied
 - [x] **EXPORT-02**: PPTX generation runs as a background job with a "Generating…" status indicator; button becomes a download link when ready
-- [ ] **EXPORT-03**: User can re-export a deck after making edits to slides or theme
+- [x] **EXPORT-03**: User can re-export a deck after making edits to slides or theme
 
 ## v2 Requirements
 
@@ -115,7 +115,7 @@ Phase mapping confirmed during roadmap creation (2026-03-08).
 | THEME-03 | Phase 3 — Deck Editor | Complete |
 | EXPORT-01 | Phase 4 — PPTX Export | Complete |
 | EXPORT-02 | Phase 4 — PPTX Export | Complete |
-| EXPORT-03 | Phase 4 — PPTX Export | Pending |
+| EXPORT-03 | Phase 4 — PPTX Export | Complete |
 
 **Coverage:**
 - v1 requirements: 25 total

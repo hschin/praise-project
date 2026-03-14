@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 04-pptx-export-01-PLAN.md
-last_updated: "2026-03-14T06:53:45.571Z"
+stopped_at: Completed 04-pptx-export-02-PLAN.md
+last_updated: "2026-03-14T06:57:05.015Z"
 last_activity: 2026-03-08 — Roadmap created
 progress:
   total_phases: 4
   completed_phases: 3
   total_plans: 17
-  completed_plans: 15
+  completed_plans: 16
   percent: 0
 ---
 
@@ -66,6 +66,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03-deck-editor P05 | 5 | 1 tasks | 1 files |
 | Phase 03-deck-editor P05 | 30 | 2 tasks | 2 files |
 | Phase 04-pptx-export P01 | 3 | 2 tasks | 4 files |
+| Phase 04-pptx-export P02 | 10 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -110,6 +111,8 @@ Recent decisions affecting current work:
 - [Phase 04-pptx-export]: Font embedding via ZIP post-processing: after python-pptx saves .pptx, reopen as zipfile to inject TTF binary into ppt/fonts/ — most reliable approach, independent of python-pptx API
 - [Phase 04-pptx-export]: East Asian font XML slot (a:ea element) set on every run rPr so Windows PowerPoint routes CJK glyphs to Noto Sans SC (Latin slot alone is insufficient)
 - [Phase 04-pptx-export]: OTF->TTF conversion via fonttools: Google Fonts GitHub delivers OTF; converted to TTF to match FONT_PATH/FONT_ZIP_NAME .ttf extension in generate.py
+- [Phase 04-pptx-export]: Rails.cache with 10-minute TTL used to bridge async job output path to synchronous download request — avoids ActiveStorage for ephemeral temp files
+- [Phase 04-pptx-export]: Export state machine: controller returns :generating via Turbo Stream immediately, job later broadcasts :ready/:error — never block controller waiting for job
 
 ### Pending Todos
 
@@ -123,6 +126,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-14T06:53:45.569Z
-Stopped at: Completed 04-pptx-export-01-PLAN.md
+Last session: 2026-03-14T06:57:05.013Z
+Stopped at: Completed 04-pptx-export-02-PLAN.md
 Resume file: None

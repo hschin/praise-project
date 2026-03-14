@@ -99,4 +99,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Auth + Foundation | 3/3 | Complete   | 2026-03-07 |
 | 2. Lyrics Pipeline | 5/6 | In Progress|  |
 | 3. Deck Editor | 5/5 | Complete    | 2026-03-13 |
-| 4. PPTX Export | 0/3 | Not started | - |
+| 4. PPTX Export | 2/3 | In Progress|  |
