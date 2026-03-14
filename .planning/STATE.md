@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 3 complete — deck editor verified
-last_updated: "2026-03-13T15:25:07.317Z"
+stopped_at: Completed 04-pptx-export-01-PLAN.md
+last_updated: "2026-03-14T06:53:45.571Z"
 last_activity: 2026-03-08 — Roadmap created
 progress:
   total_phases: 4
   completed_phases: 3
-  total_plans: 14
-  completed_plans: 14
+  total_plans: 17
+  completed_plans: 15
   percent: 0
 ---
 
@@ -65,6 +65,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03-deck-editor PP04 | 2 | 2 tasks | 7 files |
 | Phase 03-deck-editor P05 | 5 | 1 tasks | 1 files |
 | Phase 03-deck-editor P05 | 30 | 2 tasks | 2 files |
+| Phase 04-pptx-export P01 | 3 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -106,6 +107,9 @@ Recent decisions affecting current work:
 - [Phase 03-deck-editor]: Full suite green (50 runs) confirmed before human checkpoint — no production code changes needed
 - [Phase 03-deck-editor]: update_arrangement redirects for form posts and returns head :ok for JSON/DnD requests — single action handles both callers
 - [Phase 03-deck-editor]: insert(arrangement_index + 1, lyric.id) places +Repeat duplicate immediately after current slide, not at array end
+- [Phase 04-pptx-export]: Font embedding via ZIP post-processing: after python-pptx saves .pptx, reopen as zipfile to inject TTF binary into ppt/fonts/ — most reliable approach, independent of python-pptx API
+- [Phase 04-pptx-export]: East Asian font XML slot (a:ea element) set on every run rPr so Windows PowerPoint routes CJK glyphs to Noto Sans SC (Latin slot alone is insufficient)
+- [Phase 04-pptx-export]: OTF->TTF conversion via fonttools: Google Fonts GitHub delivers OTF; converted to TTF to match FONT_PATH/FONT_ZIP_NAME .ttf extension in generate.py
 
 ### Pending Todos
 
@@ -119,6 +123,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-13T15:19:59.865Z
-Stopped at: Phase 3 complete — deck editor verified
+Last session: 2026-03-14T06:53:45.569Z
+Stopped at: Completed 04-pptx-export-01-PLAN.md
 Resume file: None
