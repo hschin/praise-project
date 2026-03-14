@@ -11,8 +11,7 @@
       <% end %>
     </div>
     <div class="flex gap-3 items-center">
-      <%= button_to "Export PPTX", export_deck_path(@deck), method: :post,
-          class: "bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 cursor-pointer" %>
+      <%= render "decks/export_button", deck: @deck, state: :idle %>
       <%= link_to "Edit deck", edit_deck_path(@deck), class: "text-sm text-indigo-600 hover:underline" %>
       <%= link_to "Back", decks_path, class: "text-sm text-gray-500 hover:underline" %>
     </div>
@@ -149,6 +148,7 @@
     <div class="md:col-span-2 lg:col-span-3" id="theme_section">
       <h2 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-4">Theme</h2>
 
+      <%= turbo_stream_from "deck_export_#{@deck.id}" %>
       <%= turbo_stream_from "deck_themes_#{@deck.id}" %>
 
       <% if @deck.theme.present? %>

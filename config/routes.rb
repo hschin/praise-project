@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :decks do
     member do
       post :export
+      get :download_export
     end
     resources :deck_songs, only: [:create, :update, :destroy] do
       member do

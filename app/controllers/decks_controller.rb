@@ -1,6 +1,6 @@
 class DecksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_deck, only: [:show, :edit, :update, :destroy, :export]
+  before_action :set_deck, only: [:show, :edit, :update, :destroy, :export, :download_export]
 
   def index
     @decks = current_user.decks.order(date: :desc)
@@ -40,8 +40,33 @@ class DecksController < ApplicationController
   end
 
   def export
-    # PPTX generation — to be implemented
-    head :ok
+    GeneratePptxJob.perform_later(@deck.id)
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.update(
+          "export_button_#{@deck.id}",
+          partial: "decks/export_button",
+          locals: { deck: @deck, state: :generating }
+        )
+      end
+      format.html { redirect_to @deck, notice: "Generating PPTX..." }
+    end
+  end
+
+  def download_export
+    token = params[:token].to_s.gsub(/[^a-zA-Z0-9_\-]/, "")
+    path = Rails.cache.read("pptx_export_#{token}")
+
+    if path.nil? || !File.exist?(path.to_s)
+      redirect_to @deck, alert: "Download link expired. Please re-export."
+      return
+    end
+
+    filename = "#{@deck.title.parameterize}-export.pptx"
+    send_file path,
+      filename: filename,
+      type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      disposition: "attachment"
   end
 
   private
