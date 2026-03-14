@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 04-pptx-export-02-PLAN.md
-last_updated: "2026-03-14T06:57:05.015Z"
+stopped_at: Completed 04-pptx-export-03-PLAN.md — Phase 4 complete, all phases done
+last_updated: "2026-03-14T15:46:57.896Z"
 last_activity: 2026-03-08 — Roadmap created
 progress:
   total_phases: 4
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 17
-  completed_plans: 16
+  completed_plans: 17
   percent: 0
 ---
 
@@ -67,6 +67,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03-deck-editor P05 | 30 | 2 tasks | 2 files |
 | Phase 04-pptx-export P01 | 3 | 2 tasks | 4 files |
 | Phase 04-pptx-export P02 | 10 | 2 tasks | 5 files |
+| Phase 04-pptx-export P03 | 47 | 2 tasks | 0 files |
 
 ## Accumulated Context
 
@@ -113,6 +114,8 @@ Recent decisions affecting current work:
 - [Phase 04-pptx-export]: OTF->TTF conversion via fonttools: Google Fonts GitHub delivers OTF; converted to TTF to match FONT_PATH/FONT_ZIP_NAME .ttf extension in generate.py
 - [Phase 04-pptx-export]: Rails.cache with 10-minute TTL used to bridge async job output path to synchronous download request — avoids ActiveStorage for ephemeral temp files
 - [Phase 04-pptx-export]: Export state machine: controller returns :generating via Turbo Stream immediately, job later broadcasts :ready/:error — never block controller waiting for job
+- [Phase 04-pptx-export]: Human approved: CJK renders correctly — east-Asian font XML slot (a:ea) + Noto Sans SC TTF embedding validated
+- [Phase 04-pptx-export]: Phase 4 CJK rendering risk resolved: Chinese characters visible (not boxes), pinyin-above-Chinese layout correct, theme colors applied
 
 ### Pending Todos
 
@@ -126,6 +129,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-14T06:57:05.013Z
-Stopped at: Completed 04-pptx-export-02-PLAN.md
+Last session: 2026-03-14T15:46:57.893Z
+Stopped at: Completed 04-pptx-export-03-PLAN.md — Phase 4 complete, all phases done
 Resume file: None
