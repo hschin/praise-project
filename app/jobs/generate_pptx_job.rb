@@ -17,13 +17,13 @@ class GeneratePptxJob < ApplicationJob
 
     unless status.success?
       Rails.logger.error("[GeneratePptxJob] deck_id=#{deck_id} script failed: #{stderr}")
-      broadcast_error(deck_id, "PPTX generation failed. Please try again.")
+      broadcast_error(deck_id, "Export failed — click to try again.")
       return
     end
 
     unless File.exist?(output_path)
       Rails.logger.error("[GeneratePptxJob] deck_id=#{deck_id} output file missing after success exit")
-      broadcast_error(deck_id, "PPTX file not found after generation.")
+      broadcast_error(deck_id, "Export failed — click to try again.")
       return
     end
 
@@ -41,7 +41,7 @@ class GeneratePptxJob < ApplicationJob
     )
   rescue => e
     Rails.logger.error("[GeneratePptxJob] deck_id=#{deck_id} #{e.class}: #{e.message}")
-    broadcast_error(deck_id, e.message)
+    broadcast_error(deck_id, "Export failed — click to try again.")
   end
 
   private
