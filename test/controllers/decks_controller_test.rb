@@ -80,4 +80,31 @@ class DecksControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_match(/red-50/, response.body)
   end
+
+  # NAV-02
+  test "GET /decks renders card grid with date before title" do
+    get decks_url
+    assert_match(/grid/, response.body)
+    assert_match(/strftime|Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday/, response.body)
+  end
+
+  # NAV-02
+  test "GET /decks delete button has turbo-confirm data attribute" do
+    get decks_url
+    assert_match(/data-turbo-confirm/, response.body)
+  end
+
+  # EMPTY-01
+  test "GET /decks shows empty state headline when no decks exist" do
+    Deck.destroy_all
+    get decks_url
+    assert_match(/Build worship slide decks in minutes/, response.body)
+  end
+
+  # EMPTY-02
+  test "deck show page renders empty state copy when deck has no songs" do
+    empty_deck = Deck.create!(title: "Empty", date: Date.today, user: @user)
+    get deck_url(empty_deck)
+    assert_match(/Your arrangement will appear here/, response.body)
+  end
 end
