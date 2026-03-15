@@ -89,35 +89,35 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| VIS-01 | — | Pending |
-| VIS-02 | — | Pending |
-| VIS-03 | — | Pending |
-| VIS-04 | — | Pending |
-| NAV-01 | — | Pending |
-| NAV-02 | — | Pending |
-| NAV-03 | — | Pending |
-| NAV-04 | — | Pending |
-| FORM-01 | — | Pending |
-| FORM-02 | — | Pending |
-| FORM-03 | — | Pending |
-| EMPTY-01 | — | Pending |
-| EMPTY-02 | — | Pending |
-| EMPTY-03 | — | Pending |
-| AUTH-01 | — | Pending |
-| DECK-01 | — | Pending |
-| DECK-02 | — | Pending |
-| DECK-03 | — | Pending |
-| DECK-04 | — | Pending |
-| DECK-05 | — | Pending |
-| DECK-06 | — | Pending |
-| IMPORT-01 | — | Pending |
-| IMPORT-02 | — | Pending |
+| VIS-01 | Phase 5 | Pending |
+| VIS-02 | Phase 5 | Pending |
+| VIS-03 | Phase 5 | Pending |
+| VIS-04 | Phase 5 | Pending |
+| NAV-01 | Phase 5 | Pending |
+| NAV-03 | Phase 5 | Pending |
+| NAV-04 | Phase 5 | Pending |
+| FORM-01 | Phase 6 | Pending |
+| FORM-02 | Phase 6 | Pending |
+| FORM-03 | Phase 6 | Pending |
+| NAV-02 | Phase 7 | Pending |
+| EMPTY-01 | Phase 7 | Pending |
+| EMPTY-02 | Phase 7 | Pending |
+| EMPTY-03 | Phase 7 | Pending |
+| AUTH-01 | Phase 7 | Pending |
+| DECK-01 | Phase 8 | Pending |
+| DECK-02 | Phase 8 | Pending |
+| DECK-03 | Phase 8 | Pending |
+| DECK-04 | Phase 8 | Pending |
+| DECK-05 | Phase 8 | Pending |
+| DECK-06 | Phase 8 | Pending |
+| IMPORT-01 | Phase 8 | Pending |
+| IMPORT-02 | Phase 8 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 23 total
-- Mapped to phases: 0
-- Unmapped: 23 ⚠️ (pending roadmap)
+- Mapped to phases: 23
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-03-15*
-*Last updated: 2026-03-15 after initial definition*
+*Last updated: 2026-03-15 after roadmap creation*
