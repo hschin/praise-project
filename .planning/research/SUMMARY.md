@@ -1,188 +1,187 @@
 # Project Research Summary
 
-**Project:** ChurchSlides (praise-project)
-**Domain:** Worship presentation / PPTX slide generator for Chinese church teams
-**Researched:** 2026-03-07
-**Confidence:** HIGH — based on direct codebase inspection and domain expertise
+**Project:** ChurchSlides (praise-project) — v1.1 Design Milestone
+**Domain:** UI/UX redesign of existing Rails 8 worship slide generator
+**Researched:** 2026-03-15
+**Confidence:** HIGH — all findings grounded in direct codebase inspection
 
 ## Executive Summary
 
-ChurchSlides is a specialized worship preparation tool that automates the most tedious part of Chinese church worship planning: searching for song lyrics, adding pinyin tone marks, and assembling formatted PowerPoint slides for projection. The core value loop is a two-stage AI pipeline — Claude first (it knows most mainstream Chinese worship songs), then targeted Nokogiri scrapers for gaps — which feeds a structured lyrics editor and ultimately produces a PPTX file usable on any projector system. The existing Rails 8.1.2 codebase already has Devise, Solid Queue, Hotwire, and the Python subprocess stub in place; the critical missing pieces are the `anthropic` gem and Python/CJK font configuration in the Dockerfile.
+The v1.1 milestone is a visual redesign of a fully functional, shipped app — not a new build. The core problem is that v1.0 used the default Tailwind SaaS palette (indigo primary, gray-50 body, flat banner flash messages), which reads as generic admin software rather than a tool built for worship teams. The redesign goal is to replace that generic visual language with a warm, worshipful identity: earthy amber and stone tones, card-based layouts with date prominence, polished feedback patterns, and onboarding cues that orient new users. No backend changes are required for the visual work; three targeted data additions (META-01/02 for song metadata, SCRIP-01 for scripture slides) are bundled in this milestone and gate their respective UI display components.
 
-The recommended architecture is strictly phased: establish data models and auth first, then the AI lyrics pipeline, then the deck editor with slide arrangement, then PPTX export. These phases are hard dependencies — the export has no value without slides, slides have no value without lyrics, and lyrics require the AI pipeline to be reliable. Every external call (Claude API, PPTX generation) must run in a Solid Queue background job from the start; running either synchronously in a controller will produce request timeouts under Thruster.
+The recommended approach is to proceed phase by phase with a strict dependency gate at Phase 1: the Tailwind config custom token definitions must land first, as every subsequent component change depends on those new palette tokens being available. From there, changes cascade — navigation, cards, forms, flash messages, empty states, and finally the most sensitive surface (the deck editor) where Turbo Stream targets, drag-and-drop data contracts, and inline theme styles all coexist. The tech stack requires no changes: Tailwind v4 via importmap, Hotwire (Turbo + Stimulus), and inline SVG icons from Heroicons are exactly the right tools for this scope.
 
-The single highest-impact risk is CJK font rendering in PPTX: slides will look correct on the developer's Mac but render as empty rectangles on a Windows projector if the east-Asian font slot is not explicitly set in python-pptx and the Noto CJK font is not bundled in the Docker image. Pinyin accuracy for polyphonic characters (多音字) is the second trust-breaking risk — Claude must receive full lyric sections for context, and the editor must surface a "needs review" flag to worship leaders before the tool is used in a live service.
+The key risk in this milestone is not visual — it is behavioral. The deck editor and song import flows contain invisible contracts: hardcoded DOM IDs that background jobs broadcast to, `data-drag-handle` and `data-id` attributes that Stimulus controllers depend on, a `.pinyin-hidden` CSS class that lives outside Tailwind, and a deliberate `data: { turbo: false }` on the import form that must not be wrapped in a Turbo Frame. None of these constraints are visible from screenshots. The mitigation is simple: treat the deck show view as the highest-risk surface, defer it to the last redesign phase, and audit all `id=` attributes before modifying any template that a background job references.
+
+---
 
 ## Key Findings
 
-### Recommended Stack
+### Stack (from STACK.md — v1.0 research, UI-relevant subset)
 
-The existing stack is well-chosen for this scope and mostly already installed. The importmap-only setup rules out React/Vue — Turbo Frames and Stimulus are the correct choice. Solid Queue (already present) handles background jobs without requiring Redis. The only Ruby-side gap is `gem "anthropic"`, which is documented in the codebase but missing from the Gemfile.
+The stack is locked and no additions are needed for the v1.1 redesign. All UI work is achievable with what is already installed.
 
-For PPTX generation, every Ruby gem alternative was evaluated and rejected: `caracal` produces DOCX, `ruby-pptx` has poor CJK support and is unmaintained, and `caxlsx` targets spreadsheets. `python-pptx` via a Ruby subprocess using `Open3.capture3` is the correct solution — it is mature, actively maintained, and has full CJK support. The Dockerfile must add `python3`, `python3-pip`, `python-pptx`, and `fonts-noto-cjk`.
+**Core technologies relevant to the redesign:**
+- **Tailwind CSS v4** (`tailwindcss-rails ~> 4.4`): CSS-first config via `@import "tailwindcss"` in `application.css`. Custom palette tokens go in `tailwind.config.js`. Tailwind v4 uses static content scanning — dynamic class string interpolation is invisible to the build.
+- **Turbo + Stimulus (Hotwire)**: All interactive patterns (drag-and-drop, spinners, flash auto-dismiss) use Stimulus controllers. New controllers go in `app/javascript/controllers/` and are auto-registered via importmap.
+- **Importmap (no Node/Webpack)**: No npm packages can be added. Icon libraries that require npm are off the table. Heroicons inline SVG in ERB is the correct approach.
+- **Solid Cable**: Powers `turbo_stream_from` subscriptions on the deck show and song processing pages. Must run with the full `bin/dev` stack to test async UI updates.
 
-**Core technologies:**
-- Rails 8.1.2 + Devise: web framework and auth — already installed
-- Turbo Frames + Stimulus (Hotwire): UI framework — no npm; fits importmap setup perfectly
-- Solid Queue: background jobs — already installed; PostgreSQL-backed, no Redis needed
-- `gem "anthropic"`: Claude API client — **must add to Gemfile**
-- python-pptx (Python subprocess): PPTX generation — **must configure Dockerfile**
-- Nokogiri: lyrics scraping fallback — already a transitive dependency
-- Active Storage: PPTX file delivery — built into Rails 8
+### Expected Features (from FEATURES.md — v1.1 specific, primary source)
 
-### Expected Features
+**Must have (table stakes) — milestone blockers:**
+- Warm color palette (amber, stone, warm off-white) replacing default indigo/gray — enables everything else
+- Consistent `rounded-xl` component language across cards, buttons, inputs
+- Deck list as card grid with date prominence (date leads, title secondary)
+- Deck creation as the primary nav entry point (Songs visually de-emphasized)
+- Polished flash messages with icons and auto-dismiss Stimulus controller
+- Actionable error messages with prominent fallback paths
+- Consistent spinner/loading state conventions across import and export flows
+- Empty states with workflow context on deck index, deck editor, and song library
+- Readable typography scale (headline/body/caption hierarchy)
+- Auth pages with brand context
 
-**Must have (table stakes):**
-- Song search by title (CJK and English) — fundamental entry point
-- AI lyric fetch with automatic section detection (verse/chorus/bridge) — core value loop
-- Pinyin generation above Chinese text — non-native readers depend on this; accuracy is load-bearing
-- Inline slide editing and text correction — AI output is never 100% accurate
-- Slide reordering and deletion within a song — worship leaders adjust flow at runtime
-- Service/setlist management — group songs into one service = one PPTX
-- Visual theme selection (3-5 curated templates) — dark background + light text is the projection standard
-- PPTX export — the deliverable; must survive round-trip on Windows PowerPoint
-- Song library persistence — once fetched, reusable by all team members
-- User authentication — multiple team members share the library
+**Should have (differentiators) — meaningful improvement over bare redesign:**
+- Worship-specific color palette with named tokens (`worship-primary`, `worship-accent`) rather than raw Tailwind color references
+- Empty state with worship-context copy ("Your Sunday slide deck starts here")
+- Processing state copy that conveys AI activity ("Claude is structuring your lyrics...")
+- Export button as prominent "done" affordance with download icon
+- Song metadata display for CCLI, key, and artist fields (gated on META-01/02 migrations)
+- Onboarding cue on first deck editor open ("Now add your first song...")
+- Section type labels (verse/chorus/bridge) with color-coded badges in slide preview
 
-**Should have (differentiators):**
-- Claude-first lyrics recall (zero scraping for mainstream songs) — biggest workflow time savings
-- Context-aware pinyin with polyphone disambiguation — competitive advantage over Word plugins
-- Simplified Chinese normalization from Traditional web sources — transparent to the user
-- Bilingual song title search (English alias + Chinese) — matches how songs are known in Chinese churches
-- Per-service theme (not per-song) — reduces cognitive load; one decision for the whole service
-- Manual lyrics paste fallback — escape hatch when scraping fails
+**Defer to v1.2:**
+- Song card section badge in library (nice, not critical)
+- Auth page illustration or brand artwork (small team signs up once)
+- Deck card with song count or thumbnail preview (extra DB query, minor value)
+- Dark mode (doubles the visual system; users work in lit rooms)
+- Responsive/mobile-first layout rework (primary use is desktop)
 
-**Defer (v2+):**
-- Scripture slides (version complexity, text licensing)
-- Announcement or sermon slides (different workflow)
-- Real-time multi-user collaboration (unnecessary for small team)
-- Live in-browser presentation mode (PPTX export already achieves this)
-- CCLI SongSelect import (format parsing is brittle)
-- Multi-church / SaaS tenancy
-- Version history / audit trail
+### Architecture Approach (from ARCHITECTURE.md — v1.0 research, UI-relevant subset)
 
-### Architecture Approach
+The app is a multi-frame Rails page, not a SPA. The deck editor uses a 12-column grid with three nested surfaces: song order (outer sortable), slide arrangement per song (inner sortable), and slide preview panel. Turbo Frames handle song search results, slide previews, and inline editing. Turbo Streams handle async job completion. The redesign adds no new components to this architecture — it applies visual changes to existing partials.
 
-The architecture is a classic thin-controller Rails app with three service objects handling all external integrations: `LyricsScraper` (web search + Nokogiri parsing), `LyricsEnricher` (Claude API structuring + pinyin), and `PptxBuilder` (python-pptx subprocess). Controllers never call external services directly — they enqueue Solid Queue jobs and return immediately, with job completion broadcast to the UI via Turbo Streams. The data model uses `DeckSong.arrangement` as a JSONB array of lyric IDs as the authoritative slide order; `Slide` records are a derived projection of this, never an independent source of truth.
+**Surfaces the redesign touches:**
+1. `layouts/application.html.erb` — navigation bar, flash messages, main container class yield
+2. `decks/index.html.erb` — deck card grid and empty state
+3. `decks/show.html.erb` — deck editor three-column layout, slide preview, export button, Turbo Stream targets (highest risk)
+4. `songs/index.html.erb` — song library, empty state
+5. `songs/show.html.erb`, `songs/processing.html.erb`, `songs/_failed.html.erb` — import status and error states
+6. `devise/sessions/new.html.erb` — auth page brand treatment
+7. `deck_songs/_song_block.html.erb`, `deck_songs/_slide_item.html.erb` — drag-and-drop items (data contract risk)
 
-**Major components:**
-1. `LyricsScraper` + `LyricFetchJob` — two-stage retrieval: Claude recall first, Nokogiri fallback second
-2. `LyricsEnricher` + `LyricEnrichJob` — Claude API: section detection, Simplified conversion, pinyin generation in one call
-3. `PptxBuilder` + `PptxGenerateJob` — Python subprocess with JSON protocol on stdout; Active Storage for file delivery
-4. Deck editor (Turbo Frames + Stimulus + Sortable.js) — slide arrangement, inline editing, theme selection
-5. Turbo Streams broadcasts — async job status updates ("Importing lyrics..." / "Export ready")
+### Critical Pitfalls (from PITFALLS.md — v1.1 specific, primary source)
 
-### Critical Pitfalls
+1. **Renaming Turbo Stream target DOM IDs** — Five hardcoded broadcast targets exist across the deck and song views (`export_button_#{deck_id}`, `theme_suggestions`, `import_status`, `song_status_#{song.id}`). Renaming or removing these IDs causes silent UI freeze — the background job completes but the browser never knows. Mitigation: audit all `id=` attributes before touching these templates; treat them as a public API; wrap redesign elements around, not instead of, these target `div`s.
 
-1. **CJK characters render as rectangles on Windows projectors** — set the east-Asian font slot explicitly in python-pptx XML (`a:eastAsianFont`), bundle `fonts-noto-cjk` in the Docker image, and test on a Windows VM before any worship team demo. This is invisible in local development.
+2. **Breaking the `data-drag-handle` / `data-id` Sortable contract** — `sortable_controller.js` reads `data-id` on each draggable child and expects `data-drag-handle` on the handle element. Extra wrapper `div`s or restructured markup break drag-and-drop silently (the handle still moves but positions are wrong). Mitigation: carry `data-drag-handle` and `data-id` forward verbatim; do not add wrapper `div`s inside the sortable container's direct children.
 
-2. **Pinyin wrong for polyphonic characters (多音字)** — send Claude the full lyric section for sentence context, not character by character. Add a `pinyin_reviewed` flag on `Lyric` and surface a "needs review" badge in the editor. Worship leaders must be able to correct pinyin before PPTX export.
+3. **Removing `.pinyin-hidden` during stylesheet cleanup** — This one CSS class lives in `application.css` outside Tailwind. `pinyin_toggle_controller.js` adds/removes it. If pruned as "dead code" during a stylesheet consolidation, the pinyin toggle breaks with no visible error. Mitigation: keep the rule; add a comment marking it as consumed by the controller.
 
-3. **Ruby → Python subprocess silent failure** — define a JSON protocol contract on stdout (`{ "status": "ok", "file_path": "..." }` or `{ "status": "error", "message": "..." }`), use `Open3.capture3` with explicit exit status checking, and surface errors to the user via Turbo Streams. Silent failure is the current default.
+4. **Dynamic Tailwind class strings not detected by Tailwind v4** — Tailwind v4 only emits classes that appear as complete strings in scanned files. Classes assembled via string interpolation are silently omitted. Additionally, raw HTML strings in job files (`app/jobs/`) contain Tailwind classes that are not in the default content scan path. Mitigation: always use full class names in conditionals; grep `app/jobs/` for class strings before changing palette tokens; run `rails tailwindcss:build` in production mode before each commit.
 
-4. **Claude API timeout blocks web requests** — all Claude calls must run in background jobs from Phase 2 onward. Never call `LyricsEnricher` inline in a controller. Turbo Streams must broadcast import status so users know the job is running.
+5. **Song import form `data: { turbo: false }` must be preserved** — The song import form deliberately opts out of Turbo to trigger a full-page navigation to the processing page, where `redirect_controller.js` connects and waits for the job completion broadcast. Wrapping this form in a modal or Turbo Frame breaks the redirect. Mitigation: keep the import form as a full-page navigation for this milestone.
 
-5. **Two-stacked-textbox pinyin layout fragility** — PPTX has no native ruby/furigana API. Use two fixed-Y text boxes per slide (pinyin box above, Chinese box below), disable auto-fit, and define explicit font size ratio (pinyin at ~50% of Chinese size). Test with the longest verse in the song library.
+**Additional moderate risks:**
+- Flash message redesign must use `flash.each` (not explicit `:notice`/`:alert` keys) to catch all Devise flash keys including `:error` and `:timedout`
+- `content_for(:main_class)` override in `decks/show.html.erb` gives the deck editor full-width layout; replacing it with a fixed container class breaks the three-column grid
+- Inline `style=` theme color attributes in the slide preview are user database values — never convert them to Tailwind classes
+- Job broadcast HTML strings in `app/jobs/` contain Tailwind class names not visible to the content scanner
+
+---
 
 ## Implications for Roadmap
 
-Based on the dependency graph in FEATURES.md and the build order in ARCHITECTURE.md, four phases are clearly indicated. Phases 2-4 are strictly sequential.
+Based on combined research, the v1.1 milestone maps cleanly to four phases with a strict dependency gate at Phase 1.
 
-### Phase 1: Auth + Core Data Models
+### Phase 1: Design Foundation (Tailwind tokens + navigation)
 
-**Rationale:** Everything depends on User identity (shared library requires it) and the core models (Songs, Lyrics, Decks, Themes). Build the schema and CRUD scaffolding before any external integration so the data layer is stable before complexity is added.
+**Rationale:** Every visual change in the milestone depends on the custom palette tokens being defined. This phase must land first. Navigation redesign is low-risk (no Turbo Stream targets live in the nav bar) and delivers immediate visible impact.
+**Delivers:** `tailwind.config.js` with `worship-*` color tokens, updated `bg-stone-50` body, warm navigation bar with Decks as primary entry point, wordmark treatment, button and input base classes using new tokens.
+**Addresses:** Warm color palette, consistent component language, deck creation as primary entry point.
+**Avoids:** Tailwind v4 dynamic class string pitfall — define tokens as complete names, never interpolated.
+**Research flag:** Standard Tailwind config patterns — no phase research needed.
 
-**Delivers:** Working authentication, song/lyric/deck/theme model CRUD, database schema locked, Solid Queue worker confirmed running in development and production.
+### Phase 2: Global Components (Flash, forms, typography)
 
-**Addresses:** User authentication, song library persistence (structural prerequisites only — no AI yet).
+**Rationale:** Flash messages and form elements appear on every page. Doing them after the design foundation (so new tokens are available) but before page-specific layouts means all subsequent phase work inherits the correct base styles without rework.
+**Delivers:** Auto-dismiss flash message component with icon mapping and Devise key support, consistent form system (inputs, labels, focus rings using new tokens), typography scale applied globally.
+**Addresses:** Polished flash messages, consistent form system, readable typography, Devise flash key coverage.
+**Avoids:** Flash/Devise flash key pitfall — use `flash.each` not explicit key checks. Tailwind dynamic class pitfall — full class names in type-to-style mapping.
+**Research flag:** Standard patterns — no phase research needed.
 
-**Avoids:** Pitfall #9 (Slide as dual source of truth) — nail the `DeckSong.arrangement` vs `Slide` derived-projection design now, before any UI is built on top of it. Avoids Pitfall #10 (Solid Queue not running in production) — verify worker Procfile entry before Phase 2.
+### Phase 3: Content Pages (Decks index, songs library, auth, empty states)
 
-### Phase 2: Lyrics Pipeline (AI Core)
+**Rationale:** These pages are visually independent from the deck editor's Turbo Stream and drag-and-drop complexity. Card grid for decks index, empty states, onboarding cues, and auth page brand treatment can all be built freely with low regression risk.
+**Delivers:** Deck list as card grid with date prominence, empty states with worship-context copy on deck index and song library, onboarding cue on first deck editor open, auth page with brand context.
+**Addresses:** Deck card grid, empty states, onboarding cue, auth page brand treatment.
+**Avoids:** No Turbo Stream targets on these pages; avoid adding `data-controller` inside sortable containers on the deck index.
+**Research flag:** Standard patterns — no phase research needed.
 
-**Rationale:** The AI pipeline is the highest-risk and highest-value part of the system. Build it second so real song data exists for testing Phases 3 and 4. This phase surfaces the hardest integration problems (Claude reliability, scraper fragility, pinyin accuracy) while there is still time to adjust.
+### Phase 4: Deck Editor and Import/Export Polish (highest risk)
 
-**Delivers:** End-to-end lyric import — song search triggers fetch job, Claude enriches with pinyin and sections, lyrics appear in the library. Manual paste fallback for when scraping fails. Song status broadcast via Turbo Streams.
-
-**Uses:** `gem "anthropic"`, Nokogiri, Solid Queue, Turbo Streams.
-
-**Implements:** `LyricsScraper`, `LyricsEnricher`, `LyricFetchJob`, `LyricEnrichJob`.
-
-**Avoids:** Pitfall #4 (Claude timeout) — background jobs from the start. Pitfall #7 (Claude hallucinating lyrics) — Claude structures provided text, never generates. Pitfall #2 (polyphone pinyin) — full-section context in prompt, `pinyin_reviewed` flag introduced here.
-
-### Phase 3: Deck Editor + Slide Management
-
-**Rationale:** With real lyrics in the database, the slide arrangement editor can be built and tested with actual content. This phase covers the full editing workflow worship leaders need before they trust the PPTX output.
-
-**Delivers:** Service/setlist creation, adding songs to a deck, slide reordering (Sortable.js), slide text editing inline, slide deletion, theme selection. A complete deck ready for export.
-
-**Addresses:** Slide reordering, inline editing, slide deletion, service management, theme selection — all table stakes features.
-
-**Avoids:** Pitfall #9 (source of truth drift) — all reordering goes through `DeckSong.arrangement`, never directly to `Slide.position`. Pitfall #2 (pinyin review UI) — "needs review" badge built here before export ships.
-
-### Phase 4: PPTX Export
-
-**Rationale:** Export is the terminal deliverable. Build it last because it requires a complete deck (Phase 3) and because the python-pptx integration has the most environment-specific failure modes. Get everything else working first; then invest in the export layer.
-
-**Delivers:** Working PPTX download — two-stacked-textbox layout, CJK fonts, correct pinyin placement, theme backgrounds applied. Active Storage for file storage. Turbo Streams "Download ready" link.
-
-**Implements:** `PptxBuilder`, `PptxGenerateJob`, Dockerfile with Python 3 + python-pptx + `fonts-noto-cjk`.
-
-**Avoids:** Pitfall #1 (CJK rectangles on Windows) — explicit east-Asian font XML slot, bundled Noto CJK font, Windows VM test required. Pitfall #3 (subprocess silent failure) — JSON protocol contract built before any generation logic. Pitfall #5 (mixed-script layout fragility) — two-stacked-textbox pattern, no auto-fit.
+**Rationale:** The deck editor (`decks/show.html.erb`) contains every critical pitfall: Turbo Stream targets, nested sortables with data contracts, `content_for(:main_class)`, inline theme colors, and the full-page import form. Deferring this to last ensures earlier phases are stable before touching the highest-risk surface.
+**Delivers:** Processing state with AI-copy ("Claude is structuring your lyrics..."), consistent spinner conventions, export button visual upgrade, slide preview section badges, song metadata display (once META-01/02 land), scripture slide display (once SCRIP-01 lands).
+**Addresses:** Loading state polish, export "done" affordance, section type visual labels, META-01/02 and SCRIP-01 display components.
+**Avoids:** All five critical pitfalls; must audit `id=` attributes before any template change; must preserve `data-drag-handle`, `data-id`, `.pinyin-hidden`, `content_for(:main_class)`, inline `style=` theme attributes, and `data: { turbo: false }` on import form.
+**Research flag:** No additional research needed, but this phase warrants a written pre-work checklist of all DOM contracts before coding begins.
 
 ### Phase Ordering Rationale
 
-- Phase 1 before everything: models and auth are prerequisites for all features; schema decisions (especially `DeckSong.arrangement` as source of truth) are expensive to change later.
-- Phase 2 before Phase 3: the deck editor needs real lyrics to test meaningfully; testing with mock data masks the real layout challenges.
-- Phase 3 before Phase 4: PPTX export needs a complete deck with slides; testing export against empty or stub data misses most real-world formatting issues.
-- Pitfalls #1, #3, #5 (all PPTX-related) are grouped in Phase 4 and addressed together — they interact with each other and should be solved as a unit, not scattered across phases.
+- Phase 1 gates Phases 2-4 because Tailwind token definitions must exist before class names can be applied
+- Phases 2 and 3 are largely independent and could be parallelized if multiple contributors are available; sequential ordering recommended for a single developer to avoid style drift
+- Phase 4 is last by design — it touches every critical pitfall and benefits from having the full visual system stabilized before high-risk template surgery
+- META-01/02 and SCRIP-01 migrations are data-work prerequisites that should land before Phase 4 ships, but can be developed in parallel with Phases 1-3
 
 ### Research Flags
 
-Phases likely needing deeper research during planning:
+Phases likely needing deeper research during planning: none. All v1.1 changes are well-understood CSS class updates, small Stimulus controllers, and ERB partial edits with known constraints.
 
-- **Phase 2 (Lyrics Pipeline):** Claude prompt engineering for reliable structured JSON output (section_type, chinese_text, pinyin per section) needs a spike before planning. Which lyrics sites return usable content via SerpAPI for Chinese worship songs is also unvalidated — test before committing to specific scrapers.
-- **Phase 4 (PPTX Export):** The two-stacked-textbox layout for pinyin + Chinese characters needs a prototype and Windows projector test before the phase is planned in detail. Font size ratios and Y-position math are environment-dependent.
+Phases with standard patterns (skip research-phase):
+- **Phase 1:** Tailwind v4 CSS-first config and custom token definitions are well documented
+- **Phase 2:** Auto-dismiss Stimulus controller is a well-documented pattern; Devise flash key handling is straightforward once the mapping is known
+- **Phase 3:** Card grid layouts and empty state patterns have established Tailwind UI conventions
+- **Phase 4:** No new patterns — upgrade existing implementations; the risk is preservation, not discovery
 
-Phases with well-documented patterns (research-phase can be skipped):
+Pre-phase checklist recommended for Phase 4 instead of a research phase: before writing any code in Phase 4, produce a written inventory of all DOM IDs that jobs broadcast to, all `data-drag-handle`/`data-id` elements, and all inline `style=` attributes. This is a 30-minute audit, not a research session.
 
-- **Phase 1 (Auth + Models):** Devise + Rails scaffold is a fully documented, established pattern. No research needed.
-- **Phase 3 (Deck Editor):** Turbo Frames + Stimulus + Sortable.js is a standard Rails 8 pattern. The drag-to-reorder implementation is well-documented. No research needed.
+---
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | HIGH | Based on direct Gemfile.lock and codebase inspection; all decisions are grounded in confirmed existing dependencies |
-| Features | HIGH | Feature list derived from established worship software (ProPresenter, EasyWorship, OpenLP) and confirmed against existing domain model |
-| Architecture | HIGH | Based on direct codebase inspection; existing service stubs (`LyricsScraper`, python-pptx stub) confirm the architecture is already partially realized |
-| Pitfalls | HIGH | CJK font and polyphone pitfalls are well-documented failure modes; subprocess protocol pitfall is confirmed by inspecting the existing stub |
+| Stack (UI-relevant) | HIGH | Direct Gemfile and stylesheet inspection; no ambiguity for this milestone's scope |
+| Features | HIGH | v1.0 views inspected directly; gap diagnosis is factual, not estimated |
+| Architecture (UI-relevant) | HIGH | DOM contracts, Turbo Stream targets, and controller dependencies all verified from source |
+| Pitfalls | HIGH | Every pitfall grounded in specific file and line number from codebase inspection |
 
 **Overall confidence:** HIGH
 
 ### Gaps to Address
 
-- **Claude lyrics coverage for this team's specific song repertoire:** Claude has good coverage of mainstream 赞美之泉 catalog and classic hymns, but coverage of locally-composed or obscure contemporary Chinese praise songs is unknown. Validate with a 20-song sample from the worship team before Phase 2 planning.
-- **SerpAPI results for Chinese worship lyrics:** The research assumes SerpAPI returns usable hits for the target lyrics sites. This has not been validated with actual search queries. Test before committing to specific scraper targets in Phase 2.
-- **Claude structured JSON prompt reliability:** The exact prompt design needed to reliably produce `{ section_type, chinese_text, pinyin }` JSON from Claude is unresolved. A spike (2-3 hours of prompt engineering) before Phase 2 planning will prevent rework.
-- **PPTX layout on Windows projector:** The two-stacked-textbox layout has not been tested on a Windows PowerPoint installation. Font size ratios and Y-positions may need adjustment. Validate before Phase 4 ships to worship team.
+- **Worshipful palette validation:** The exact amber/stone color choices for `worship-primary` and `worship-accent` tokens are research-informed recommendations, not validated against actual user preferences. The palette should be reviewed with the worship team before Phase 1 ships. Low cost to adjust at that stage; high cost after Phases 2-4 inherit the tokens.
+- **META-01/02 and SCRIP-01 timeline:** The Phase 4 UI components for song metadata and scripture slides are gated on migrations tracked separately. If those migrations slip, Phase 4 should ship without those display components — do not block the visual redesign on data migrations.
+- **Async flow testing environment:** Turbo Stream behavior (export button, theme suggestions, song import) can only be validated in a `bin/dev` environment with the Solid Queue worker running. The Phase 4 test checklist must explicitly require this setup.
+
+---
 
 ## Sources
 
-### Primary (HIGH confidence)
-- Direct codebase inspection (`Gemfile.lock`, `database.yml`, `.ruby-version`, `lib/pptx_generator/`) — confirmed stack, versions, existing stubs
-- python-pptx official documentation — PPTX generation approach, CJK font slot XML manipulation
-- Anthropic `anthropic` Ruby gem documentation — Claude API integration approach
+### Primary (HIGH confidence — direct codebase inspection)
+- All views in `app/views/` — v1.0 gap diagnosis (FEATURES.md)
+- `app/javascript/controllers/` — Stimulus controller inventory and DOM contract verification (PITFALLS.md)
+- `app/jobs/` — Turbo Stream broadcast target IDs and inline HTML class strings (PITFALLS.md)
+- `app/assets/tailwind/application.css` — Tailwind v4 CSS-first config confirmation
+- `app/assets/stylesheets/application.css` — `.pinyin-hidden` custom CSS class location
+- `Gemfile` / `Gemfile.lock` — stack version confirmation (STACK.md)
+- `config/importmap.rb` — Stimulus controller auto-registration and no-npm constraint
 
-### Secondary (MEDIUM confidence)
-- ProPresenter, EasyWorship, OpenLP feature comparison — table stakes feature list
-- Chinese church tech community patterns — pinyin placement conventions, font preferences, workflow expectations
-- 赞美之泉, 普世颂扬 site analysis — lyrics source viability for Chinese worship
-
-### Tertiary (LOW confidence, needs validation)
-- Claude training data coverage for Chinese worship songs — assumed good for mainstream catalog; unvalidated for locally-composed songs
-- SerpAPI result quality for Chinese worship lyrics queries — assumed viable; untested
+### Secondary (MEDIUM confidence — knowledge of comparable tools)
+- Planning Center Services visual patterns — card-based service lists, warm palette, date-first information hierarchy
+- ProPresenter 7 UI conventions — dark mode evaluated and explicitly rejected for web app context
+- Tailwind UI component library — card, flash message, and empty state component patterns
 
 ---
-*Research completed: 2026-03-07*
+*Research completed: 2026-03-15*
 *Ready for roadmap: yes*

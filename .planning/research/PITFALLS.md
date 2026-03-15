@@ -1,126 +1,135 @@
-# Pitfalls Research
+# Domain Pitfalls
 
-**Domain:** Rails + python-pptx + Claude API + web lyrics scraping for Chinese church worship slides
-**Researched:** 2026-03-07
+**Domain:** UI redesign on existing Rails 8 + Hotwire (Turbo + Stimulus) + Tailwind v4 app
+**Researched:** 2026-03-15
+**Confidence:** HIGH — all pitfalls grounded in direct codebase inspection, not assumptions
 
 ---
 
 ## Critical Pitfalls
 
-These will cause silent failures or user-visible breakage if not addressed from day one.
+Mistakes that cause silent breakage of existing functionality or require rewrites to fix.
 
 ---
 
-### 1. CJK Characters Render as Rectangles in PPTX
+### Pitfall 1: Renaming Turbo Stream Target DOM IDs
 
-**Risk:** HIGH — will work on developer's Mac, break on church's Windows projector
+**What goes wrong:** Three background jobs broadcast Turbo Stream updates that target hardcoded DOM IDs. If a redesign renames or removes those IDs in the ERB templates, the broadcast lands on a missing target and the UI never updates — no error, no feedback, silent failure.
 
-**What happens:** `python-pptx` sets only the Latin font slot (`<a:latin>`). Chinese characters fall through to the system's CJK fallback font. On Windows with a clean install, there may be no CJK fallback — characters render as empty rectangles (□□□).
+**Root cause:** The contract between job and template is invisible — it lives only in the string literals.
 
-**Warning signs:**
-- Slides look fine in Preview/macOS but wrong on the projector
-- Characters show as □ in PowerPoint on Windows
-- Test on a fresh Windows VM reveals the issue
+| Job | Broadcast target | Template location |
+|-----|-----------------|-------------------|
+| `GeneratePptxJob` | `export_button_#{deck_id}` | `decks/_export_button.html.erb` line 5 |
+| `GeneratePptxJob` (error) | `export_button_#{deck_id}` | same |
+| `GenerateThemeSuggestionsJob` | `theme_suggestions` | `decks/show.html.erb` line 175 |
+| `ImportSongJob` (step/done/fail) | `import_status` | `songs/processing.html.erb` line 13 |
+| `ImportSongJob` | `song_status_#{song.id}` | `songs/show.html.erb` line 9 |
 
-**Prevention:**
-- Set the east-Asian font slot explicitly in python-pptx via raw XML manipulation:
-  ```python
-  from pptx.oxml.ns import qn
-  run._r.get_or_add_rPr().set(qn('a:eastAsianFont'), 'Noto Sans SC')
-  ```
-- Bundle the font file in the Docker image: `apt-get install fonts-noto-cjk`
-- Include a Windows test step before considering PPTX export complete
+**Consequences:**
+- Export button stays in "Generating..." state forever after PPTX finishes
+- Theme suggestions spinner never resolves
+- Song import page never transitions from "Importing song..."
 
-**Phase:** Address in Phase 4 (PPTX generation) — before any demo to worship team.
+**Prevention:** Before touching any of these templates, write a list of every `id=` attribute that appears as a `target:` in a job broadcast. Treat these IDs as a public API — change both sides atomically, or keep them as a stable internal wrapper `div` that the redesign decorates around, not replaces.
 
----
+**Detection warning signs:**
+- Clicking "Export PPTX" shows spinner indefinitely after redesign
+- "Get AI Suggestions" button never populates suggestions panel
+- Song import page frozen after Solid Queue worker completes the job
 
-### 2. Pinyin Tone Marks Wrong for Polyphonic Characters (多音字)
-
-**Risk:** HIGH — worship leaders will distrust the tool if pinyin is wrong
-
-**What happens:** Characters like 还(hái/huán), 长(cháng/zhǎng), 行(xíng/háng), 和(hé/hè/huó/huò), 重(zhòng/chóng), 中(zhōng/zhòng) have multiple readings. Without sentence context, any pinyin library guesses based on frequency — correct for everyday prose, wrong for the specific usage in hymn lyrics.
-
-**Warning signs:**
-- Common worship words with wrong tones (e.g., "赞美" with wrong tones)
-- Congregation members correcting slides during service
-- Polyphones showing the default/majority reading regardless of context
-
-**Prevention:**
-- Send Claude the full lyric section (not character-by-character) — sentence context is essential
-- Store a `pinyin_reviewed` boolean on `Lyric`; display "needs review" flag in the editor for first-time imports
-- Build inline pinyin editing into the slide editor (Phase 3) before PPTX export (Phase 4)
-- Consider running a secondary verification pass where Claude checks its own pinyin output
-
-**Phase:** Address in Phase 2 (lyrics pipeline) for prompt design; Phase 3 for review UI.
+**Phase:** Any phase touching `decks/show.html.erb`, `decks/_export_button.html.erb`, `songs/processing.html.erb`, or `songs/show.html.erb`.
 
 ---
 
-### 3. Ruby → Python Subprocess Silent Failure
+### Pitfall 2: Breaking the `data-drag-handle` and `data-id` Contract in Sortable Items
 
-**Risk:** HIGH — jobs fail with no feedback to user
+**What goes wrong:** `sortable_controller.js` relies on two conventions: every draggable item has a `data-id` attribute, and the drag handle is the element with `data-drag-handle`. It also reads `this.element.children` to reconstruct arrangement order. If redesign wraps items in an extra wrapper `div` or moves the drag handle into a nested component without `data-drag-handle`, the controller silently stops working.
 
-**What happens:** The current python-pptx stub calls the Python script via subprocess. If the script crashes, Rails receives raw stderr with no structured error. The `PptxGenerateJob` silently fails; the export button never becomes a download link; the user has no idea what happened.
+**Root cause:** The controller reads structural assumptions about the DOM — direct children, presence of a specific data attribute — that are invisible to designers working from screenshots.
 
-**Warning signs:**
-- Jobs completing in Solid Queue but no file appearing
-- `Open3.capture2e` returning non-zero exit code that's never checked
-- Log noise from Python but no Rails-level error
+**Consequences:**
+- Drag-and-drop reordering stops working for both songs (deck-level) and slides (within song blocks)
+- `onEnd` callback fires with stale positions or undefined IDs
+- PATCH request to `reorder` or `update_arrangement` sends wrong data, arrangement silently corrupts
 
-**Prevention:**
-- Define a JSON protocol contract for the subprocess stdout:
-  ```json
-  { "status": "ok", "file_path": "/tmp/deck_123.pptx" }
-  { "status": "error", "message": "Font not found: Noto Sans SC", "traceback": "..." }
-  ```
-- Use `Open3.capture3` and check exit status explicitly
-- Add a health-check mode: `ruby -e "system('python3 generator.py --health')"` at boot
-- Surface errors to the user via Turbo Streams: "Export failed: [reason]. Try again."
+**Prevention:** The `data-drag-handle` and `data-id` attributes must survive redesign. When rebuilding `_song_block.html.erb` and `_slide_item.html.erb`, carry these attributes forward verbatim on the same elements. Do not change the direct-children relationship on the sortable container.
 
-**Phase:** Address in Phase 4 (PPTX generation) — build the protocol before writing generation logic.
+**Detection warning signs:**
+- Drag handle visible but dragging does nothing
+- Reordering songs changes display order but next page load reverts
+- Console error: `Cannot set properties of undefined (setting 'id')`
+
+**Phase:** Any phase touching `deck_songs/_song_block.html.erb` or `deck_songs/_slide_item.html.erb`.
 
 ---
 
-### 4. Claude API Timeout Blocks Web Requests
+### Pitfall 3: Removing or Renaming the `.pinyin-hidden` CSS Class
 
-**Risk:** HIGH — app becomes unresponsive; Thruster kills requests after 60s
+**What goes wrong:** `pinyin_toggle_controller.js` adds/removes the class `pinyin-hidden` on a container element. This class is defined in `app/assets/stylesheets/application.css` (not in Tailwind). If a redesign removes this CSS rule while cleaning up stylesheets, or renames the class to match Tailwind conventions, the toggle stops hiding pinyin.
 
-**What happens:** Pinyin annotation + section detection for a full song can take 10-30 seconds. Running this synchronously in a controller will cause gateway timeouts. Users see a white screen or 504.
+**Root cause:** One custom CSS class (`pinyin-hidden`) lives outside Tailwind. It is easy to miss during a stylesheet consolidation.
 
-**Warning signs:**
-- Lyric import takes >5 seconds
-- Occasional 504 errors on song import
-- Heroku/Fly.io request timeout errors in logs
+**Consequences:**
+- "Show/Hide Pinyin" toggle appears functional (button text changes) but pinyin `<rt>` elements remain visible
+- The slide preview loses its pinyin-hiding capability
 
-**Prevention:**
-- Use background jobs from day one (Phase 2) — `LyricFetchJob` → `LyricEnrichJob`
-- Never call Claude API inline in a controller action
-- Set explicit Claude API timeout: `timeout: 30` in the anthropic gem config
-- Implement retry with exponential backoff (Solid Queue supports this natively)
-- Broadcast job status via Turbo Streams: "Importing lyrics..." → "Ready"
+**Prevention:** Keep `app/assets/stylesheets/application.css` with the `.pinyin-hidden` rule intact, or explicitly migrate it as part of any stylesheet change — never delete it as cleanup. Document that this class is consumed by `pinyin_toggle_controller.js`.
 
-**Phase:** Architecture decision in Phase 2 — must be designed in before writing any Claude integration.
+**Detection warning signs:**
+- Toggle button text changes but pinyin does not disappear
+- `<rt>` elements visible in the DOM with `pinyin-hidden` class present on ancestor
+
+**Phase:** Any phase that consolidates or restructures stylesheets.
 
 ---
 
-### 5. Mixed Script Layout Breaks PPTX Text Boxes
+### Pitfall 4: Tailwind v4 Content Detection Missing Dynamic Class Strings
 
-**Risk:** HIGH — pinyin + Chinese two-line layout is non-trivial in python-pptx
+**What goes wrong:** This app uses `tailwindcss-rails ~> 4.4` which is Tailwind v4. Tailwind v4 uses CSS-first config (`@import "tailwindcss"` — confirmed in `app/assets/tailwind/application.css`). In v4, class detection is content-aware: only classes that appear as complete strings in scanned files are emitted. Classes assembled from string interpolation are invisible.
 
-**What happens:** PPTX has no native ruby/furigana API (the HTML `<ruby>` equivalent). Naively putting pinyin and Chinese in the same text box causes auto-fit to clip text or overlap. Font size relationships between pinyin and Chinese characters are fragile.
+**Root cause:** Several templates construct class names at runtime. Known examples:
+- `decks/show.html.erb` line 114: `font_cqw = { "small" => "2.8", "large" => "4.5" }.fetch(...)` — these strings are used in inline `style=`, not Tailwind classes, so this specific case is safe. But the pattern invites similar mistakes with Tailwind classes.
+- Any redesign that introduces `"text-#{color}"` or `"bg-#{variant}"` string patterns will produce classes Tailwind never emits.
 
-**Warning signs:**
-- Pinyin and characters overlap in some slides
-- Auto-fit truncates text on longer sections
-- Layout looks different across PowerPoint versions
+**Consequences:**
+- Class silently missing from output CSS in production (Tailwind processes files at build time, not runtime)
+- Element renders without the expected color, size, or spacing
+- Works in development only if CSS is rebuilt on every change; breaks on first deploy
 
 **Prevention:**
-- Use two stacked text boxes per slide: top box for pinyin (smaller font), bottom box for Chinese characters (larger font) — fixed Y positions, no auto-fit
-- Set `text_frame.word_wrap = True` and disable auto-size
-- Define explicit font size ratio: e.g., pinyin at 50% of Chinese character size
-- Test with the longest verse in your song library to validate layout
+- Never construct Tailwind class names via string interpolation. Use full class names in conditionals: `condition ? "bg-red-500" : "bg-green-500"`.
+- For conditional class switching in controllers (JavaScript side), always use full class names in the Stimulus controller source, not template literals.
+- Use a safelist block in Tailwind v4 config if truly dynamic classes are required.
+- After any major template change, do a production-mode CSS build (`rails tailwindcss:build`) and visually verify the affected page before committing.
 
-**Phase:** Address in Phase 4 during PptxBuilder implementation.
+**Detection warning signs:**
+- Style present in development but absent after deploy
+- `class="bg-indigo-600"` in page source but no matching rule in network tab CSS
+
+**Phase:** All redesign phases. Highest risk when introducing new color palette or new conditional class sets.
+
+---
+
+### Pitfall 5: Navigation Restructuring Breaks `data: { turbo: false }` Import Form
+
+**What goes wrong:** The song import form in `decks/show.html.erb` is deliberately marked `data: { turbo: false }`. This does a full-page navigation to `songs#processing`, which uses `turbo_stream_from` and `redirect_controller` to poll and redirect when done. If redesign moves this form into a modal, a Turbo Frame, or changes the navigation target without preserving the full-page navigation behavior, the broadcast-driven redirect breaks.
+
+**Root cause:** `redirect_controller.js` calls `Turbo.visit(this.urlValue)` on connect. This works when the controller mounts in a full-page context. Inside a Turbo Frame, `Turbo.visit` navigates the top-level frame, which may or may not be the intended behavior. Inside a modal, the element may be destroyed before the controller connects.
+
+**Consequences:**
+- Song import appears to complete (job runs) but user is stuck on the form with no feedback
+- `redirect_controller` connects inside a Turbo Frame and navigates only the frame instead of the page
+- Modal dismissed before broadcast arrives, controller never connects
+
+**Prevention:** Keep the song import flow as a full-page navigation for v1.1. If redesign wraps the import trigger in a modal or slide-out panel, ensure the form still targets a full-page response (preserve `data: { turbo: false }`), or redesign the entire flow with explicit awareness of the `redirect_controller` dependency.
+
+**Detection warning signs:**
+- Clicking "Import" submits successfully but the processing page never appears
+- Song import job completes in logs but UI shows nothing
+- After import, page does not redirect to the deck
+
+**Phase:** Any phase that restructures the deck show layout or adds modal/panel patterns to song import.
 
 ---
 
@@ -128,82 +137,81 @@ These will cause silent failures or user-visible breakage if not addressed from 
 
 ---
 
-### 6. Web Scraper Fragility
+### Pitfall 6: Adding New Stimulus Controllers That Conflict With Existing Ones
 
-**Risk:** MEDIUM — lyrics source breaks without warning
+**What goes wrong:** Rails auto-registers all controllers in `app/javascript/controllers/` using `stimulus-loading`. A redesign adding new controllers is fine, but the app also uses SortableJS initialized inside `sortable_controller`. If a new UI pattern attaches a second `data-controller="sortable"` to an element that is already a child of another sortable, the two SortableJS instances conflict — drop events fire twice or in wrong order.
 
-**What happens:** Lyrics sites change their HTML structure, add anti-scraping measures (Cloudflare, JS rendering), or go offline. A scraper that works today may return empty results next week.
+**Root cause:** Stimulus controller naming is global; the sortable controller uses `this.element.children` to read positions. Nested sortables require explicit `group` configuration in SortableJS.
 
-**Prevention:**
-- Use SerpAPI (returns structured results, not raw HTML) as the search layer
-- Store scraped lyrics in the Song library immediately after first successful fetch — subsequent loads never re-scrape
-- Add a "lyrics unavailable" UI state + manual paste fallback (user can paste raw lyrics)
-- Monitor for empty-lyrics returns and alert (Solid Queue job failure logging)
+**Consequences:**
+- Dragging a slide item fires both the inner and outer sortable's `onEnd`
+- PATCH requests sent twice with conflicting positions
+- Arrangement JSONB gets corrupted
 
-**Phase:** Build paste fallback in Phase 2.
+**Prevention:** The deck show page already has two nested sortable levels (song order outer, slide arrangement inner — in `_song_block.html.erb` lines 28-31 and the inner `div` lines 29-32). Do not add a third level without configuring SortableJS `group` options. When adding new draggable areas, audit whether they are inside an existing sortable container.
 
----
-
-### 7. Claude Hallucinating Lyrics
-
-**Risk:** MEDIUM — especially for obscure Chinese worship songs
-
-**What happens:** Claude may not have a given Chinese worship song in training data. If asked to "generate lyrics," it may produce plausible-sounding but incorrect text. This is a worship tool — incorrect lyrics are unacceptable.
-
-**Prevention:**
-- Claude's role is **structuring and annotating**, not generating lyrics — always provide fetched raw lyrics as input
-- Include explicit instruction in the prompt: "Do not generate or invent any lyrics. Only structure what is provided."
-- Show raw fetched lyrics alongside structured output in the editor so worship leaders can compare
-- Flag confidence level when Claude's output diverges from input length by >10%
-
-**Phase:** Prompt design in Phase 2.
+**Phase:** Any phase adding new drag-and-drop UI or restructuring the deck show three-column layout.
 
 ---
 
-### 8. Dockerfile Missing Python and CJK Fonts
+### Pitfall 7: Replacing `content_for(:main_class)` Without Accounting for Page-Specific Overrides
 
-**Risk:** MEDIUM — PPTX generation works locally but fails in production
+**What goes wrong:** The application layout uses a `content_for(:main_class)` yield to allow individual pages to override the main container class. `decks/show.html.erb` sets `content_for :main_class, 'w-full px-6 py-8'` to go full-width (the deck editor needs all available space). If a redesign replaces this mechanism with a fixed layout class or a CSS container, the deck show page loses its full-width layout.
 
-**What happens:** Developer's machine has Python and CJK fonts installed. Docker image in production does not. `PptxGenerateJob` fails in production with "python3: command not found" or blank character boxes.
+**Root cause:** The override is a one-line comment at the top of the view that is easy to miss or remove as "old code."
 
-**Prevention:**
-```dockerfile
-RUN apt-get update && apt-get install -y python3 python3-pip fonts-noto-cjk
-RUN pip3 install python-pptx
-```
-Add this to Dockerfile before Phase 4 ships.
+**Consequences:**
+- Deck editor constrained to `max-w-5xl` like all other pages
+- Three-column layout (`grid-cols-12`) cramped and unusable
 
-**Phase:** Address at start of Phase 4.
+**Prevention:** Preserve the `content_for(:main_class)` mechanism or replace it with an equivalent override pattern. When redesigning the layout, verify the deck show page specifically at full browser width.
 
----
-
-### 9. Slide Model as Dual Source of Truth
-
-**Risk:** MEDIUM — data sync bugs between `DeckSong.arrangement` and `Slide` records
-
-**What happens:** If `Slide` records and `DeckSong.arrangement` can get out of sync, reordering a slide updates one but not the other. PPTX export uses one source; the UI uses the other. Slides appear in the wrong order in the exported file.
-
-**Prevention:**
-- `Slide` records should be a **derived projection** of `DeckSong.arrangement`, not independently editable
-- When arrangement changes, regenerate slide records from arrangement (not vice versa)
-- Never update `Slide.position` directly — always go through `DeckSong.arrangement`
-
-**Phase:** Data model design in Phase 1/2.
+**Phase:** Phase redesigning `layouts/application.html.erb` or the main container structure.
 
 ---
 
-### 10. Solid Queue Worker Not Running in Production
+### Pitfall 8: Flash Message Redesign Conflicts With Devise's Flash Keys
 
-**Risk:** MEDIUM — jobs queue up but never execute; no user-visible error
+**What goes wrong:** Devise uses both `:notice` and `:alert` flash keys, but also adds `:error` in some code paths and uses `:timedout` for session expiry. The current layout checks only `if notice` and `if alert`. A redesign adding support for `:error`, `:success`, or other semantic flash types may not wire up Devise's actual keys, causing Devise errors to appear as raw yellow Rails debug output.
 
-**What happens:** In development, `bin/dev` starts the worker. In production on a single-dyno setup, there may be no worker process. All jobs (lyric import, PPTX generation) queue silently and never run.
+**Root cause:** Devise flash key behavior is not documented prominently and varies by Devise version.
 
-**Prevention:**
-- Verify `Procfile` or Dockerfile includes a worker process: `worker: bundle exec rails solid_queue:work`
-- Add a jobs health check endpoint: `/health/queue` that checks for jobs stuck in queue >5 minutes
-- Include Solid Queue dashboard (or log monitoring) in production setup
+**Consequences:**
+- Password reset failure shows no visible error message
+- Session timeout shows generic Rails error instead of styled message
+- Custom error flash types silently swallowed
 
-**Phase:** Infrastructure validation before Phase 2 goes live.
+**Prevention:** When redesigning flash messages, map Devise's actual keys. At minimum: `notice`, `alert`. Consider wrapping both under a semantic-agnostic loop: `flash.each do |type, message|`. Use a type-to-style mapping for color.
+
+**Phase:** Phase redesigning flash messages and global notification UI.
+
+---
+
+### Pitfall 9: Inline `style=` Attributes for Theme Colors Are Not Tailwind — Do Not Replace With Classes
+
+**What goes wrong:** The slide preview in `decks/show.html.erb` uses inline `style=` attributes for dynamic theme colors (`background-color: #{theme.background_color}`, `color: #{theme.text_color}`). These are user-supplied hex values stored in the database — they cannot be Tailwind classes. A redesign that tries to "clean up" inline styles by converting them to Tailwind classes will break theme rendering entirely.
+
+**Root cause:** Designers unfamiliar with the data model may see `style="background-color: #..."` as a code smell and attempt to replace it with `class="bg-indigo-600"`.
+
+**Consequences:**
+- Slide preview ignores user's custom theme colors and shows hardcoded Tailwind values
+- PPTX export unaffected (uses database values directly in Python), so desktop output and preview diverge
+
+**Prevention:** Never convert dynamic user data (colors, font sizes) from inline styles to Tailwind utility classes. These values must remain inline. The `style=` attributes in `decks/show.html.erb` (lines 112-115, 131) are intentional and correct.
+
+**Phase:** Any phase touching the slide preview or theme display sections of deck show.
+
+---
+
+### Pitfall 10: `turbo_stream_from` Requires ActionCable — Verify Solid Cable in Redesign Environments
+
+**What goes wrong:** The deck show page subscribes to two live channels via `turbo_stream_from`. These use Solid Cable (not Redis). If a redesign spin-up (staging server, preview deploy) does not run a Solid Queue worker and does not configure Solid Cable correctly, the export and theme suggestion streams silently never arrive. The bug manifests as an apparent redesign regression when it is actually an infrastructure issue.
+
+**Root cause:** Solid Cable uses the database as the cable backend. In preview environments that share a database but don't run the full process stack, broadcasts are queued and never consumed.
+
+**Prevention:** When evaluating redesign changes, always test in an environment with the full `bin/dev` process stack (web + worker). Do not evaluate Turbo Stream behavior in a static screenshot or a server started with `rails s` alone (no worker).
+
+**Phase:** Infrastructure awareness for all testing phases. Note at start of every phase touching `decks/show.html.erb`.
 
 ---
 
@@ -211,24 +219,63 @@ Add this to Dockerfile before Phase 4 ships.
 
 ---
 
-### 11. Traditional Chinese Lyrics from Web Sources
+### Pitfall 11: Removing `hello_controller.js` Breaks Nothing But Creates Import Error
 
-**Risk:** LOW-MEDIUM — pinyin generated for Traditional characters will be wrong
+**What goes wrong:** `hello_controller.js` exists in `app/javascript/controllers/` and is auto-registered. It is scaffolding not used anywhere. If it is deleted during a cleanup phase without also removing or regenerating `index.js`, the auto-loader may throw a module not found error in the browser console — harmless but confusing.
 
-**Prevention:** Add a Simplified/Traditional detection step in `LyricsEnricher`. Ask Claude to identify and convert Traditional characters before generating pinyin. Store a `traditional_converted` flag on Song for review.
-
----
-
-### 12. Theme Background Image File Size
-
-**Risk:** LOW — large background images slow PPTX download and inflate file size
-
-**Prevention:** Enforce max image upload size (2MB). Convert to JPEG at 1920x1080 on upload. Use Active Storage variants.
+**Prevention:** When removing scaffold controllers, run `bin/importmap audit` after deletion.
 
 ---
 
-### 13. Song Title Ambiguity
+### Pitfall 12: Changing Button `type` Implicitly Breaks `button_to` Turbo Method
 
-**Risk:** LOW — two songs with same title, or Chinese title matches English title incorrectly
+**What goes wrong:** `button_to` in Rails generates a single-button form. It relies on the button being `type="submit"`. If a redesign wraps a `button_to` output in a component that renders its own `<button>` element, the result has two nested forms or two submit buttons, causing unexpected behavior with `data: { turbo_method: :delete }`.
 
-**Prevention:** Show lyrics preview before saving to library. Allow duplicate detection by content fingerprint, not just title.
+**Prevention:** When building UI components for action buttons, use ERB partials or `content_tag` helpers, not new `<button>` wrappers around existing `button_to` calls.
+
+---
+
+### Pitfall 13: `animate-spin` and Other Tailwind Utility Classes Used in Job-Broadcast HTML Strings
+
+**What goes wrong:** `GenerateThemeSuggestionsJob` broadcasts raw HTML strings containing Tailwind classes directly: `class="text-xs text-red-400 py-2"`. If the redesign renames or removes these utility classes from the Tailwind source, the broadcast HTML renders without the expected styles — and there is no compile-time check because the strings live in Ruby job files, not scanned ERB templates.
+
+**Prevention:** When changing Tailwind class names during a redesign (e.g., switching from `text-red-400` to a custom semantic token), grep for Tailwind class strings in `app/jobs/` and `app/controllers/`. These files are not scanned by the Tailwind content detector by default in Tailwind v4 unless explicitly added to the source list.
+
+---
+
+## Phase-Specific Warnings
+
+| Phase Topic | Likely Pitfall | Mitigation |
+|-------------|---------------|------------|
+| Navigation bar redesign | Turbo Stream target IDs in deck/song views are nearby and easy to accidentally disturb | Audit all `id=` attributes before touching layout |
+| Color palette and typography | Dynamic theme colors via `style=` must stay inline; palette only applies to static UI chrome | Separate "theme UI" from "deck theme colors" conceptually |
+| Deck show layout restructure | Sortable data contracts, `content_for(:main_class)`, and all three Turbo channel targets live here | Touch last, test heavily |
+| Flash / notification redesign | Devise flash keys may differ from app flash keys | Use `flash.each` instead of explicit key checks |
+| Empty states / onboarding cues | These are new DOM elements; low risk of regression | Fine to build freely, but avoid adding `data-controller` inside sortable containers |
+| Song import flow | `data: { turbo: false }` and `redirect_controller` are load-bearing; full-page navigation is intentional | Do not wrap import form in Turbo Frame or modal without redesigning the entire flow |
+| Stylesheet consolidation | `.pinyin-hidden` class and any classes in job-broadcast HTML strings are outside Tailwind scan | Grep for class names in `.rb` files before pruning CSS |
+
+---
+
+## Sources
+
+All findings are based on direct inspection of the following codebase files (HIGH confidence — no external sources required):
+
+- `app/assets/tailwind/application.css` — confirms Tailwind v4 CSS-first config
+- `app/assets/stylesheets/application.css` — confirms `.pinyin-hidden` lives outside Tailwind
+- `app/javascript/controllers/sortable_controller.js` — drag handle and data-id contract
+- `app/javascript/controllers/pinyin_toggle_controller.js` — `.pinyin-hidden` class dependency
+- `app/javascript/controllers/redirect_controller.js` — `Turbo.visit` on connect
+- `app/jobs/generate_pptx_job.rb` — hardcoded `export_button_#{deck_id}` target
+- `app/jobs/import_song_job.rb` — hardcoded `import_status` target; raw HTML with Tailwind classes in broadcasts
+- `app/jobs/generate_theme_suggestions_job.rb` — hardcoded `theme_suggestions` target; raw HTML with Tailwind classes
+- `app/views/decks/show.html.erb` — `turbo_stream_from` subscriptions, `content_for(:main_class)`, inline style= theme colors, nested sortable setup
+- `app/views/decks/_export_button.html.erb` — `id="export_button_#{deck.id}"` target
+- `app/views/songs/processing.html.erb` — `id="import_status"` target
+- `app/views/songs/show.html.erb` — `id="song_status_#{@song.id}"` target
+- `app/views/deck_songs/_song_block.html.erb` — `data-drag-handle`, `data-id`, nested sortable
+- `app/views/deck_songs/_slide_item.html.erb` — `data-drag-handle`, `data-id`
+- `app/views/layouts/application.html.erb` — flash rendering, `content_for(:main_class)` yield
+- `Gemfile` — confirms `tailwindcss-rails ~> 4.4`, `turbo-rails`, `solid_cable`
+- `config/importmap.rb` — confirms auto-loaded controllers from `app/javascript/controllers/`
+- `config/routes.rb` — all route paths used in action links and job redirects
