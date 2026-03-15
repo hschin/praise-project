@@ -52,4 +52,18 @@ class DecksControllerTest < ActionDispatch::IntegrationTest
     get deck_url(decks(:one))
     assert_response :success
   end
+
+  # NAV-03
+  test "POST quick_create redirects to deck editor" do
+    post quick_create_decks_url
+    created_deck = Deck.order(created_at: :desc).first
+    assert_redirected_to deck_path(created_deck)
+  end
+
+  # NAV-04
+  test "POST quick_create title matches upcoming Sunday format" do
+    post quick_create_decks_url
+    created_deck = Deck.order(created_at: :desc).first
+    assert_match(/\ASunday \d{1,2} \w+\z/, created_deck.title)
+  end
 end
