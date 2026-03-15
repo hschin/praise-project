@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Design
 status: planning
-last_updated: "2026-03-15T17:28:11.517Z"
-last_activity: 2026-03-15 — Roadmap created; 23 v1.1 requirements mapped to Phases 5-8
+last_updated: "2026-03-16T00:08:00.000Z"
+last_activity: 2026-03-16 — Phase 07 Plans 02, 03, 04 complete (deck grid, empty states, auth pages)
 progress:
   total_phases: 4
   completed_phases: 2
   total_plans: 12
-  completed_plans: 9
+  completed_plans: 11
 ---
 
 # Project State
@@ -23,16 +23,16 @@ See: .planning/PROJECT.md (updated 2026-03-15)
 
 ## Current Position
 
-Phase: 5 — Design Foundation (not started)
-Plan: —
-Status: Roadmap created, ready for phase planning
-Last activity: 2026-03-15 — Roadmap created; 23 v1.1 requirements mapped to Phases 5-8
+Phase: 7 — Content Pages (executing)
+Plan: 07-04 (complete)
+Status: Wave 2 complete; verification pending
+Last activity: 2026-03-16 — Phase 07 Plans 02, 03, 04 complete (deck grid, empty states, auth pages)
 
 ```
-v1.1 Progress: [                    ] 0% (0/4 phases)
-Phase 5: [ ] Not started
-Phase 6: [ ] Not started
-Phase 7: [ ] Not started
+v1.1 Progress: [███████████████░░░░░] 75% (3/4 phases complete, Phase 7 pending verification)
+Phase 5: [x] Complete
+Phase 6: [x] Complete
+Phase 7: [◆] Executing
 Phase 8: [ ] Not started
 ```
 
@@ -43,8 +43,8 @@ Phase 8: [ ] Not started
 | Milestone | v1.1 Design |
 | Phases defined | 4 (Phases 5-8) |
 | Requirements mapped | 23/23 |
-| Plans created | 0 |
-| Plans completed | 0 |
+| Plans created | 12 |
+| Plans completed | 11 |
 | Phase 05 P02 | 70 | 2 tasks | 1 files |
 | Phase 05 P03 | 8 | 2 tasks | 4 files |
 | Phase 05 P04 | 15 | 2 tasks | 2 files |
@@ -54,6 +54,9 @@ Phase 8: [ ] Not started
 | Phase 06 P01 | 3 | 3 tasks | 4 files |
 | Phase 06 P04 | 2 | 2 tasks | 5 files |
 | Phase 07 P01 | 5 | 2 tasks | 3 files |
+| Phase 07 P02 | 8 | 1 tasks | 1 files |
+| Phase 07 P03 | 0 | 1 tasks | 2 files |
+| Phase 07 P04 | 0 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -82,6 +85,9 @@ All key decisions logged in PROJECT.md Key Decisions table with outcomes.
 - [Phase 06-04]: _error_messages partial deleted after all four referencing views migrated to inline error blocks — comment-only reference in registrations/edit.html.erb confirmed safe
 - [Phase 07-01]: Song.destroy_all and Deck.destroy_all used inline in tests to isolate empty-state branches without new fixtures
 - [Phase 07-01]: AUTH-01 sign-in test targets new_user_session_path (sessions#new), not new_user_registration_path
+- [Phase 07-02]: button_to delete is a sibling div of link_to card link — HTML spec prohibits interactive elements inside anchor; both are children of relative group wrapper
+- [Phase 07-03]: Inline Heroicons SVG (musical-note path) used for both EMPTY-02 and EMPTY-03 empty states — no npm, consistent with established icon pattern
+- [Phase 07-04]: font-serif text-rose-700 wordmark and bg-white rounded-xl card wrapper applied to sessions/new, registrations/new, passwords/new; devise/shared/links stays outside card
 
 ### Critical Constraints for v1.1
 
@@ -95,14 +101,15 @@ The following DOM contracts must be preserved throughout Phases 5-8. Breaking an
 
 ### Pending Todos
 
-- Plan Phase 5 (Design Foundation) first
-- Palette color choices (worship-primary, worship-accent tokens) should be reviewed with worship team before Phase 5 ships
+- Phase 7 verification pending
+- Phase 8 (Deck Editor and Import Polish) is the final phase
 
 ### Blockers/Concerns
 
-None — v1.0 is shipped. v1.1 scope is well-defined with HIGH confidence research.
+None.
 
 ## Session Continuity
 
-Last session: 2026-03-15T17:28:11.514Z
-To resume: run `/gsd:execute-phase 5`
+Last session: 2026-03-16T00:08:00.000Z
+Stopped at: Phase 7 Wave 2 complete — awaiting verification
+To resume: run `/gsd:execute-phase 7` (verification step)
