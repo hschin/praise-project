@@ -1,12 +1,12 @@
 <%# locals: (deck:, deck_song:) %>
 <div data-id="<%= deck_song.id %>"
-     class="bg-white border border-gray-200 rounded-lg overflow-hidden">
-  <div class="px-4 py-3 flex items-center justify-between border-b border-gray-100">
+     class="bg-white border border-stone-200 rounded-lg overflow-hidden">
+  <div class="px-4 py-3 flex items-center justify-between border-b border-stone-100">
     <div class="flex items-center gap-3">
-      <span data-drag-handle class="cursor-grab text-gray-300 select-none text-lg">&#x2837;</span>
+      <span data-drag-handle class="cursor-grab text-stone-300 select-none text-lg">&#x2837;</span>
       <div>
-        <p class="font-medium text-gray-900"><%= deck_song.song.title %></p>
-        <p class="text-xs text-gray-400">
+        <p class="font-medium text-stone-900"><%= deck_song.song.title %></p>
+        <p class="text-xs text-stone-400">
           <%= deck_song.song.artist.presence || "—" %> &middot;
           Key: <%= deck_song.key.presence || deck_song.song.default_key || "—" %>
         </p>
@@ -16,7 +16,7 @@
       <%= link_to "Edit lyrics &rarr;".html_safe,
           edit_song_path(deck_song.song),
           target: "_blank",
-          class: "text-xs text-indigo-500 hover:underline" %>
+          class: "text-xs text-amber-700 hover:underline" %>
       <%= button_to "Remove song",
           deck_deck_song_path(deck, deck_song),
           method: :delete,
@@ -29,7 +29,7 @@
     <div data-controller="sortable"
          data-sortable-url-value="<%= update_arrangement_deck_deck_song_path(deck, deck_song) %>"
          data-sortable-param-value="arrangement"
-         class="divide-y divide-gray-100 p-2 space-y-1">
+         class="divide-y divide-stone-100 p-2 space-y-1">
       <% deck_song.arrangement.each_with_index do |lyric_id, idx| %>
         <% lyric = Lyric.find_by(id: lyric_id) %>
         <% next if lyric.nil? %>
@@ -40,6 +40,6 @@
       <% end %>
     </div>
   <% else %>
-    <p class="text-xs text-gray-400 px-4 py-3">No slides in arrangement.</p>
+    <p class="text-xs text-stone-400 px-4 py-3">No slides in arrangement.</p>
   <% end %>
 </div>

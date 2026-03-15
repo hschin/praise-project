@@ -18,8 +18,8 @@ Requirements for v1.1 Design milestone. Each maps to roadmap phases.
 
 - [x] **NAV-01**: Deck creation is the primary nav entry point; Songs library link is visually de-emphasized
 - [ ] **NAV-02**: Deck list page displays decks as a card grid with the service date as the most prominent element on each card
-- [ ] **NAV-03**: Creating a new deck takes the user directly into the deck editor — no intermediate form step
-- [ ] **NAV-04**: New deck title is auto-filled with the upcoming Sunday's date and is inline-editable from the deck editor
+- [x] **NAV-03**: Creating a new deck takes the user directly into the deck editor — no intermediate form step
+- [x] **NAV-04**: New deck title is auto-filled with the upcoming Sunday's date and is inline-editable from the deck editor
 
 ### Forms & Feedback
 
@@ -94,8 +94,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | VIS-03 | Phase 5 | Complete |
 | VIS-04 | Phase 5 | Complete |
 | NAV-01 | Phase 5 | Complete |
-| NAV-03 | Phase 5 | Pending |
-| NAV-04 | Phase 5 | Pending |
+| NAV-03 | Phase 5 | Complete |
+| NAV-04 | Phase 5 | Complete |
 | FORM-01 | Phase 6 | Pending |
 | FORM-02 | Phase 6 | Pending |
 | FORM-03 | Phase 6 | Pending |
@@ -120,4 +120,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-03-15*
-*Last updated: 2026-03-15 after roadmap creation*
+*Last updated: 2026-03-15 after 05-03 execution (NAV-03, NAV-04 complete)*

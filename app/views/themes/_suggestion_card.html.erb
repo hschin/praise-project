@@ -1,5 +1,5 @@
 <%# locals: (suggestion:, deck:) %>
-<div class="shrink-0 w-40 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+<div class="shrink-0 w-40 rounded-lg overflow-hidden border border-stone-200 shadow-sm hover:shadow-md transition-shadow">
   <%# Unsplash thumbnail or color swatch %>
   <% if suggestion["unsplash_url"].present? %>
     <img src="<%= suggestion["unsplash_url"] %>"
@@ -12,17 +12,17 @@
   <% end %>
 
   <div class="p-2">
-    <p class="text-xs font-semibold text-gray-800 truncate mb-1"><%= suggestion["name"] %></p>
+    <p class="text-xs font-semibold text-stone-800 truncate mb-1"><%= suggestion["name"] %></p>
 
     <%# Color swatches %>
     <div class="flex gap-1 mb-2">
-      <div class="w-4 h-4 rounded-full border border-gray-300"
+      <div class="w-4 h-4 rounded-full border border-stone-200"
            style="background-color: <%= suggestion["background_color"] %>;"
            title="Background: <%= suggestion["background_color"] %>"></div>
-      <div class="w-4 h-4 rounded-full border border-gray-300"
+      <div class="w-4 h-4 rounded-full border border-stone-200"
            style="background-color: <%= suggestion["text_color"] %>;"
            title="Text: <%= suggestion["text_color"] %>"></div>
-      <span class="text-xs text-gray-400 ml-1"><%= suggestion["font_size"] %></span>
+      <span class="text-xs text-stone-400 ml-1"><%= suggestion["font_size"] %></span>
     </div>
 
     <%# Apply button — posts to ThemesController#create with pre-filled params %>
@@ -39,11 +39,11 @@
             unsplash_url:     suggestion["unsplash_url"]
           }
         },
-        class: "w-full text-xs bg-indigo-600 text-white py-1 rounded hover:bg-indigo-700 cursor-pointer" %>
+        class: "w-full text-xs bg-amber-800 text-white py-1 rounded-lg hover:bg-amber-900 cursor-pointer" %>
 
     <%# Unsplash attribution (required by Unsplash API terms) %>
     <% if suggestion["unsplash_attribution_url"].present? %>
-      <p class="text-xs text-gray-400 mt-1 leading-tight">
+      <p class="text-xs text-stone-400 mt-1 leading-tight">
         Photo:
         <a href="<%= suggestion["unsplash_attribution_url"] %>?utm_source=praiseproject&utm_medium=referral"
            target="_blank"

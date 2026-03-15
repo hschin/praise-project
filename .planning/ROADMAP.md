@@ -40,9 +40,9 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
   5. Creating a new deck skips any intermediate form step and lands the user directly in the deck editor with the title auto-filled with the upcoming Sunday date
 **Plans**: 4 plans
 Plans:
-- [ ] 05-01-PLAN.md — Tailwind @theme tokens + palette replacement across 21 view files
-- [ ] 05-02-PLAN.md — Layout and nav restructure (body class, wordmark, New Deck CTA)
-- [ ] 05-03-PLAN.md — Quick-create deck flow (route, controller, test stubs)
+- [x] 05-01-PLAN.md — Tailwind @theme tokens + palette replacement across 21 view files
+- [x] 05-02-PLAN.md — Layout and nav restructure (body class, wordmark, New Deck CTA)
+- [x] 05-03-PLAN.md — Quick-create deck flow (route, controller, test stubs)
 - [ ] 05-04-PLAN.md — Inline-edit deck title Stimulus controller
 
 ### Phase 6: Global Components
@@ -87,7 +87,7 @@ Plans:
 | 2. Lyrics Pipeline | v1.0 | 6/6 | Complete | 2026-03-14 |
 | 3. Deck Editor | v1.0 | 5/5 | Complete | 2026-03-13 |
 | 4. PPTX Export | v1.0 | 3/3 | Complete | 2026-03-14 |
-| 5. Design Foundation | 1/4 | In Progress|  | — |
+| 5. Design Foundation | v1.1 | 3/4 | In Progress | — |
 | 6. Global Components | v1.1 | 0/? | Not started | — |
 | 7. Content Pages | v1.1 | 0/? | Not started | — |
 | 8. Deck Editor and Import Polish | v1.1 | 0/? | Not started | — |

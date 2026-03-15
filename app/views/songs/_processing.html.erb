@@ -1,7 +1,7 @@
-<div class="bg-white border border-gray-200 rounded-lg p-6">
+<div class="bg-white border border-stone-200 rounded-lg p-6">
   <div class="flex items-center gap-3 mb-4">
-    <div class="animate-spin h-5 w-5 border-2 border-indigo-600 border-t-transparent rounded-full"></div>
-    <span class="text-sm font-medium text-gray-700">Importing song...</span>
+    <div class="animate-spin h-5 w-5 border-2 border-amber-800 border-t-transparent rounded-full"></div>
+    <span class="text-sm font-medium text-stone-700">Importing song...</span>
   </div>
 
   <div class="space-y-2">
@@ -13,10 +13,10 @@
     %>
     <% steps.each do |label, active| %>
       <div class="flex items-center gap-2 text-sm">
-        <span class="<%= active ? 'text-indigo-600' : 'text-gray-400' %>">
+        <span class="<%= active ? 'text-amber-800' : 'text-stone-400' %>">
           <%= active ? "✓" : "○" %>
         </span>
-        <span class="<%= active ? 'text-gray-900 font-medium' : 'text-gray-400' %>"><%= label %></span>
+        <span class="<%= active ? 'text-stone-900 font-medium' : 'text-stone-400' %>"><%= label %></span>
       </div>
     <% end %>
   </div>

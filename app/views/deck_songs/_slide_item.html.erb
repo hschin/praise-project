@@ -3,20 +3,20 @@
 <% new_arrangement_repeat = deck_song.arrangement.dup.insert(arrangement_index + 1, lyric.id) %>
 
 <div data-id="<%= lyric.id %>"
-     class="bg-white border border-gray-200 rounded p-3 flex items-start gap-3 cursor-default">
-  <span data-drag-handle class="cursor-grab text-gray-300 select-none mt-0.5">&#x2837;</span>
+     class="bg-white border border-stone-200 rounded-lg p-3 flex items-start gap-3 cursor-default">
+  <span data-drag-handle class="cursor-grab text-stone-300 select-none mt-0.5">&#x2837;</span>
   <div class="flex-1 min-w-0">
-    <p class="text-xs font-semibold uppercase tracking-wider text-indigo-400 mb-1">
+    <p class="text-xs font-semibold uppercase tracking-wider text-amber-700 mb-1">
       <%= localized_section_type(lyric.section_type) %>
     </p>
-    <p class="text-sm text-gray-700 truncate"><%= lyric.content.to_s.lines.first&.strip %></p>
+    <p class="text-sm text-stone-700 truncate"><%= lyric.content.to_s.lines.first&.strip %></p>
   </div>
   <div class="flex items-center gap-2 shrink-0">
     <%= button_to "+ Repeat",
         update_arrangement_deck_deck_song_path(deck_song.deck, deck_song),
         method: :patch,
         params: { arrangement: new_arrangement_repeat },
-        class: "text-xs text-indigo-500 hover:text-indigo-700 bg-transparent border-0 cursor-pointer px-1" %>
+        class: "text-xs text-amber-700 hover:text-amber-800 bg-transparent border-0 cursor-pointer px-1" %>
     <%= button_to "Remove",
         update_arrangement_deck_deck_song_path(deck_song.deck, deck_song),
         method: :patch,

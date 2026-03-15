@@ -1,33 +1,33 @@
 <div class="max-w-4xl mx-auto px-4 py-8">
   <div class="flex items-center justify-between mb-6">
-    <h1 class="text-2xl font-bold text-gray-900">Song Library</h1>
+    <h1 class="text-2xl font-bold text-stone-900">Song Library</h1>
   </div>
 
   <%# Search and import form %>
-  <div class="bg-white border border-gray-200 rounded-lg p-4 mb-6">
-    <h2 class="text-sm font-semibold text-gray-700 mb-3">Search for a song</h2>
+  <div class="bg-white border border-stone-200 rounded-lg p-4 mb-6">
+    <h2 class="text-sm font-semibold text-stone-700 mb-3">Search for a song</h2>
     <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex gap-2 mb-4" do |f| %>
       <%= f.text_field :title,
             placeholder: "Song title (Chinese or English)...",
-            class: "flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+            class: "flex-1 border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600" %>
       <%= f.submit "Import",
-            class: "bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 cursor-pointer" %>
+            class: "bg-amber-800 text-white text-sm px-4 py-2 rounded-lg hover:bg-amber-900 cursor-pointer" %>
     <% end %>
 
     <%# LOCKED: Manual paste always visible as secondary option %>
     <details class="text-sm">
-      <summary class="cursor-pointer text-gray-500 hover:text-gray-700">Paste lyrics manually instead</summary>
+      <summary class="cursor-pointer text-stone-500 hover:text-stone-700">Paste lyrics manually instead</summary>
       <div class="mt-3">
         <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "space-y-2" do |f| %>
           <%= f.text_field :title,
                 placeholder: "Song title",
-                class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+                class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600" %>
           <%= f.text_area :raw_lyrics,
                 placeholder: "Paste raw lyrics here — any format accepted",
                 rows: 6,
-                class: "w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+                class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600" %>
           <%= f.submit "Import Pasted Lyrics",
-                class: "bg-gray-700 text-white text-sm px-4 py-2 rounded hover:bg-gray-800 cursor-pointer" %>
+                class: "bg-stone-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-stone-800 cursor-pointer" %>
         <% end %>
       </div>
     </details>
@@ -38,26 +38,26 @@
     <%= f.text_field :q,
           value: params[:q],
           placeholder: "Filter by title...",
-          class: "flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
-    <%= f.submit "Search", class: "bg-white border border-gray-300 text-sm px-4 py-2 rounded hover:bg-gray-50 cursor-pointer" %>
+          class: "flex-1 border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600" %>
+    <%= f.submit "Search", class: "bg-white border border-stone-200 text-sm px-4 py-2 rounded-lg hover:bg-stone-50 cursor-pointer" %>
   <% end %>
 
   <%# Song cards %>
   <% if @songs.any? %>
     <div class="space-y-2">
       <% @songs.each do |song| %>
-        <%= link_to song_path(song), class: "block bg-white border border-gray-200 rounded-lg p-4 hover:border-indigo-300 hover:shadow-sm transition-all focus:outline-none" do %>
-          <p class="font-medium text-gray-900"><%= song.title %></p>
+        <%= link_to song_path(song), class: "block bg-white border border-stone-200 rounded-lg p-4 hover:border-amber-300 hover:shadow-sm transition-all focus:outline-none" do %>
+          <p class="font-medium text-stone-900"><%= song.title %></p>
           <%# LOCKED: First lyric line preview (not section count) %>
           <% first_lyric = song.lyrics.order(:position).first %>
           <% if first_lyric %>
-            <p class="text-sm text-gray-500 mt-0.5 truncate"><%= first_lyric.content.to_s.split("\n").first %></p>
+            <p class="text-sm text-stone-500 mt-0.5 truncate"><%= first_lyric.content.to_s.split("\n").first %></p>
           <% end %>
         <% end %>
       <% end %>
     </div>
   <% else %>
-    <div class="text-center py-12 text-gray-400">
+    <div class="text-center py-12 text-stone-400">
       <p class="text-lg mb-1">No songs yet</p>
       <p class="text-sm">Search for a song above to get started</p>
     </div>
