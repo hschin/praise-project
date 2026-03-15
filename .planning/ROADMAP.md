@@ -99,5 +99,5 @@ Plans:
 | 4. PPTX Export | v1.0 | 3/3 | Complete | 2026-03-14 |
 | 5. Design Foundation | 4/4 | Complete    | 2026-03-15 | — |
 | 6. Global Components | 4/4 | Complete   | 2026-03-15 |
-| 7. Content Pages | v1.1 | 4/4 | Complete | 2026-03-15 |
+| 7. Content Pages | v1.1 | Complete    | 2026-03-15 | 2026-03-15 |
 | 8. Deck Editor and Import Polish | v1.1 | 0/? | Not started | — |
