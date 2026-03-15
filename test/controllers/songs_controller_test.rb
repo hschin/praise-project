@@ -36,6 +36,15 @@ class SongsControllerTest < ActionDispatch::IntegrationTest
     assert_select "body", /宇宙之光/
   end
 
+  # FORM-03: Failed partial renders correct error copy with song title
+  test "GET show for failed song renders Couldn't find lyrics copy with title" do
+    song = Song.create!(title: "讚美之泉", import_status: "failed")
+    get song_path(song)
+    assert_response :success
+    assert_match "Couldn't find lyrics for", response.body
+    assert_match "讚美之泉", response.body
+  end
+
   # LIB-03: PATCH /songs/:id updates lyrics and pinyin
   test "PATCH update saves edited lyrics and pinyin" do
     song = songs(:one)
