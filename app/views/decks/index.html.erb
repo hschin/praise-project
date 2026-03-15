@@ -1,18 +1,14 @@
-<div class="flex items-center justify-between mb-6">
+<div class="mb-6">
   <h1 class="text-2xl font-bold">My Decks</h1>
-  <%= button_to "New Deck", quick_create_decks_path, method: :post,
-        class: "bg-rose-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-rose-800 cursor-pointer font-medium" %>
 </div>
 
 <% if @decks.any? %>
   <div class="grid grid-cols-3 gap-4">
     <% @decks.each do |deck| %>
-      <div class="relative group bg-white rounded-xl shadow-sm border border-stone-200 hover:shadow-md transition-shadow">
+      <div class="relative group bg-white rounded-xl shadow-sm border border-stone-200 hover:border-rose-300 hover:shadow-sm transition-all">
         <%= link_to deck_path(deck), class: "block p-5" do %>
-          <p class="text-lg font-semibold text-stone-900">
-            <%= deck.date.strftime("%A %-d %B") %>
-          </p>
-          <p class="text-sm text-stone-600 mt-0.5"><%= deck.title %></p>
+          <p class="text-lg font-semibold text-stone-900"><%= deck.title %></p>
+          <p class="text-sm text-stone-600 mt-0.5"><%= deck.date.strftime("%A %-d %B") %></p>
           <p class="text-xs text-stone-400 mt-2"><%= deck.deck_songs.count %> songs</p>
         <% end %>
         <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
