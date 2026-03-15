@@ -53,6 +53,7 @@
       <% if alert %>
         <%= render "shared/flash_toast", type: :alert, message: alert %>
       <% end %>
+      <%= yield :flash_extras %>
     </div>
 
     <main class="<%= content_for?(:main_class) ? yield(:main_class) : 'max-w-5xl mx-auto px-6 py-8' %>">
