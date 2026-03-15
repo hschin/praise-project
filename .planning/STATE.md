@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Design
 status: planning
-last_updated: "2026-03-15T13:28:06.434Z"
+last_updated: "2026-03-15T13:45:44.375Z"
 last_activity: 2026-03-15 — Roadmap created; 23 v1.1 requirements mapped to Phases 5-8
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 4
-  completed_plans: 2
+  completed_plans: 4
 ---
 
 # Project State
@@ -47,6 +47,7 @@ Phase 8: [ ] Not started
 | Plans completed | 0 |
 | Phase 05 P02 | 70 | 2 tasks | 1 files |
 | Phase 05 P03 | 8 | 2 tasks | 4 files |
+| Phase 05 P04 | 15 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -61,6 +62,8 @@ All key decisions logged in PROJECT.md Key Decisions table with outcomes.
 - Coarse granularity applied: 4 phases covers 23 requirements without padding
 - [Phase 05-02]: Stone palette for all body/nav surfaces; font-serif wordmark with amber-800; Decks primary nav, Songs utility area, New Deck amber CTA via button_to
 - [Phase 05-03]: quick_create excludes set_deck before_action; update extended with JSON respond_to for Plan 04 Stimulus
+- [Phase 05-04]: eagerLoadControllersFrom auto-discovers inline_edit_controller.js as 'inline-edit' — no manual index.js entry needed
+- [Phase 05-04]: font-semibold (not font-bold) for deck title per VIS-03 typography contract
 
 ### Critical Constraints for v1.1
 
@@ -83,5 +86,5 @@ None — v1.0 is shipped. v1.1 scope is well-defined with HIGH confidence resear
 
 ## Session Continuity
 
-Last session: 2026-03-15 — Completed 05-03-PLAN.md
+Last session: 2026-03-15T13:45:44.373Z
 To resume: run `/gsd:execute-phase 5`
