@@ -40,4 +40,19 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     assert_match "focus:ring-rose-600", response.body
     assert_match "border-stone-200", response.body
   end
+
+  # AUTH-01
+  test "GET sign in page renders font-serif wordmark" do
+    get new_user_session_path
+    assert_response :success
+    assert_match(/font-serif/, response.body)
+    assert_match(/text-rose-700/, response.body)
+  end
+
+  # AUTH-01
+  test "GET sign up page renders card wrapper with rounded-xl" do
+    get new_user_registration_path
+    assert_match(/rounded-xl/, response.body)
+    assert_match(/bg-white/, response.body)
+  end
 end

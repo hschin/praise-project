@@ -45,6 +45,13 @@ class SongsControllerTest < ActionDispatch::IntegrationTest
     assert_match "讚美之泉", response.body
   end
 
+  # EMPTY-03
+  test "GET /songs shows empty state copy when no songs exist" do
+    Song.destroy_all
+    get songs_url
+    assert_match(/Import a song above to build your library/, response.body)
+  end
+
   # LIB-03: PATCH /songs/:id updates lyrics and pinyin
   test "PATCH update saves edited lyrics and pinyin" do
     song = songs(:one)
