@@ -10,7 +10,7 @@
     <% if @song.done? %>
       <%= render "songs/lyrics", song: @song %>
     <% elsif @song.failed? %>
-      <%= render "songs/failed", song: @song %>
+      <%= render "songs/failed", title: @song.title %>
     <% else %>
       <%= render "songs/processing", song: @song %>
     <% end %>

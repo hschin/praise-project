@@ -23,7 +23,7 @@
     <%= button_to "Export PPTX", export_deck_path(deck), method: :post,
         class: "bg-rose-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-rose-800 cursor-pointer" %>
     <% if error_message.present? %>
-      <p class="text-xs text-red-500 mt-1"><%= error_message %></p>
+      <p class="text-sm text-red-600 mt-1"><%= error_message %></p>
     <% end %>
   <% else %>
     <%# :idle — default %>
