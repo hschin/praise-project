@@ -106,8 +106,7 @@ class DecksController < ApplicationController
     date = upcoming_sunday_date
     base = "Sunday #{date.day} #{date.strftime('%B')}"
     existing = current_user.decks.where("title LIKE ?", "#{base}%").pluck(:title)
-    return base unless existing.include?(base)
-    n = 2
+    n = 1
     n += 1 while existing.include?("#{base} (#{n})")
     "#{base} (#{n})"
   end
