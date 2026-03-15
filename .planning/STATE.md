@@ -2,16 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Design
-status: roadmap_ready
-stopped_at: Roadmap created — ready to plan Phase 5
-last_updated: "2026-03-15"
-last_activity: 2026-03-15 — Roadmap created for v1.1 Design milestone (4 phases, 23 requirements)
+status: planning
+last_updated: "2026-03-15T13:27:43.338Z"
+last_activity: 2026-03-15 — Roadmap created; 23 v1.1 requirements mapped to Phases 5-8
 progress:
   total_phases: 4
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
-  percent: 0
+  total_plans: 4
+  completed_plans: 1
 ---
 
 # Project State
@@ -47,6 +45,7 @@ Phase 8: [ ] Not started
 | Requirements mapped | 23/23 |
 | Plans created | 0 |
 | Plans completed | 0 |
+| Phase 05 P02 | 70 | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -59,6 +58,7 @@ All key decisions logged in PROJECT.md Key Decisions table with outcomes.
 - Phase 8 (deck editor) is explicitly last because it contains all five critical DOM contracts
 - META-01/02 and SCRIP-01 deferred to v2; their display components removed from Phase 8 scope
 - Coarse granularity applied: 4 phases covers 23 requirements without padding
+- [Phase 05-02]: Stone palette for all body/nav surfaces; font-serif wordmark with amber-800; Decks primary nav, Songs utility area, New Deck amber CTA via button_to
 
 ### Critical Constraints for v1.1
 

@@ -9,14 +9,14 @@ Requirements for v1.1 Design milestone. Each maps to roadmap phases.
 
 ### Visual Identity
 
-- [ ] **VIS-01**: App displays a warm, worshipful color palette (amber/stone tones) throughout all pages — no indigo/gray SaaS defaults
-- [ ] **VIS-02**: All cards, buttons, and inputs use a consistent rounded component language (unified border radius, padding, shadow)
-- [ ] **VIS-03**: Typography uses a deliberate scale with clear headline/body/caption hierarchy and generous line height
-- [ ] **VIS-04**: Navigation includes a styled app wordmark — not bare plain text
+- [x] **VIS-01**: App displays a warm, worshipful color palette (amber/stone tones) throughout all pages — no indigo/gray SaaS defaults
+- [x] **VIS-02**: All cards, buttons, and inputs use a consistent rounded component language (unified border radius, padding, shadow)
+- [x] **VIS-03**: Typography uses a deliberate scale with clear headline/body/caption hierarchy and generous line height
+- [x] **VIS-04**: Navigation includes a styled app wordmark — not bare plain text
 
 ### Navigation & Flow
 
-- [ ] **NAV-01**: Deck creation is the primary nav entry point; Songs library link is visually de-emphasized
+- [x] **NAV-01**: Deck creation is the primary nav entry point; Songs library link is visually de-emphasized
 - [ ] **NAV-02**: Deck list page displays decks as a card grid with the service date as the most prominent element on each card
 - [ ] **NAV-03**: Creating a new deck takes the user directly into the deck editor — no intermediate form step
 - [ ] **NAV-04**: New deck title is auto-filled with the upcoming Sunday's date and is inline-editable from the deck editor
@@ -89,11 +89,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| VIS-01 | Phase 5 | Pending |
-| VIS-02 | Phase 5 | Pending |
-| VIS-03 | Phase 5 | Pending |
-| VIS-04 | Phase 5 | Pending |
-| NAV-01 | Phase 5 | Pending |
+| VIS-01 | Phase 5 | Complete |
+| VIS-02 | Phase 5 | Complete |
+| VIS-03 | Phase 5 | Complete |
+| VIS-04 | Phase 5 | Complete |
+| NAV-01 | Phase 5 | Complete |
 | NAV-03 | Phase 5 | Pending |
 | NAV-04 | Phase 5 | Pending |
 | FORM-01 | Phase 6 | Pending |
