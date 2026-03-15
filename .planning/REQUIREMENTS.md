@@ -24,7 +24,7 @@ Requirements for v1.1 Design milestone. Each maps to roadmap phases.
 ### Forms & Feedback
 
 - [x] **FORM-01**: All inputs, labels, buttons, and focus states across all pages use consistent warm palette styles
-- [ ] **FORM-02**: Flash messages display as rounded cards with a semantic icon (success/error) and auto-dismiss after a few seconds
+- [x] **FORM-02**: Flash messages display as rounded cards with a semantic icon (success/error) and auto-dismiss after a few seconds
 - [x] **FORM-03**: Import and export error messages include a clear description of what went wrong and a specific next step (e.g., "Lyrics not found — try pasting them manually")
 
 ### Empty States
@@ -97,7 +97,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NAV-03 | Phase 5 | Complete |
 | NAV-04 | Phase 5 | Complete |
 | FORM-01 | Phase 6 | Complete |
-| FORM-02 | Phase 6 | Pending |
+| FORM-02 | Phase 6 | Complete |
 | FORM-03 | Phase 6 | Complete |
 | NAV-02 | Phase 7 | Pending |
 | EMPTY-01 | Phase 7 | Pending |

@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Design
 status: planning
-last_updated: "2026-03-15T15:23:42.545Z"
+last_updated: "2026-03-15T15:23:50.142Z"
 last_activity: 2026-03-15 — Roadmap created; 23 v1.1 requirements mapped to Phases 5-8
 progress:
   total_phases: 4
@@ -75,6 +75,8 @@ All key decisions logged in PROJECT.md Key Decisions table with outcomes.
 - [Phase 06-02]: Cancel account button de-emphasized with stone-500/hover:red-600; turbo_confirm DOM contract preserved on delete button
 - [Phase 06]: Raw exception e.message replaced with locked human-readable copy in broadcast_error; debug context preserved via Rails.logger.error
 - [Phase 06]: show.html.erb fixed to pass title: @song.title (not song: @song) to _failed partial — the partial's contract expects a title local
+- [Phase 06-01]: Flash toast container uses data-turbo-permanent to preserve in-progress dismiss timers across Turbo Drive navigations
+- [Phase 06-01]: Alert toasts require manual X button dismiss (no auto-dismiss); notice toasts auto-dismiss after 4s
 
 ### Critical Constraints for v1.1
 
@@ -97,5 +99,5 @@ None — v1.0 is shipped. v1.1 scope is well-defined with HIGH confidence resear
 
 ## Session Continuity
 
-Last session: 2026-03-15T15:23:32.531Z
+Last session: 2026-03-15T15:23:50.139Z
 To resume: run `/gsd:execute-phase 5`
