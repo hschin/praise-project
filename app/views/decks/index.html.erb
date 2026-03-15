@@ -1,19 +1,20 @@
 <div class="flex items-center justify-between mb-6">
   <h1 class="text-2xl font-bold">My Decks</h1>
-  <%= link_to "New Deck", new_deck_path, class: "bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700" %>
+  <%= button_to "New Deck", quick_create_decks_path, method: :post,
+        class: "bg-amber-800 text-white text-sm px-4 py-2 rounded-lg hover:bg-amber-900 cursor-pointer font-medium" %>
 </div>
 
 <% if @decks.any? %>
-  <div class="bg-white rounded border border-gray-200 divide-y divide-gray-100">
+  <div class="bg-white rounded-lg border border-stone-200 divide-y divide-stone-100">
     <% @decks.each do |deck| %>
       <div class="flex items-center justify-between px-4 py-3">
         <div>
-          <%= link_to deck.title, deck_path(deck), class: "font-medium text-gray-900 hover:text-indigo-600" %>
-          <span class="text-sm text-gray-500 ml-2"><%= deck.date.strftime("%d %b %Y") %></span>
+          <%= link_to deck.title, deck_path(deck), class: "font-medium text-stone-900 hover:text-amber-800" %>
+          <span class="text-sm text-stone-500 ml-2"><%= deck.date.strftime("%d %b %Y") %></span>
         </div>
         <div class="flex items-center gap-4 text-sm">
-          <span class="text-gray-400"><%= deck.deck_songs.count %> songs</span>
-          <%= link_to "Edit", edit_deck_path(deck), class: "text-indigo-600 hover:underline" %>
+          <span class="text-stone-400"><%= deck.deck_songs.count %> songs</span>
+          <%= link_to "Edit", edit_deck_path(deck), class: "text-amber-800 hover:underline" %>
           <%= button_to "Delete", deck_path(deck), method: :delete, data: { turbo_confirm: "Delete \"#{deck.title}\"?" }, class: "text-red-500 hover:underline bg-transparent border-0 cursor-pointer p-0 text-sm" %>
         </div>
       </div>
@@ -21,7 +22,8 @@
   </div>
 <% else %>
   <div class="text-center py-12">
-    <p class="text-gray-500 text-sm mb-4">No decks yet. Create your first deck.</p>
-    <%= link_to "New Deck", new_deck_path, class: "bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700" %>
+    <p class="text-stone-500 text-sm mb-4">No decks yet. Create your first deck.</p>
+    <%= button_to "New Deck", quick_create_decks_path, method: :post,
+          class: "bg-amber-800 text-white text-sm px-4 py-2 rounded-lg hover:bg-amber-900 cursor-pointer font-medium" %>
   </div>
 <% end %>

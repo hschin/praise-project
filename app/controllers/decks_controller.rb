@@ -28,15 +28,33 @@ class DecksController < ApplicationController
 
   def update
     if @deck.update(deck_params)
-      redirect_to @deck, notice: "Deck updated."
+      respond_to do |format|
+        format.html { redirect_to @deck, notice: "Deck updated." }
+        format.json { head :ok }
+      end
     else
-      render :edit, status: :unprocessable_entity
+      respond_to do |format|
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @deck.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   def destroy
     @deck.destroy
     redirect_to decks_path, notice: "Deck deleted."
+  end
+
+  def quick_create
+    @deck = current_user.decks.new(
+      title: upcoming_sunday_title,
+      date:  upcoming_sunday_date
+    )
+    if @deck.save
+      redirect_to @deck
+    else
+      redirect_to decks_path, alert: "Could not create deck."
+    end
   end
 
   def export
@@ -77,5 +95,15 @@ class DecksController < ApplicationController
 
   def deck_params
     params.require(:deck).permit(:title, :date, :notes)
+  end
+
+  def upcoming_sunday_date
+    today = Date.today
+    today.sunday? ? today : today.next_occurring(:sunday)
+  end
+
+  def upcoming_sunday_title
+    date = upcoming_sunday_date
+    "Sunday #{date.day} #{date.strftime('%B')}"
   end
 end

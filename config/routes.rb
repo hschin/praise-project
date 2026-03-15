@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   root "decks#index"
 
   resources :decks do
+    collection do
+      post :quick_create
+    end
     member do
       post :export
       get :download_export
