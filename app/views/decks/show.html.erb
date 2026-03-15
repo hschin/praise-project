@@ -11,7 +11,7 @@
           <%= @deck.title %>
         </span>
         <button data-action="click->inline-edit#edit"
-                class="opacity-0 group-hover:opacity-100 text-stone-400 hover:text-amber-800 transition-opacity"
+                class="text-stone-400 hover:text-rose-700"
                 aria-label="Edit title">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
             <path d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.262Z"/>
@@ -23,16 +23,54 @@
              type="text"
              value="<%= @deck.title %>"
              data-action="blur->inline-edit#save keydown.enter->inline-edit#save keydown.escape->inline-edit#cancel"
-             class="text-2xl font-semibold leading-snug text-stone-900 border-b-2 border-amber-600 focus:outline-none bg-transparent w-full mt-0">
-      <p class="text-sm text-stone-500 mt-1"><%= @deck.date.strftime("%A, %d %B %Y") %></p>
-      <% if @deck.notes.present? %>
-        <p class="text-sm text-stone-600 mt-1"><%= @deck.notes %></p>
-      <% end %>
+             class="text-2xl font-semibold leading-snug text-stone-900 border-b-2 border-rose-600 focus:outline-none bg-transparent w-full mt-0">
+      <div class="flex items-center gap-1 mt-1"
+           data-controller="inline-edit"
+           data-inline-edit-url-value="<%= deck_path(@deck) %>"
+           data-inline-edit-field-value="date">
+        <span data-inline-edit-target="display" class="text-sm text-stone-500">
+          <%= @deck.date.strftime("%A, %d %B %Y") %>
+        </span>
+        <button data-action="click->inline-edit#edit"
+                class="text-stone-300 hover:text-rose-700"
+                aria-label="Edit date">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3 h-3">
+            <path d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.262Z"/>
+          </svg>
+        </button>
+        <input data-inline-edit-target="input"
+               hidden
+               type="date"
+               value="<%= @deck.date.iso8601 %>"
+               data-action="blur->inline-edit#save keydown.escape->inline-edit#cancel"
+               class="text-sm text-stone-500 border-b border-rose-600 focus:outline-none bg-transparent">
+      </div>
+
+      <div class="flex items-start gap-1 mt-1"
+           data-controller="inline-edit"
+           data-inline-edit-url-value="<%= deck_path(@deck) %>"
+           data-inline-edit-field-value="notes"
+           data-inline-edit-allow-empty-value="true">
+        <span data-inline-edit-target="display" class="text-sm text-stone-600">
+          <%= @deck.notes.presence || "Add notes…" %>
+        </span>
+        <button data-action="click->inline-edit#edit"
+                class="text-stone-300 hover:text-rose-700 mt-0.5 flex-shrink-0"
+                aria-label="Edit notes">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3 h-3">
+            <path d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.262Z"/>
+          </svg>
+        </button>
+        <textarea data-inline-edit-target="input"
+                  hidden
+                  rows="2"
+                  data-action="blur->inline-edit#save keydown.escape->inline-edit#cancel"
+                  class="text-sm text-stone-600 border-b border-rose-600 focus:outline-none bg-transparent w-full resize-none"><%= @deck.notes %></textarea>
+      </div>
     </div>
     <div class="flex gap-3 items-center">
       <%= render "decks/export_button", deck: @deck, state: :idle %>
-      <%= link_to "Edit deck", edit_deck_path(@deck), class: "text-sm text-amber-800 hover:underline" %>
-      <%= link_to "Back", decks_path, class: "text-sm text-stone-500 hover:underline" %>
+<%= link_to "Back", decks_path, class: "text-sm text-stone-500 hover:underline" %>
     </div>
   </div>
 
@@ -65,7 +103,7 @@
                placeholder="Search library..."
                data-song-search-target="input"
                data-action="input->song-search#filter"
-               class="w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600">
+               class="w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600">
 
         <div class="max-h-52 overflow-y-auto space-y-1">
           <% library_songs = Song.where(import_status: "done").order(:title) %>
@@ -73,9 +111,9 @@
             <div data-song-search-target="item" data-title="<%= song.title %>">
               <%= form_with url: deck_deck_songs_path(@deck) do |f| %>
                 <%= f.hidden_field :song_id, value: song.id %>
-                <button type="submit" class="w-full text-left px-2 py-1.5 rounded-lg text-sm hover:bg-amber-50 flex items-center justify-between group">
+                <button type="submit" class="w-full text-left px-2 py-1.5 rounded-lg text-sm hover:bg-rose-50 flex items-center justify-between group">
                   <span class="truncate text-stone-800"><%= song.title %></span>
-                  <span class="text-amber-700 text-xs opacity-0 group-hover:opacity-100 shrink-0 ml-2">+ Add</span>
+                  <span class="text-rose-700 text-xs opacity-0 group-hover:opacity-100 shrink-0 ml-2">+ Add</span>
                 </button>
               <% end %>
             </div>
@@ -94,8 +132,8 @@
             <%= f.text_field :title,
                   placeholder: "Song title...",
                   data: { "song-search-target": "importTitle" },
-                  class: "flex-1 min-w-0 border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600" %>
-            <%= f.submit "Import", class: "bg-amber-800 text-white text-sm px-3 py-2 rounded-lg hover:bg-amber-900 cursor-pointer shrink-0" %>
+                  class: "flex-1 min-w-0 border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
+            <%= f.submit "Import", class: "bg-rose-700 text-white text-sm px-3 py-2 rounded-lg hover:bg-rose-800 cursor-pointer shrink-0" %>
           <% end %>
           <details class="text-xs">
             <summary class="cursor-pointer text-stone-400 hover:text-stone-600">Paste lyrics manually</summary>
@@ -105,8 +143,8 @@
                 <%= f.text_field :title,
                       placeholder: "Song title",
                       data: { "song-search-target": "importTitle" },
-                      class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600" %>
-                <%= f.text_area :raw_lyrics, placeholder: "Paste raw lyrics here...", rows: 5, class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600" %>
+                      class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
+                <%= f.text_area :raw_lyrics, placeholder: "Paste raw lyrics here...", rows: 5, class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
                 <%= f.submit "Import Pasted Lyrics", class: "w-full bg-stone-700 text-white text-sm px-3 py-2 rounded-lg hover:bg-stone-800 cursor-pointer" %>
               <% end %>
             </div>
@@ -173,7 +211,7 @@
       <% if @deck.theme.present? %>
         <%= render "themes/applied_theme", theme: @deck.theme, deck: @deck %>
         <details class="mt-4">
-          <summary class="text-xs text-amber-800 cursor-pointer hover:underline">Change theme</summary>
+          <summary class="text-xs text-rose-700 cursor-pointer hover:underline">Change theme</summary>
           <div class="mt-3">
             <%= render "themes/form", deck: @deck %>
           </div>
@@ -187,7 +225,7 @@
         <%= button_to "✦ Get AI Suggestions",
             suggest_deck_themes_path(@deck),
             method: :post,
-            class: "w-full text-sm bg-white border border-amber-300 text-amber-800 px-3 py-2 rounded-lg hover:bg-amber-50 cursor-pointer" %>
+            class: "w-full text-sm bg-white border border-rose-300 text-rose-700 px-3 py-2 rounded-lg hover:bg-rose-50 cursor-pointer" %>
         <p class="text-xs text-stone-400 mt-1 text-center">Claude suggests 5 themes with worship photography.</p>
       </div>
 

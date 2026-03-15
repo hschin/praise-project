@@ -5,7 +5,7 @@
 <div id="export_button_<%= deck.id %>">
   <% if state == :generating %>
     <button disabled
-      class="bg-amber-700 text-white text-sm px-4 py-2 rounded-lg cursor-not-allowed flex items-center gap-2">
+      class="bg-rose-700 text-white text-sm px-4 py-2 rounded-lg cursor-not-allowed flex items-center gap-2">
       <span class="animate-spin inline-block w-3 h-3 border-2 border-white border-t-transparent rounded-full"></span>
       Generating...
     </button>
@@ -17,17 +17,17 @@
     <%# Also show re-export button below %>
     <div class="mt-1">
       <%= button_to "Re-export", export_deck_path(deck), method: :post,
-          class: "text-xs text-amber-700 hover:underline bg-transparent border-none cursor-pointer" %>
+          class: "text-xs text-rose-700 hover:underline bg-transparent border-none cursor-pointer" %>
     </div>
   <% elsif state == :error %>
     <%= button_to "Export PPTX", export_deck_path(deck), method: :post,
-        class: "bg-amber-800 text-white text-sm px-4 py-2 rounded-lg hover:bg-amber-900 cursor-pointer" %>
+        class: "bg-rose-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-rose-800 cursor-pointer" %>
     <% if error_message.present? %>
       <p class="text-xs text-red-500 mt-1"><%= error_message %></p>
     <% end %>
   <% else %>
     <%# :idle — default %>
     <%= button_to "Export PPTX", export_deck_path(deck), method: :post,
-        class: "bg-amber-800 text-white text-sm px-4 py-2 rounded-lg hover:bg-amber-900 cursor-pointer" %>
+        class: "bg-rose-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-rose-800 cursor-pointer" %>
   <% end %>
 </div>

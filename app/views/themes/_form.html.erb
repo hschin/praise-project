@@ -32,7 +32,7 @@
     <%= label_tag :theme_font_size, "Font Size", class: "block text-sm font-medium text-stone-700 mb-1" %>
     <%= select_tag "theme[font_size]",
         options_for_select([["Small (28pt)", "small"], ["Medium (36pt)", "medium"], ["Large (48pt)", "large"]], "medium"),
-        class: "border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600" %>
+        class: "border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
   </div>
 
   <div>
@@ -45,12 +45,12 @@
     <% end %>
     <%= file_field_tag "theme[background_image]",
         accept: "image/*",
-        class: "text-sm text-stone-500 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-amber-50 file:text-amber-800 hover:file:bg-amber-100" %>
+        class: "text-sm text-stone-500 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100" %>
     <p class="text-xs text-stone-400 mt-1">Replaces background color when provided. JPEG, PNG, WebP.</p>
   </div>
 
   <div>
     <%= submit_tag "Apply Theme",
-        class: "bg-amber-800 text-white text-sm px-4 py-2 rounded-lg hover:bg-amber-900 cursor-pointer" %>
+        class: "bg-rose-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-rose-800 cursor-pointer" %>
   </div>
 <% end %>

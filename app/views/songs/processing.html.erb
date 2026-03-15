@@ -4,9 +4,9 @@
   <div class="flex items-center justify-between mb-6">
     <h1 class="text-2xl font-bold text-stone-900"><%= @title %></h1>
     <% if @deck_id.present? %>
-      <%= link_to "Back to Deck", deck_path(@deck_id), class: "text-sm text-amber-800 hover:underline" %>
+      <%= link_to "Back to Deck", deck_path(@deck_id), class: "text-sm text-rose-700 hover:underline" %>
     <% else %>
-      <%= link_to "Back to Library", songs_path, class: "text-sm text-amber-800 hover:underline" %>
+      <%= link_to "Back to Library", songs_path, class: "text-sm text-rose-700 hover:underline" %>
     <% end %>
   </div>
 

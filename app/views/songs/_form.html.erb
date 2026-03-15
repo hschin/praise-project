@@ -12,18 +12,18 @@
     <div>
       <%= f.label :title, class: "block text-sm font-medium text-stone-700 mb-1" %>
       <%= f.text_field :title,
-            class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600" %>
+            class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
     </div>
     <div>
       <%= f.label :artist, class: "block text-sm font-medium text-stone-700 mb-1" %>
       <%= f.text_field :artist,
-            class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600" %>
+            class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
     </div>
     <div>
       <%= f.label :default_key, "Default Key", class: "block text-sm font-medium text-stone-700 mb-1" %>
       <%= f.select :default_key, ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"],
           { include_blank: "Select key" },
-          class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600" %>
+          class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
     </div>
   </div>
 
@@ -36,21 +36,21 @@
           <div>
             <%= lf.label :section_type, "Section Label", class: "block text-xs font-medium text-stone-600 mb-1" %>
             <%= lf.text_field :section_type,
-                  class: "border border-stone-200 rounded-lg px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600",
+                  class: "border border-stone-200 rounded-lg px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600",
                   placeholder: "verse, chorus, bridge..." %>
           </div>
           <div>
             <%= lf.label :content, "Lyrics (Chinese)", class: "block text-xs font-medium text-stone-600 mb-1" %>
             <%= lf.text_area :content,
                   rows: 4,
-                  class: "w-full border border-stone-200 rounded-lg px-2 py-1 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-amber-600",
+                  class: "w-full border border-stone-200 rounded-lg px-2 py-1 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-rose-600",
                   placeholder: "One character per token, lines separated by newlines" %>
           </div>
           <div>
             <%= lf.label :pinyin, "Pinyin", class: "block text-xs font-medium text-stone-600 mb-1" %>
             <%= lf.text_area :pinyin,
                   rows: 4,
-                  class: "w-full border border-stone-200 rounded-lg px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600",
+                  class: "w-full border border-stone-200 rounded-lg px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600",
                   placeholder: "Space-separated tone-marked pinyin, lines separated by newlines" %>
           </div>
           <%= lf.hidden_field :id %>
@@ -64,7 +64,7 @@
 
   <div class="flex gap-3 pt-2">
     <%= f.submit "Save Changes",
-          class: "bg-amber-800 text-white text-sm px-4 py-2 rounded-lg hover:bg-amber-900 cursor-pointer" %>
+          class: "bg-rose-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-rose-800 cursor-pointer" %>
     <%= link_to "Cancel", song_path(song), class: "text-sm text-stone-500 hover:underline self-center" %>
   </div>
 <% end %>

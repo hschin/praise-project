@@ -1,7 +1,7 @@
 <div data-controller="pinyin-toggle">
   <div class="flex items-center justify-between mb-4">
     <div class="flex gap-3">
-      <%= link_to "Edit", edit_song_path(song), class: "text-sm text-amber-800 hover:underline" %>
+      <%= link_to "Edit", edit_song_path(song), class: "text-sm text-rose-700 hover:underline" %>
     </div>
     <button data-pinyin-toggle-target="button"
             data-action="click->pinyin-toggle#toggle"
@@ -13,8 +13,8 @@
   <div data-pinyin-toggle-target="container" class="space-y-4">
     <% song.lyrics.order(:position).each do |lyric| %>
       <div class="lyric-section border border-stone-200 rounded-lg overflow-hidden">
-        <div class="bg-amber-50 border-b border-amber-100 px-4 py-2">
-          <h3 class="text-xs font-semibold uppercase tracking-widest text-amber-700">
+        <div class="bg-rose-50 border-b border-rose-100 px-4 py-2">
+          <h3 class="text-xs font-semibold uppercase tracking-widest text-rose-700">
             <%= localized_section_type(lyric.section_type) %>
           </h3>
         </div>

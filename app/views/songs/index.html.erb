@@ -9,9 +9,9 @@
     <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex gap-2 mb-4" do |f| %>
       <%= f.text_field :title,
             placeholder: "Song title (Chinese or English)...",
-            class: "flex-1 border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600" %>
+            class: "flex-1 border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
       <%= f.submit "Import",
-            class: "bg-amber-800 text-white text-sm px-4 py-2 rounded-lg hover:bg-amber-900 cursor-pointer" %>
+            class: "bg-rose-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-rose-800 cursor-pointer" %>
     <% end %>
 
     <%# LOCKED: Manual paste always visible as secondary option %>
@@ -21,11 +21,11 @@
         <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "space-y-2" do |f| %>
           <%= f.text_field :title,
                 placeholder: "Song title",
-                class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600" %>
+                class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
           <%= f.text_area :raw_lyrics,
                 placeholder: "Paste raw lyrics here — any format accepted",
                 rows: 6,
-                class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600" %>
+                class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
           <%= f.submit "Import Pasted Lyrics",
                 class: "bg-stone-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-stone-800 cursor-pointer" %>
         <% end %>
@@ -38,7 +38,7 @@
     <%= f.text_field :q,
           value: params[:q],
           placeholder: "Filter by title...",
-          class: "flex-1 border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600" %>
+          class: "flex-1 border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
     <%= f.submit "Search", class: "bg-white border border-stone-200 text-sm px-4 py-2 rounded-lg hover:bg-stone-50 cursor-pointer" %>
   <% end %>
 
@@ -46,7 +46,7 @@
   <% if @songs.any? %>
     <div class="space-y-2">
       <% @songs.each do |song| %>
-        <%= link_to song_path(song), class: "block bg-white border border-stone-200 rounded-lg p-4 hover:border-amber-300 hover:shadow-sm transition-all focus:outline-none" do %>
+        <%= link_to song_path(song), class: "block bg-white border border-stone-200 rounded-lg p-4 hover:border-rose-300 hover:shadow-sm transition-all focus:outline-none" do %>
           <p class="font-medium text-stone-900"><%= song.title %></p>
           <%# LOCKED: First lyric line preview (not section count) %>
           <% first_lyric = song.lyrics.order(:position).first %>

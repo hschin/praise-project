@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --color-worship-primary: var(--color-amber-800);
-  --color-worship-primary-hover: var(--color-amber-900);
+  --color-worship-primary: var(--color-rose-700);
+  --color-worship-primary-hover: var(--color-rose-800);
   --color-worship-surface: var(--color-stone-50);
   --color-worship-nav: var(--color-stone-100);
   --color-worship-border: var(--color-stone-200);

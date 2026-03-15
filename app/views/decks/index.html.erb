@@ -1,7 +1,7 @@
 <div class="flex items-center justify-between mb-6">
   <h1 class="text-2xl font-bold">My Decks</h1>
   <%= button_to "New Deck", quick_create_decks_path, method: :post,
-        class: "bg-amber-800 text-white text-sm px-4 py-2 rounded-lg hover:bg-amber-900 cursor-pointer font-medium" %>
+        class: "bg-rose-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-rose-800 cursor-pointer font-medium" %>
 </div>
 
 <% if @decks.any? %>
@@ -9,13 +9,12 @@
     <% @decks.each do |deck| %>
       <div class="flex items-center justify-between px-4 py-3">
         <div>
-          <%= link_to deck.title, deck_path(deck), class: "font-medium text-stone-900 hover:text-amber-800" %>
+          <%= link_to deck.title, deck_path(deck), class: "font-medium text-stone-900 hover:text-rose-700" %>
           <span class="text-sm text-stone-500 ml-2"><%= deck.date.strftime("%d %b %Y") %></span>
         </div>
         <div class="flex items-center gap-4 text-sm">
           <span class="text-stone-400"><%= deck.deck_songs.count %> songs</span>
-          <%= link_to "Edit", edit_deck_path(deck), class: "text-amber-800 hover:underline" %>
-          <%= button_to "Delete", deck_path(deck), method: :delete, data: { turbo_confirm: "Delete \"#{deck.title}\"?" }, class: "text-red-500 hover:underline bg-transparent border-0 cursor-pointer p-0 text-sm" %>
+<%= button_to "Delete", deck_path(deck), method: :delete, data: { turbo_confirm: "Delete \"#{deck.title}\"?" }, class: "text-stone-500 hover:underline bg-transparent border-0 cursor-pointer p-0 text-sm" %>
         </div>
       </div>
     <% end %>
@@ -24,6 +23,6 @@
   <div class="text-center py-12">
     <p class="text-stone-500 text-sm mb-4">No decks yet. Create your first deck.</p>
     <%= button_to "New Deck", quick_create_decks_path, method: :post,
-          class: "bg-amber-800 text-white text-sm px-4 py-2 rounded-lg hover:bg-amber-900 cursor-pointer font-medium" %>
+          class: "bg-rose-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-rose-800 cursor-pointer font-medium" %>
   </div>
 <% end %>
