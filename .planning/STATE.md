@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Design
 status: planning
-last_updated: "2026-03-15T17:28:11.517Z"
-last_activity: 2026-03-15 — Roadmap created; 23 v1.1 requirements mapped to Phases 5-8
+last_updated: "2026-03-15T17:31:41Z"
+last_activity: 2026-03-15 — Phase 07 Plan 04 complete; AUTH-01 brand treatment applied to all three auth pages
 progress:
   total_phases: 4
   completed_phases: 2
   total_plans: 12
-  completed_plans: 9
+  completed_plans: 10
 ---
 
 # Project State
@@ -23,16 +23,16 @@ See: .planning/PROJECT.md (updated 2026-03-15)
 
 ## Current Position
 
-Phase: 5 — Design Foundation (not started)
-Plan: —
-Status: Roadmap created, ready for phase planning
-Last activity: 2026-03-15 — Roadmap created; 23 v1.1 requirements mapped to Phases 5-8
+Phase: 7 — Content Pages (in progress)
+Plan: 04 complete
+Status: 4/4 plans complete for Phase 7
+Last activity: 2026-03-15 — Phase 07 Plan 04 complete; AUTH-01 brand treatment applied to all three auth pages
 
 ```
-v1.1 Progress: [                    ] 0% (0/4 phases)
-Phase 5: [ ] Not started
-Phase 6: [ ] Not started
-Phase 7: [ ] Not started
+v1.1 Progress: [####################] 75% (3/4 phases)
+Phase 5: [x] Complete
+Phase 6: [x] Complete
+Phase 7: [x] Complete (all 4 plans)
 Phase 8: [ ] Not started
 ```
 
@@ -54,6 +54,7 @@ Phase 8: [ ] Not started
 | Phase 06 P01 | 3 | 3 tasks | 4 files |
 | Phase 06 P04 | 2 | 2 tasks | 5 files |
 | Phase 07 P01 | 5 | 2 tasks | 3 files |
+| Phase 07 P04 | 8 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -82,6 +83,8 @@ All key decisions logged in PROJECT.md Key Decisions table with outcomes.
 - [Phase 06-04]: _error_messages partial deleted after all four referencing views migrated to inline error blocks — comment-only reference in registrations/edit.html.erb confirmed safe
 - [Phase 07-01]: Song.destroy_all and Deck.destroy_all used inline in tests to isolate empty-state branches without new fixtures
 - [Phase 07-01]: AUTH-01 sign-in test targets new_user_session_path (sessions#new), not new_user_registration_path
+- [Phase 07-04]: devise/shared/links rendered outside the card div in all auth views — keeps navigation links visually distinct from form elements
+- [Phase 07-04]: passwords/new received identical brand treatment (discretionary) — identical max-w-md structure made it a direct candidate
 
 ### Critical Constraints for v1.1
 
@@ -104,5 +107,6 @@ None — v1.0 is shipped. v1.1 scope is well-defined with HIGH confidence resear
 
 ## Session Continuity
 
-Last session: 2026-03-15T17:28:11.514Z
-To resume: run `/gsd:execute-phase 5`
+Last session: 2026-03-15T17:31:41Z
+Stopped at: Completed 07-04-PLAN.md
+To resume: run `/gsd:execute-phase 8`
