@@ -3,8 +3,27 @@
 
   <%# Header — full width %>
   <div class="flex items-center justify-between mb-6">
-    <div>
-      <h1 class="text-2xl font-bold text-stone-900"><%= @deck.title %></h1>
+    <div class="group" data-controller="inline-edit"
+         data-inline-edit-url-value="<%= deck_path(@deck) %>">
+      <div class="flex items-center gap-2">
+        <span data-inline-edit-target="display"
+              class="text-2xl font-semibold leading-snug text-stone-900">
+          <%= @deck.title %>
+        </span>
+        <button data-action="click->inline-edit#edit"
+                class="opacity-0 group-hover:opacity-100 text-stone-400 hover:text-amber-800 transition-opacity"
+                aria-label="Edit title">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
+            <path d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.262Z"/>
+          </svg>
+        </button>
+      </div>
+      <input data-inline-edit-target="input"
+             hidden
+             type="text"
+             value="<%= @deck.title %>"
+             data-action="blur->inline-edit#save keydown.enter->inline-edit#save keydown.escape->inline-edit#cancel"
+             class="text-2xl font-semibold leading-snug text-stone-900 border-b-2 border-amber-600 focus:outline-none bg-transparent w-full mt-0">
       <p class="text-sm text-stone-500 mt-1"><%= @deck.date.strftime("%A, %d %B %Y") %></p>
       <% if @deck.notes.present? %>
         <p class="text-sm text-stone-600 mt-1"><%= @deck.notes %></p>
