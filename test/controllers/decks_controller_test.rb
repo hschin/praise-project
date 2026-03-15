@@ -66,4 +66,18 @@ class DecksControllerTest < ActionDispatch::IntegrationTest
     created_deck = Deck.order(created_at: :desc).first
     assert_match(/\ASunday \d{1,2} \w+\z/, created_deck.title)
   end
+
+  # FORM-02
+  test "flash notice renders toast with green-50 class" do
+    delete deck_url(decks(:one))
+    follow_redirect!
+    assert_match(/green-50/, response.body)
+  end
+
+  # FORM-02
+  test "flash alert renders toast with red-50 class" do
+    post import_songs_url, params: { title: "" }
+    follow_redirect!
+    assert_match(/red-50/, response.body)
+  end
 end
