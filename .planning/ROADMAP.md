@@ -87,7 +87,7 @@ Plans:
 | 2. Lyrics Pipeline | v1.0 | 6/6 | Complete | 2026-03-14 |
 | 3. Deck Editor | v1.0 | 5/5 | Complete | 2026-03-13 |
 | 4. PPTX Export | v1.0 | 3/3 | Complete | 2026-03-14 |
-| 5. Design Foundation | 4/4 | Complete   | 2026-03-15 | — |
+| 5. Design Foundation | 4/4 | Complete    | 2026-03-15 | — |
 | 6. Global Components | v1.1 | 0/? | Not started | — |
 | 7. Content Pages | v1.1 | 0/? | Not started | — |
 | 8. Deck Editor and Import Polish | v1.1 | 0/? | Not started | — |
