@@ -73,7 +73,7 @@ Plans:
 **Plans**: 4 plans
 Plans:
 - [ ] 07-01-PLAN.md — Wave 0 test scaffolding (assertions for all 5 requirements across 3 test files)
-- [ ] 07-02-PLAN.md — Deck index card grid + illustrated empty state (NAV-02, EMPTY-01)
+- [x] 07-02-PLAN.md — Deck index card grid + illustrated empty state (NAV-02, EMPTY-01)
 - [ ] 07-03-PLAN.md — Deck editor + song library empty states (EMPTY-02, EMPTY-03)
 - [ ] 07-04-PLAN.md — Auth page brand treatment: wordmark + form card (AUTH-01)
 
@@ -99,5 +99,5 @@ Plans:
 | 4. PPTX Export | v1.0 | 3/3 | Complete | 2026-03-14 |
 | 5. Design Foundation | 4/4 | Complete    | 2026-03-15 | — |
 | 6. Global Components | 4/4 | Complete   | 2026-03-15 |
-| 7. Content Pages | 1/4 | In Progress|  | — |
+| 7. Content Pages | 2/4 | In Progress|  | — |
 | 8. Deck Editor and Import Polish | v1.1 | 0/? | Not started | — |
