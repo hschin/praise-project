@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Design
 status: planning
-last_updated: "2026-03-15T15:06:35.260Z"
+last_updated: "2026-03-15T15:22:55.065Z"
 last_activity: 2026-03-15 — Roadmap created; 23 v1.1 requirements mapped to Phases 5-8
 progress:
   total_phases: 4
   completed_phases: 1
-  total_plans: 4
-  completed_plans: 4
+  total_plans: 7
+  completed_plans: 5
 ---
 
 # Project State
@@ -49,6 +49,7 @@ Phase 8: [ ] Not started
 | Phase 05 P03 | 8 | 2 tasks | 4 files |
 | Phase 05 P04 | 15 | 2 tasks | 2 files |
 | Phase 05 P04 | 45 | 3 tasks | 23 files |
+| Phase 06 P02 | 10 | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -68,6 +69,8 @@ All key decisions logged in PROJECT.md Key Decisions table with outcomes.
 - [Phase 05-04]: Configurable field attribute allows inline_edit_controller reuse across title, date, and notes without forking
 - [Phase 05-04]: Wordmark changed to rose-700 (from amber-800) per visual review approval
 - [Phase 05-04]: Title deduplication: clean base title for first deck; (2)+ numeric suffix only when conflict exists
+- [Phase 06-02]: _error_messages.html.erb partial retained (not deleted) — 4 other Devise views still reference it: unlocks/new, passwords/edit, passwords/new, confirmations/new
+- [Phase 06-02]: Cancel account button de-emphasized with stone-500/hover:red-600; turbo_confirm DOM contract preserved on delete button
 
 ### Critical Constraints for v1.1
 
@@ -90,5 +93,5 @@ None — v1.0 is shipped. v1.1 scope is well-defined with HIGH confidence resear
 
 ## Session Continuity
 
-Last session: 2026-03-15T15:06:35.257Z
+Last session: 2026-03-15T15:22:55.063Z
 To resume: run `/gsd:execute-phase 5`
