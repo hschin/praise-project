@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Design
 status: planning
-last_updated: "2026-03-15T15:22:55.065Z"
+last_updated: "2026-03-15T15:23:42.545Z"
 last_activity: 2026-03-15 — Roadmap created; 23 v1.1 requirements mapped to Phases 5-8
 progress:
   total_phases: 4
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 7
-  completed_plans: 5
+  completed_plans: 7
 ---
 
 # Project State
@@ -50,6 +50,8 @@ Phase 8: [ ] Not started
 | Phase 05 P04 | 15 | 2 tasks | 2 files |
 | Phase 05 P04 | 45 | 3 tasks | 23 files |
 | Phase 06 P02 | 10 | 3 tasks | 3 files |
+| Phase 06 P03 | 12 | 3 tasks | 5 files |
+| Phase 06 P01 | 3 | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -71,6 +73,8 @@ All key decisions logged in PROJECT.md Key Decisions table with outcomes.
 - [Phase 05-04]: Title deduplication: clean base title for first deck; (2)+ numeric suffix only when conflict exists
 - [Phase 06-02]: _error_messages.html.erb partial retained (not deleted) — 4 other Devise views still reference it: unlocks/new, passwords/edit, passwords/new, confirmations/new
 - [Phase 06-02]: Cancel account button de-emphasized with stone-500/hover:red-600; turbo_confirm DOM contract preserved on delete button
+- [Phase 06]: Raw exception e.message replaced with locked human-readable copy in broadcast_error; debug context preserved via Rails.logger.error
+- [Phase 06]: show.html.erb fixed to pass title: @song.title (not song: @song) to _failed partial — the partial's contract expects a title local
 
 ### Critical Constraints for v1.1
 
@@ -93,5 +97,5 @@ None — v1.0 is shipped. v1.1 scope is well-defined with HIGH confidence resear
 
 ## Session Continuity
 
-Last session: 2026-03-15T15:22:55.063Z
+Last session: 2026-03-15T15:23:32.531Z
 To resume: run `/gsd:execute-phase 5`
