@@ -21,7 +21,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 ### v1.1 Design
 
-- [x] **Phase 5: Design Foundation** — Tailwind palette tokens, component language, and navigation restructure (completed 2026-03-15)
+- [x] **Phase 5: Design Foundation** — Tailwind palette tokens, component language, and navigation restructure (completed 2026-03-15)
 - [ ] **Phase 6: Global Components** — Consistent form system, flash messages, and feedback patterns
 - [ ] **Phase 7: Content Pages** — Deck card grid, empty states, and auth page brand treatment
 - [ ] **Phase 8: Deck Editor and Import Polish** — High-risk surface: slide labels, export affordance, inline editing cues, and import flow
@@ -53,7 +53,11 @@ Plans:
   1. Inputs, labels, buttons, and focus rings use the warm palette on every page — no legacy indigo or default gray form elements remain
   2. Flash messages appear as rounded cards with a semantic icon (green checkmark for success, red warning for error) and auto-dismiss after a few seconds without user action
   3. Import and export error messages state specifically what went wrong and name the next concrete step the user should take
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [ ] 06-01-PLAN.md — Flash toast system (flash_controller.js, _flash_toast partial, layout integration)
+- [ ] 06-02-PLAN.md — Devise form restyle (edit.html.erb full restyle, inline error blocks, delete _error_messages partial)
+- [ ] 06-03-PLAN.md — Error copy (generate_pptx_job broadcast_error strings, _export_button, _failed partial)
 
 ### Phase 7: Content Pages
 **Goal**: The deck index, song library, and auth pages are visually complete — users understand what the app does from the moment they land on any of these pages
@@ -88,6 +92,6 @@ Plans:
 | 3. Deck Editor | v1.0 | 5/5 | Complete | 2026-03-13 |
 | 4. PPTX Export | v1.0 | 3/3 | Complete | 2026-03-14 |
 | 5. Design Foundation | 4/4 | Complete    | 2026-03-15 | — |
-| 6. Global Components | v1.1 | 0/? | Not started | — |
+| 6. Global Components | v1.1 | 0/3 | Not started | — |
 | 7. Content Pages | v1.1 | 0/? | Not started | — |
 | 8. Deck Editor and Import Polish | v1.1 | 0/? | Not started | — |
