@@ -3,13 +3,18 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Design
 status: planning
+<<<<<<< HEAD
 last_updated: "2026-03-16T00:08:00.000Z"
 last_activity: 2026-03-16 — Phase 07 Plan 02 complete: deck index card grid + illustrated empty state (NAV-02, EMPTY-01)
+=======
+last_updated: "2026-03-15T17:32:05.253Z"
+last_activity: 2026-03-15 — Roadmap created; 23 v1.1 requirements mapped to Phases 5-8
+>>>>>>> worktree-agent-a650cdb6
 progress:
   total_phases: 4
   completed_phases: 2
   total_plans: 12
-  completed_plans: 9
+  completed_plans: 10
 ---
 
 # Project State
@@ -54,7 +59,11 @@ Phase 8: [ ] Not started
 | Phase 06 P01 | 3 | 3 tasks | 4 files |
 | Phase 06 P04 | 2 | 2 tasks | 5 files |
 | Phase 07 P01 | 5 | 2 tasks | 3 files |
+<<<<<<< HEAD
 | Phase 07 P02 | 8 | 1 tasks | 1 files |
+=======
+| Phase 07 P03 | 0 | 1 tasks | 2 files |
+>>>>>>> worktree-agent-a650cdb6
 
 ## Accumulated Context
 
@@ -83,8 +92,12 @@ All key decisions logged in PROJECT.md Key Decisions table with outcomes.
 - [Phase 06-04]: _error_messages partial deleted after all four referencing views migrated to inline error blocks — comment-only reference in registrations/edit.html.erb confirmed safe
 - [Phase 07-01]: Song.destroy_all and Deck.destroy_all used inline in tests to isolate empty-state branches without new fixtures
 - [Phase 07-01]: AUTH-01 sign-in test targets new_user_session_path (sessions#new), not new_user_registration_path
+<<<<<<< HEAD
 - [Phase 07-02]: button_to delete is a sibling div of link_to card link — HTML spec prohibits interactive elements inside anchor; both are children of relative group wrapper
 - [Phase 07-02]: Tests run from main repo path (/Users/hschin/Dev/praise-project) where compiled assets exist; worktree lacks asset pipeline outputs for Rails integration tests
+=======
+- [Phase 07]: Inline Heroicons SVG (musical-note path) used for both EMPTY-02 and EMPTY-03 empty states — no npm, consistent with established icon pattern
+>>>>>>> worktree-agent-a650cdb6
 
 ### Critical Constraints for v1.1
 
@@ -107,6 +120,11 @@ None — v1.0 is shipped. v1.1 scope is well-defined with HIGH confidence resear
 
 ## Session Continuity
 
+<<<<<<< HEAD
 Last session: 2026-03-16T00:08:00.000Z
 Stopped at: Completed 07-02-PLAN.md (deck index card grid + empty state)
 To resume: run `/gsd:execute-phase 7` (next: 07-03)
+=======
+Last session: 2026-03-15T17:32:05.250Z
+To resume: run `/gsd:execute-phase 5`
+>>>>>>> worktree-agent-a650cdb6
