@@ -32,4 +32,12 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     }
     assert_response :unprocessable_entity
   end
+
+  test "GET edit account page returns 200 with warm palette classes" do
+    sign_in users(:one)
+    get edit_user_registration_path
+    assert_response :success
+    assert_match "focus:ring-rose-600", response.body
+    assert_match "border-stone-200", response.body
+  end
 end
