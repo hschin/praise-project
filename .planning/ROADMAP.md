@@ -23,7 +23,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 
 - [x] **Phase 5: Design Foundation** — Tailwind palette tokens, component language, and navigation restructure (completed 2026-03-15)
 - [x] **Phase 6: Global Components** — Consistent form system, flash messages, and feedback patterns (completed 2026-03-15)
-- [ ] **Phase 7: Content Pages** — Deck card grid, empty states, and auth page brand treatment
+- [x] **Phase 7: Content Pages** — Deck card grid, empty states, and auth page brand treatment (completed 2026-03-15)
 - [ ] **Phase 8: Deck Editor and Import Polish** — High-risk surface: slide labels, export affordance, inline editing cues, and import flow
 
 ## Phase Details
@@ -72,10 +72,10 @@ Plans:
   5. The sign-in and sign-up pages use the warm palette and brand context — they feel like the product, not a bare Devise scaffold
 **Plans**: 4 plans
 Plans:
-- [ ] 07-01-PLAN.md — Wave 0 test scaffolding (assertions for all 5 requirements across 3 test files)
-- [ ] 07-02-PLAN.md — Deck index card grid + illustrated empty state (NAV-02, EMPTY-01)
-- [ ] 07-03-PLAN.md — Deck editor + song library empty states (EMPTY-02, EMPTY-03)
-- [ ] 07-04-PLAN.md — Auth page brand treatment: wordmark + form card (AUTH-01)
+- [x] 07-01-PLAN.md — Wave 0 test scaffolding (assertions for all 5 requirements across 3 test files)
+- [x] 07-02-PLAN.md — Deck index card grid + illustrated empty state (NAV-02, EMPTY-01)
+- [x] 07-03-PLAN.md — Deck editor + song library empty states (EMPTY-02, EMPTY-03)
+- [x] 07-04-PLAN.md — Auth page brand treatment: wordmark + form card (AUTH-01)
 
 ### Phase 8: Deck Editor and Import Polish
 **Goal**: The deck editor and import flow are visually complete with section labels, a prominent export affordance, inline editing cues, and import status copy that reflects actual AI activity — all without breaking any existing Turbo Stream, drag-and-drop, or CSS contracts
@@ -99,5 +99,5 @@ Plans:
 | 4. PPTX Export | v1.0 | 3/3 | Complete | 2026-03-14 |
 | 5. Design Foundation | 4/4 | Complete    | 2026-03-15 | — |
 | 6. Global Components | 4/4 | Complete   | 2026-03-15 |
-| 7. Content Pages | 1/4 | In Progress|  | — |
+| 7. Content Pages | v1.1 | 4/4 | Complete | 2026-03-15 |
 | 8. Deck Editor and Import Polish | v1.1 | 0/? | Not started | — |
