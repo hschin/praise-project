@@ -17,7 +17,7 @@ Requirements for v1.1 Design milestone. Each maps to roadmap phases.
 ### Navigation & Flow
 
 - [x] **NAV-01**: Deck creation is the primary nav entry point; Songs library link is visually de-emphasized
-- [ ] **NAV-02**: Deck list page displays decks as a card grid with the service date as the most prominent element on each card
+- [x] **NAV-02**: Deck list page displays decks as a card grid with the service date as the most prominent element on each card
 - [x] **NAV-03**: Creating a new deck takes the user directly into the deck editor — no intermediate form step
 - [x] **NAV-04**: New deck title is auto-filled with the upcoming Sunday's date and is inline-editable from the deck editor
 
@@ -29,13 +29,13 @@ Requirements for v1.1 Design milestone. Each maps to roadmap phases.
 
 ### Empty States
 
-- [ ] **EMPTY-01**: Deck index shows an illustrated empty state for new users that explains the app's purpose and prompts them to create their first deck
-- [ ] **EMPTY-02**: Deck editor with no songs added yet shows a contextual cue guiding the user to add their first song
-- [ ] **EMPTY-03**: Song library with no songs shows an orientation cue explaining how to import a song
+- [x] **EMPTY-01**: Deck index shows an illustrated empty state for new users that explains the app's purpose and prompts them to create their first deck
+- [x] **EMPTY-02**: Deck editor with no songs added yet shows a contextual cue guiding the user to add their first song
+- [x] **EMPTY-03**: Song library with no songs shows an orientation cue explaining how to import a song
 
 ### Auth Pages
 
-- [ ] **AUTH-01**: Sign-in and sign-up pages use the warm palette and brand context — they feel like the product, not a bare Devise scaffold
+- [x] **AUTH-01**: Sign-in and sign-up pages use the warm palette and brand context — they feel like the product, not a bare Devise scaffold
 
 ### Deck Editor Polish
 
@@ -99,11 +99,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FORM-01 | Phase 6 | Complete |
 | FORM-02 | Phase 6 | Complete |
 | FORM-03 | Phase 6 | Complete |
-| NAV-02 | Phase 7 | Pending |
-| EMPTY-01 | Phase 7 | Pending |
-| EMPTY-02 | Phase 7 | Pending |
-| EMPTY-03 | Phase 7 | Pending |
-| AUTH-01 | Phase 7 | Pending |
+| NAV-02 | Phase 7 | Complete |
+| EMPTY-01 | Phase 7 | Complete |
+| EMPTY-02 | Phase 7 | Complete |
+| EMPTY-03 | Phase 7 | Complete |
+| AUTH-01 | Phase 7 | Complete |
 | DECK-01 | Phase 8 | Pending |
 | DECK-02 | Phase 8 | Pending |
 | DECK-03 | Phase 8 | Pending |

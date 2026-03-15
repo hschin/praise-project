@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Design
 status: planning
-last_updated: "2026-03-15T17:13:23.004Z"
+last_updated: "2026-03-15T17:28:11.517Z"
 last_activity: 2026-03-15 — Roadmap created; 23 v1.1 requirements mapped to Phases 5-8
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 8
-  completed_plans: 8
+  total_plans: 12
+  completed_plans: 9
 ---
 
 # Project State
@@ -53,6 +53,7 @@ Phase 8: [ ] Not started
 | Phase 06 P03 | 12 | 3 tasks | 5 files |
 | Phase 06 P01 | 3 | 3 tasks | 4 files |
 | Phase 06 P04 | 2 | 2 tasks | 5 files |
+| Phase 07 P01 | 5 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -79,6 +80,8 @@ All key decisions logged in PROJECT.md Key Decisions table with outcomes.
 - [Phase 06-01]: Flash toast container uses data-turbo-permanent to preserve in-progress dismiss timers across Turbo Drive navigations
 - [Phase 06-01]: Alert toasts require manual X button dismiss (no auto-dismiss); notice toasts auto-dismiss after 4s
 - [Phase 06-04]: _error_messages partial deleted after all four referencing views migrated to inline error blocks — comment-only reference in registrations/edit.html.erb confirmed safe
+- [Phase 07-01]: Song.destroy_all and Deck.destroy_all used inline in tests to isolate empty-state branches without new fixtures
+- [Phase 07-01]: AUTH-01 sign-in test targets new_user_session_path (sessions#new), not new_user_registration_path
 
 ### Critical Constraints for v1.1
 
@@ -101,5 +104,5 @@ None — v1.0 is shipped. v1.1 scope is well-defined with HIGH confidence resear
 
 ## Session Continuity
 
-Last session: 2026-03-15T17:13:23.001Z
+Last session: 2026-03-15T17:28:11.514Z
 To resume: run `/gsd:execute-phase 5`
