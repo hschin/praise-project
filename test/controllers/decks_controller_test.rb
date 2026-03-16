@@ -107,4 +107,52 @@ class DecksControllerTest < ActionDispatch::IntegrationTest
     get deck_url(empty_deck)
     assert_match(/Your arrangement will appear here/, response.body)
   end
+
+  # DECK-01: Section type chip styling in slide item
+  test "deck show renders section chip for slide items" do
+    get deck_url(decks(:one))
+    assert_match(/bg-amber-100|rounded-full.*section|section.*rounded-full/, response.body)
+  end
+
+  # DECK-02: Artist shown in library panel song list items
+  test "deck show renders artist in library panel" do
+    get deck_url(decks(:one))
+    # Library items use data-song-search-target="item"; artist should appear as secondary text
+    assert_match(/data-song-search-target="item".*artist|MyString.*artist|artist.*MyString/m, response.body)
+  end
+
+  # DECK-03: Idle export button renders download icon (arrow-down-tray SVG)
+  test "export button idle renders download icon" do
+    get deck_url(decks(:one))
+    assert_match(/arrow-down-tray|M12 16\.5V9\.75m0 0/, response.body)
+  end
+
+  # DECK-03: Ready export button renders green button with check-circle icon
+  test "export button ready renders green button with check icon" do
+    html = ApplicationController.render(
+      partial: "decks/export_button",
+      locals: { deck: decks(:one), state: :ready, token: "abc123" }
+    )
+    assert_match(/bg-green-600/, html)
+    assert_match(/check-circle|M9 12\.75 11\.25 15 15 9\.75/, html)
+  end
+
+  # DECK-04: Panel labels "ADD SONGS" and "ARRANGEMENT" both present
+  test "deck show panel labels" do
+    get deck_url(decks(:one))
+    assert_match(/ADD SONGS/, response.body)
+    assert_match(/ARRANGEMENT/, response.body)
+  end
+
+  # DECK-05: Pencil icon on deck title is hover-only (opacity-0 with group-hover:opacity-100)
+  test "deck title pencil hover only" do
+    get deck_url(decks(:one))
+    assert_match(/opacity-0[^"]*group-hover:opacity-100|group-hover:opacity-100[^"]*opacity-0/, response.body)
+  end
+
+  # DECK-06: Auto-save indicator element present
+  test "deck show renders auto save indicator" do
+    get deck_url(decks(:one))
+    assert_select "[data-auto-save-target='indicator']"
+  end
 end
