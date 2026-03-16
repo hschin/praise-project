@@ -5,13 +5,14 @@ import { patch } from "@rails/request.js"
 export default class extends Controller {
   static values = {
     url: String,
-    param: { type: String, default: "position" }
+    param: { type: String, default: "position" },
+    handle: { type: String, default: "[data-drag-handle]" }
   }
 
   connect() {
     this.sortable = Sortable.create(this.element, {
       animation: 150,
-      handle: "[data-drag-handle]",
+      handle: this.handleValue,
       onEnd: this.onEnd.bind(this)
     })
   }
