@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Design
 status: verifying
-stopped_at: Completed 08-01-PLAN.md
-last_updated: "2026-03-16T14:26:01.422Z"
+stopped_at: Completed 08-04-PLAN.md
+last_updated: "2026-03-16T14:29:26.005Z"
 last_activity: 2026-03-16 — Phase 07 Plans 02, 03, 04 complete (deck grid, empty states, auth pages)
 progress:
   total_phases: 4
   completed_phases: 3
   total_plans: 16
-  completed_plans: 13
+  completed_plans: 14
 ---
 
 # Project State
@@ -59,6 +59,7 @@ Phase 8: [ ] Not started
 | Phase 07 P03 | 0 | 1 tasks | 2 files |
 | Phase 07 P04 | 0 | 2 tasks | 3 files |
 | Phase 08 P01 | 12 | 2 tasks | 2 files |
+| Phase 08 P04 | 5 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -92,6 +93,7 @@ All key decisions logged in PROJECT.md Key Decisions table with outcomes.
 - [Phase 07-04]: font-serif text-rose-700 wordmark and bg-white rounded-xl card wrapper applied to sessions/new, registrations/new, passwords/new; devise/shared/links stays outside card
 - [Phase 08]: ApplicationController.render used to test export_button partial in ready state without job execution
 - [Phase 08]: Inline Song.create!(import_status: 'done') for IMPORT-02 since songs(:one) defaults to pending status
+- [Phase 08]: Add-to-deck link placed below song title in header outside song_status div — survives Turbo Stream replacement
 
 ### Critical Constraints for v1.1
 
@@ -114,6 +116,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-16T14:26:01.420Z
-Stopped at: Completed 08-01-PLAN.md
+Last session: 2026-03-16T14:29:26.002Z
+Stopped at: Completed 08-04-PLAN.md
 To resume: run `/gsd:execute-phase 7` (verification step)
