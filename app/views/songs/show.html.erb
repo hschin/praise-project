@@ -2,7 +2,14 @@
 
 <div class="max-w-2xl mx-auto px-4 py-8">
   <div class="flex items-center justify-between mb-6">
-    <h1 class="text-2xl font-bold text-stone-900"><%= @song.title %></h1>
+    <div>
+      <h1 class="text-2xl font-bold text-stone-900"><%= @song.title %></h1>
+      <% if @song.done? %>
+        <p class="text-sm text-stone-500 mt-1">
+          <%= link_to "Add this song to a deck →", decks_path, class: "text-rose-700 hover:underline" %>
+        </p>
+      <% end %>
+    </div>
     <%= link_to "Back to Library", songs_path, class: "text-sm text-rose-700 hover:underline" %>
   </div>
 
