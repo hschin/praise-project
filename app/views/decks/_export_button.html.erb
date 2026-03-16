@@ -10,24 +10,32 @@
       Generating...
     </button>
   <% elsif state == :ready %>
-    <%= link_to "Download .pptx \u2192",
-        download_export_deck_path(deck, token: token),
-        class: "bg-green-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-green-700 inline-block" %>
-    <span class="text-xs text-stone-400 ml-2">Ready</span>
-    <%# Also show re-export button below %>
-    <div class="mt-1">
-      <%= button_to "Re-export", export_deck_path(deck), method: :post,
-          class: "text-xs text-rose-700 hover:underline bg-transparent border-none cursor-pointer" %>
+    <div>
+      <%= link_to download_export_deck_path(deck, token: token),
+          class: "bg-green-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-green-700 inline-flex items-center gap-2" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-label="check-circle">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd"/>
+        </svg>
+        Download .pptx
+      <% end %>
+      <div class="mt-1">
+        <%= button_to "Re-export", export_deck_path(deck), method: :post,
+            class: "text-xs text-stone-400 hover:underline bg-transparent border-none cursor-pointer" %>
+      </div>
     </div>
   <% elsif state == :error %>
     <%= button_to "Export PPTX", export_deck_path(deck), method: :post,
         class: "bg-rose-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-rose-800 cursor-pointer" %>
-    <% if error_message.present? %>
-      <p class="text-sm text-red-600 mt-1"><%= error_message %></p>
-    <% end %>
+    <p class="text-sm text-red-600 mt-1"><%= error_message.presence || "Export failed — click to try again." %></p>
   <% else %>
     <%# :idle — default %>
-    <%= button_to "Export PPTX", export_deck_path(deck), method: :post,
-        class: "bg-rose-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-rose-800 cursor-pointer" %>
+    <%= button_to export_deck_path(deck), method: :post,
+        class: "bg-rose-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-rose-800 cursor-pointer flex items-center gap-2" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-label="arrow-down-tray">
+        <path d="M10.75 2.75a.75.75 0 0 0-1.5 0v8.614L6.295 8.235a.75.75 0 1 0-1.09 1.03l4.25 4.5a.75.75 0 0 0 1.09 0l4.25-4.5a.75.75 0 0 0-1.09-1.03l-2.955 3.129V2.75Z"/>
+        <path d="M3.5 12.75a.75.75 0 0 0-1.5 0v2.5A2.75 2.75 0 0 0 4.75 18h10.5A2.75 2.75 0 0 0 18 15.25v-2.5a.75.75 0 0 0-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5Z"/>
+      </svg>
+      Export PPTX
+    <% end %>
   <% end %>
 </div>
