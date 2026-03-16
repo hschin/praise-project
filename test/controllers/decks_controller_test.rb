@@ -116,9 +116,11 @@ class DecksControllerTest < ActionDispatch::IntegrationTest
 
   # DECK-02: Artist shown in library panel song list items
   test "deck show renders artist in library panel" do
+    Song.create!(title: "Grace Alone", artist: "Sovereign Grace Music", import_status: "done")
     get deck_url(decks(:one))
     # Library items use data-song-search-target="item"; artist should appear as secondary text
-    assert_match(/data-song-search-target="item".*artist|MyString.*artist|artist.*MyString/m, response.body)
+    assert_match(/data-song-search-target="item"/, response.body)
+    assert_match(/Sovereign Grace Music/, response.body)
   end
 
   # DECK-03: Idle export button renders download icon (arrow-down-tray SVG)
