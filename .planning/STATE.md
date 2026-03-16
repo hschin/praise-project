@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Design
 status: verifying
-stopped_at: Completed 08-04-PLAN.md
-last_updated: "2026-03-16T14:29:26.005Z"
+stopped_at: Completed 08-02-PLAN.md
+last_updated: "2026-03-16T14:30:57.657Z"
 last_activity: 2026-03-16 — Phase 07 Plans 02, 03, 04 complete (deck grid, empty states, auth pages)
 progress:
   total_phases: 4
   completed_phases: 3
   total_plans: 16
-  completed_plans: 14
+  completed_plans: 15
 ---
 
 # Project State
@@ -60,6 +60,7 @@ Phase 8: [ ] Not started
 | Phase 07 P04 | 0 | 2 tasks | 3 files |
 | Phase 08 P01 | 12 | 2 tasks | 2 files |
 | Phase 08 P04 | 5 | 2 tasks | 2 files |
+| Phase 08 P02 | 10 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -94,6 +95,8 @@ All key decisions logged in PROJECT.md Key Decisions table with outcomes.
 - [Phase 08]: ApplicationController.render used to test export_button partial in ready state without job execution
 - [Phase 08]: Inline Song.create!(import_status: 'done') for IMPORT-02 since songs(:one) defaults to pending status
 - [Phase 08]: Add-to-deck link placed below song title in header outside song_status div — survives Turbo Stream replacement
+- [Phase 08]: aria-label='arrow-down-tray'/'check-circle' on SVG icons for test contract matching without altering visual output
+- [Phase 08]: button_to block form used for icon+text idle export button layout
 
 ### Critical Constraints for v1.1
 
@@ -116,6 +119,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-16T14:29:26.002Z
-Stopped at: Completed 08-04-PLAN.md
+Last session: 2026-03-16T14:30:57.655Z
+Stopped at: Completed 08-02-PLAN.md
 To resume: run `/gsd:execute-phase 7` (verification step)
