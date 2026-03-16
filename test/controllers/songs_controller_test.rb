@@ -52,6 +52,22 @@ class SongsControllerTest < ActionDispatch::IntegrationTest
     assert_match(/Import a song above to build your library/, response.body)
   end
 
+  # IMPORT-01: Processing page renders updated Claude copy
+  test "processing page renders claude copy" do
+    get processing_songs_path(title: "讚美之泉")
+    assert_response :success
+    assert_match(/Claude is structuring your lyrics/, response.body)
+  end
+
+  # IMPORT-02: Song show page for done song renders "Add this song to a deck" link
+  test "song show done renders add to deck link" do
+    song = Song.create!(title: "Test Done Song", import_status: "done")
+    get song_url(song)
+    assert_response :success
+    assert_match(/Add this song to a deck/, response.body)
+    assert_select "a[href*='decks']", text: /Add this song to a deck/
+  end
+
   # LIB-03: PATCH /songs/:id updates lyrics and pinyin
   test "PATCH update saves edited lyrics and pinyin" do
     song = songs(:one)
