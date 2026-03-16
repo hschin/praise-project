@@ -1,13 +1,13 @@
 <div class="bg-white border border-stone-200 rounded-lg p-6">
   <div class="flex items-center gap-3 mb-4">
     <div class="animate-spin h-5 w-5 border-2 border-rose-700 border-t-transparent rounded-full"></div>
-    <span class="text-sm font-medium text-stone-700">Importing song...</span>
+    <span class="text-sm font-medium text-stone-700">Claude is structuring your lyrics...</span>
   </div>
 
   <div class="space-y-2">
     <%
       steps = [
-        ["Searching web",     %w[searching generating].include?(step)],
+        ["Searching for lyrics", %w[searching generating].include?(step)],
         ["Generating pinyin", step == "generating"]
       ]
     %>
