@@ -39,17 +39,17 @@ Requirements for v1.1 Design milestone. Each maps to roadmap phases.
 
 ### Deck Editor Polish
 
-- [ ] **DECK-01**: Slide panel labels section types (verse/chorus/bridge) with distinct warm color-coded chips
-- [ ] **DECK-02**: Song cards in the library and deck editor display the artist/composer as secondary metadata
-- [ ] **DECK-03**: PPTX export button is a prominent "done" affordance — visually distinct, includes a download icon, and the "ready" state is clearly celebratory
-- [ ] **DECK-04**: Deck editor displays clear panel labels (Songs / Arrangement / Preview) so non-technical users understand the three-column layout
-- [ ] **DECK-05**: Inline-editable deck title shows a pencil icon on hover so users know it's editable
-- [ ] **DECK-06**: Deck editor shows a subtle auto-save indicator after arrangement or slide changes
+- [x] **DECK-01**: Slide panel labels section types (verse/chorus/bridge) with distinct warm color-coded chips
+- [x] **DECK-02**: Song cards in the library and deck editor display the artist/composer as secondary metadata
+- [x] **DECK-03**: PPTX export button is a prominent "done" affordance — visually distinct, includes a download icon, and the "ready" state is clearly celebratory
+- [x] **DECK-04**: Deck editor displays clear panel labels (Songs / Arrangement / Preview) so non-technical users understand the three-column layout
+- [x] **DECK-05**: Inline-editable deck title shows a pencil icon on hover so users know it's editable
+- [x] **DECK-06**: Deck editor shows a subtle auto-save indicator after arrangement or slide changes
 
 ### Import Flow
 
-- [ ] **IMPORT-01**: Song import processing screen shows contextual copy ("Claude is structuring your lyrics...") that reflects what's actually happening
-- [ ] **IMPORT-02**: After song import completes, user is prompted to add the song to a deck
+- [x] **IMPORT-01**: Song import processing screen shows contextual copy ("Claude is structuring your lyrics...") that reflects what's actually happening
+- [x] **IMPORT-02**: After song import completes, user is prompted to add the song to a deck
 
 ## v2 Requirements
 
@@ -104,14 +104,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EMPTY-02 | Phase 7 | Complete |
 | EMPTY-03 | Phase 7 | Complete |
 | AUTH-01 | Phase 7 | Complete |
-| DECK-01 | Phase 8 | Pending |
-| DECK-02 | Phase 8 | Pending |
-| DECK-03 | Phase 8 | Pending |
-| DECK-04 | Phase 8 | Pending |
-| DECK-05 | Phase 8 | Pending |
-| DECK-06 | Phase 8 | Pending |
-| IMPORT-01 | Phase 8 | Pending |
-| IMPORT-02 | Phase 8 | Pending |
+| DECK-01 | Phase 8 | Complete |
+| DECK-02 | Phase 8 | Complete |
+| DECK-03 | Phase 8 | Complete |
+| DECK-04 | Phase 8 | Complete |
+| DECK-05 | Phase 8 | Complete |
+| DECK-06 | Phase 8 | Complete |
+| IMPORT-01 | Phase 8 | Complete |
+| IMPORT-02 | Phase 8 | Complete |
 
 **Coverage:**
 - v1.1 requirements: 23 total
