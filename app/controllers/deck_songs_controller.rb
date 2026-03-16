@@ -34,7 +34,11 @@ class DeckSongsController < ApplicationController
     new_arrangement = Array(params[:arrangement]).map(&:to_i)
     @deck_song.update!(arrangement: new_arrangement)
     if request.content_type&.include?("application/json")
-      head :ok
+      render turbo_stream: turbo_stream.update(
+        "slide_preview_section",
+        partial: "decks/slide_preview",
+        locals: { deck: @deck }
+      )
     else
       redirect_to @deck
     end

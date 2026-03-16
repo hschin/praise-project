@@ -174,49 +174,7 @@
     <%# MIDDLE — Slide preview %>
     <div class="md:col-span-1 lg:col-span-6" id="slide_preview_section">
       <h2 class="text-xs font-semibold uppercase tracking-wider text-stone-400 mb-4">Slide Preview <span class="normal-case font-normal text-stone-300 ml-1">— approximate</span></h2>
-      <% if @deck.deck_songs.any? %>
-        <div class="space-y-6">
-          <% @deck.deck_songs.each do |deck_song| %>
-            <% slides = (deck_song.arrangement || []).filter_map { |id| Lyric.find_by(id: id) } %>
-            <% next if slides.empty? %>
-            <div>
-              <p class="text-xs text-stone-400 mb-2"><%= deck_song.song.title %></p>
-              <div class="grid grid-cols-2 gap-3">
-                <% slides.each do |lyric| %>
-                  <div class="slide-preview rounded-lg shadow-sm overflow-hidden relative w-full"
-                       style="aspect-ratio: 16/9; container-type: inline-size; background-color: <%= @deck.theme&.background_color.presence || '#1a1a2e' %>;<%= @deck.theme&.background_image&.attached? ? "background-image: url('#{url_for(@deck.theme.background_image)}'); background-size: cover; background-position: center;" : "" %>">
-                    <div class="absolute inset-0 flex items-center justify-center" style="padding: 4cqw;">
-                      <% font_cqw = { "small" => "2.8", "large" => "4.5" }.fetch(@deck.theme&.font_size.to_s, "3.5") %>
-                      <div class="text-center" style="color: <%= @deck.theme&.text_color.presence || '#ffffff' %>; font-size: <%= font_cqw %>cqw; line-height: 1.8;">
-                        <% lyric.content.to_s.split("\n").each_with_index do |line, li| %>
-                          <% pinyin_line = lyric.pinyin.to_s.split("\n")[li] || "" %>
-                          <div>
-                            <% chars = line.chars %>
-                            <% tokens = pinyin_line.split(" ") %>
-                            <% pi = 0 %>
-                            <% chars.each do |char| %>
-                              <% if char.match?(/\p{Han}/) %>
-                                <ruby><%= char %><rt style="font-size:0.6em"><%= tokens[pi] %></rt></ruby><% pi += 1 %>
-                              <% else %><%= char %><% end %>
-                            <% end %>
-                          </div>
-                        <% end %>
-                      </div>
-                    </div>
-                    <div class="absolute bottom-0 right-0 opacity-40" style="font-size: 1.8cqw; padding: 1cqw 2cqw; color: <%= @deck.theme&.text_color.presence || '#ffffff' %>;">
-                      <%= lyric.section_type %>
-                    </div>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      <% else %>
-        <div class="flex items-center justify-center h-48 rounded-lg border-2 border-dashed border-stone-200">
-          <p class="text-sm text-stone-400">Add songs to see slide previews.</p>
-        </div>
-      <% end %>
+      <%= render "decks/slide_preview", deck: @deck %>
     </div>
 
     <%# RIGHT — Theme %>
