@@ -87,7 +87,12 @@ Plans:
   3. The PPTX export button is visually distinct and prominent — it includes a download icon and its "ready" state is clearly celebratory; users cannot miss it
   4. The deck editor's three-column layout is labeled (Songs / Arrangement / Preview) so non-technical users understand each panel's purpose
   5. The import processing screen displays copy that reflects AI activity ("Claude is structuring your lyrics...") and the post-import screen prompts the user to add the song to a deck
-**Plans**: TBD
+**Plans**: 4 plans
+Plans:
+- [ ] 08-01-PLAN.md — Wave 0 test scaffolding (9 failing tests for all 8 requirements)
+- [ ] 08-02-PLAN.md — Slide section chips + export button states (DECK-01, DECK-03)
+- [ ] 08-03-PLAN.md — Deck editor show page: panel labels, library artist, pencil hover, auto-save (DECK-02, DECK-04, DECK-05, DECK-06)
+- [ ] 08-04-PLAN.md — Import processing copy + post-import add-to-deck CTA (IMPORT-01, IMPORT-02)
 
 ## Progress
 
@@ -100,4 +105,4 @@ Plans:
 | 5. Design Foundation | 4/4 | Complete    | 2026-03-15 | — |
 | 6. Global Components | 4/4 | Complete   | 2026-03-15 |
 | 7. Content Pages | v1.1 | Complete    | 2026-03-15 | 2026-03-15 |
-| 8. Deck Editor and Import Polish | v1.1 | 0/? | Not started | — |
+| 8. Deck Editor and Import Polish | v1.1 | 0/4 | Not started | — |
