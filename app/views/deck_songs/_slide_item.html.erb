@@ -6,9 +6,18 @@
      class="bg-white border border-stone-200 rounded-lg p-3 flex items-start gap-3 cursor-default">
   <span data-drag-handle class="cursor-grab text-stone-300 select-none mt-0.5">&#x2837;</span>
   <div class="flex-1 min-w-0">
-    <p class="text-xs font-semibold uppercase tracking-wider text-rose-700 mb-1">
+    <%
+      chip_classes = case lyric.section_type.to_s.downcase
+        when "verse"      then "bg-amber-100 text-amber-700"
+        when "chorus"     then "bg-rose-100 text-rose-700"
+        when "bridge"     then "bg-stone-200 text-stone-700"
+        when "pre-chorus" then "bg-orange-100 text-orange-700"
+        else "bg-stone-100 text-stone-500"
+      end
+    %>
+    <span class="inline-block text-xs font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full mb-1 <%= chip_classes %>">
       <%= localized_section_type(lyric.section_type) %>
-    </p>
+    </span>
     <p class="text-sm text-stone-700 truncate"><%= lyric.content.to_s.lines.first&.strip %></p>
   </div>
   <div class="flex items-center gap-2 shrink-0">
