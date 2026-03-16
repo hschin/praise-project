@@ -27,9 +27,9 @@ export default class extends Controller {
     const url = this.urlValue.replace(":id", id)
 
     let body
-    if (this.paramValue === "arrangement") {
+    if (this.paramValue === "arrangement" || this.paramValue === "order") {
       const ids = Array.from(this.element.children).map(el => parseInt(el.dataset.id, 10))
-      body = JSON.stringify({ arrangement: ids })
+      body = JSON.stringify({ [this.paramValue]: ids })
     } else {
       body = JSON.stringify({ [this.paramValue]: event.newIndex + 1 })
     }

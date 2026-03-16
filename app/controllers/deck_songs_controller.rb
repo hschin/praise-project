@@ -23,13 +23,10 @@ class DeckSongsController < ApplicationController
   end
 
   def reorder
-    @deck_song = @deck.deck_songs.find(params[:id])
-    new_position = params[:position].to_i
-
-    ordered = @deck.deck_songs.order(position: :asc).to_a
-    ordered.delete(@deck_song)
-    ordered.insert(new_position - 1, @deck_song)
-    ordered.each_with_index { |ds, i| ds.update_columns(position: i + 1) }
+    ordered_ids = Array(params[:order]).map(&:to_i)
+    ordered_ids.each_with_index do |deck_song_id, i|
+      @deck.deck_songs.where(id: deck_song_id).update_all(position: i + 1)
+    end
 
     render turbo_stream: turbo_stream.update(
       "slide_preview_section",
