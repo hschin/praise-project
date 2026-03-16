@@ -24,7 +24,7 @@ Full details: `.planning/milestones/v1.0-ROADMAP.md`
 - [x] **Phase 5: Design Foundation** — Tailwind palette tokens, component language, and navigation restructure (completed 2026-03-15)
 - [x] **Phase 6: Global Components** — Consistent form system, flash messages, and feedback patterns (completed 2026-03-15)
 - [x] **Phase 7: Content Pages** — Deck card grid, empty states, and auth page brand treatment (completed 2026-03-15)
-- [ ] **Phase 8: Deck Editor and Import Polish** — High-risk surface: slide labels, export affordance, inline editing cues, and import flow
+- [x] **Phase 8: Deck Editor and Import Polish** — High-risk surface: slide labels, export affordance, inline editing cues, and import flow (completed 2026-03-16)
 
 ## Phase Details
 
@@ -105,4 +105,4 @@ Plans:
 | 5. Design Foundation | 4/4 | Complete    | 2026-03-15 | — |
 | 6. Global Components | 4/4 | Complete   | 2026-03-15 |
 | 7. Content Pages | v1.1 | Complete    | 2026-03-15 | 2026-03-15 |
-| 8. Deck Editor and Import Polish | 3/4 | In Progress|  | — |
+| 8. Deck Editor and Import Polish | 4/4 | Complete   | 2026-03-16 | — |
