@@ -13,3 +13,10 @@ two:
   position: 1
   key: G
   arrangement:
+
+three:
+  deck: one
+  song: two
+  position: 2
+  key: G
+  arrangement:

@@ -29,6 +29,7 @@
     <div data-controller="sortable"
          data-sortable-url-value="<%= update_arrangement_deck_deck_song_path(deck, deck_song) %>"
          data-sortable-param-value="arrangement"
+         data-sortable-group-value="slides"
          class="divide-y divide-stone-100 p-2 space-y-1">
       <% deck_song.arrangement.each_with_index do |lyric_id, idx| %>
         <% lyric = Lyric.find_by(id: lyric_id) %>

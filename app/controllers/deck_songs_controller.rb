@@ -28,11 +28,15 @@ class DeckSongsController < ApplicationController
       @deck.deck_songs.where(id: deck_song_id).update_all(position: i + 1)
     end
 
-    render turbo_stream: turbo_stream.update(
-      "slide_preview_section",
-      partial: "decks/slide_preview",
-      locals: { deck: @deck.reload }
-    )
+    @deck.reload
+    render turbo_stream: [
+      turbo_stream.update("deck_songs_section",
+        partial: "decks/song_list",
+        locals: { deck: @deck }),
+      turbo_stream.update("slide_preview_section",
+        partial: "decks/slide_preview",
+        locals: { deck: @deck })
+    ]
   end
 
   def update_arrangement

@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: praise-project
+    env: docker
+    plan: free
+    envVars:
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: praise-project-db
+          property: connectionString
+      - key: SOLID_QUEUE_IN_PUMA
+        value: "1"
+      - key: RAILS_LOG_LEVEL
+        value: info
+
+databases:
+  - name: praise-project-db
+    plan: free
+    databaseName: praise_project_production

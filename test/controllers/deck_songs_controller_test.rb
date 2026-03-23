@@ -27,12 +27,15 @@ class DeckSongsControllerTest < ActionDispatch::IntegrationTest
   end
 
   # DECK-03
-  test "PATCH reorder changes deck_song position" do
-    ds = deck_songs(:one)
-    patch reorder_deck_deck_song_path(@deck, ds), params: { position: 2 },
+  test "PATCH reorder changes deck_song positions from ordered ID array" do
+    ds1 = deck_songs(:one)   # position 1
+    ds2 = deck_songs(:three) # position 2, same deck
+    patch reorder_deck_deck_song_path(@deck, ds1),
+          params: { order: [ ds2.id, ds1.id ] },
           as: :json
     assert_response :success
-    assert_equal 2, ds.reload.position
+    assert_equal 1, ds2.reload.position
+    assert_equal 2, ds1.reload.position
   end
 
   # DECK-04
