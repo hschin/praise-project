@@ -1,21 +1,19 @@
-<% content_for :main_class, 'w-full px-6 py-8' %>
-<div>
+<% content_for :main_class, 'w-full p-0' %>
 
-  <%# Header — full width %>
-  <div class="flex items-center justify-between mb-6">
+<%# Deck header — full width %>
+<div class="px-8 py-6 border-b border-outline-variant/20 flex flex-col md:flex-row md:items-end justify-between gap-6">
+  <div class="flex-1 space-y-2">
     <div class="group" data-controller="inline-edit"
          data-inline-edit-url-value="<%= deck_path(@deck) %>">
       <div class="flex items-center gap-2">
         <span data-inline-edit-target="display"
-              class="text-2xl font-semibold leading-snug text-stone-900">
+              class="font-headline text-4xl text-on-surface leading-snug">
           <%= @deck.title %>
         </span>
         <button data-action="click->inline-edit#edit"
-                class="text-stone-400 hover:text-rose-700 opacity-0 group-hover:opacity-100 transition-opacity"
+                class="text-outline opacity-0 group-hover:opacity-100 transition-opacity hover:text-primary"
                 aria-label="Edit title">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
-            <path d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.262Z"/>
-          </svg>
+          <span class="material-symbols-outlined text-base">edit</span>
         </button>
       </div>
       <input data-inline-edit-target="input"
@@ -23,156 +21,182 @@
              type="text"
              value="<%= @deck.title %>"
              data-action="blur->inline-edit#save keydown.enter->inline-edit#save keydown.escape->inline-edit#cancel"
-             class="text-2xl font-semibold leading-snug text-stone-900 border-b-2 border-rose-600 focus:outline-none bg-transparent w-full mt-0">
-      <div class="flex items-center gap-1 mt-1"
-           data-controller="inline-edit"
-           data-inline-edit-url-value="<%= deck_path(@deck) %>"
-           data-inline-edit-field-value="date">
-        <span data-inline-edit-target="display" class="text-sm text-stone-500">
-          <%= @deck.date.strftime("%A, %d %B %Y") %>
-        </span>
-        <button data-action="click->inline-edit#edit"
-                class="text-stone-300 hover:text-rose-700"
-                aria-label="Edit date">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3 h-3">
-            <path d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.262Z"/>
-          </svg>
-        </button>
-        <input data-inline-edit-target="input"
-               hidden
-               type="date"
-               value="<%= @deck.date.iso8601 %>"
-               data-action="blur->inline-edit#save keydown.escape->inline-edit#cancel"
-               class="text-sm text-stone-500 border-b border-rose-600 focus:outline-none bg-transparent">
-      </div>
+             class="font-headline text-4xl text-on-surface border-b-2 border-primary focus:outline-none bg-transparent w-full mt-0">
 
-      <div class="flex items-start gap-1 mt-1"
-           data-controller="inline-edit"
-           data-inline-edit-url-value="<%= deck_path(@deck) %>"
-           data-inline-edit-field-value="notes"
-           data-inline-edit-allow-empty-value="true">
-        <span data-inline-edit-target="display" class="text-sm text-stone-600">
-          <%= @deck.notes.presence || "Add notes…" %>
-        </span>
-        <button data-action="click->inline-edit#edit"
-                class="text-stone-300 hover:text-rose-700 mt-0.5 flex-shrink-0"
-                aria-label="Edit notes">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3 h-3">
-            <path d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.262Z"/>
-          </svg>
-        </button>
-        <textarea data-inline-edit-target="input"
-                  hidden
-                  rows="2"
-                  data-action="blur->inline-edit#save keydown.escape->inline-edit#cancel"
-                  class="text-sm text-stone-600 border-b border-rose-600 focus:outline-none bg-transparent w-full resize-none"><%= @deck.notes %></textarea>
+      <div class="flex flex-wrap items-center gap-6 text-on-surface-variant mt-2">
+        <div class="flex items-center gap-1"
+             data-controller="inline-edit"
+             data-inline-edit-url-value="<%= deck_path(@deck) %>"
+             data-inline-edit-field-value="date">
+          <span class="material-symbols-outlined text-sm">calendar_today</span>
+          <span data-inline-edit-target="display" class="text-sm font-body">
+            <%= @deck.date.strftime("%A, %d %B %Y") %>
+          </span>
+          <button data-action="click->inline-edit#edit"
+                  class="text-outline/40 hover:text-primary"
+                  aria-label="Edit date">
+            <span class="material-symbols-outlined text-sm">edit</span>
+          </button>
+          <input data-inline-edit-target="input"
+                 hidden
+                 type="date"
+                 data-action="blur->inline-edit#save keydown.escape->inline-edit#cancel"
+                 class="text-sm text-on-surface-variant border-b border-primary focus:outline-none bg-transparent font-body">
+        </div>
+
+        <div class="flex items-center gap-1"
+             data-controller="inline-edit"
+             data-inline-edit-url-value="<%= deck_path(@deck) %>"
+             data-inline-edit-field-value="notes"
+             data-inline-edit-allow-empty-value="true">
+          <span class="material-symbols-outlined text-sm">notes</span>
+          <span data-inline-edit-target="display" class="text-sm font-body">
+            <%= @deck.notes.presence || "Add rehearsal notes…" %>
+          </span>
+          <button data-action="click->inline-edit#edit"
+                  class="text-outline/40 hover:text-primary flex-shrink-0"
+                  aria-label="Edit notes">
+            <span class="material-symbols-outlined text-sm">edit</span>
+          </button>
+          <textarea data-inline-edit-target="input"
+                    hidden
+                    rows="2"
+                    data-action="blur->inline-edit#save keydown.escape->inline-edit#cancel"
+                    class="text-sm text-on-surface-variant border-b border-primary focus:outline-none bg-transparent w-64 resize-none font-body"><%= @deck.notes %></textarea>
+        </div>
       </div>
-    </div>
-    <div class="flex gap-3 items-center">
-      <%= render "decks/export_button", deck: @deck, state: :idle %>
-<%= link_to "Back", decks_path, class: "text-sm text-stone-500 hover:underline" %>
     </div>
   </div>
 
-  <%# 3-column editor layout %>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-start">
+  <div class="flex items-center gap-3">
+    <%= link_to decks_path, class: "flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors px-4 py-2 font-body text-sm" do %>
+      <span class="material-symbols-outlined text-base">arrow_back</span>
+      Back
+    <% end %>
+    <%= render "decks/export_button", deck: @deck, state: :idle %>
+  </div>
+</div>
 
-    <%# LEFT — Song & slide arrangement %>
-    <div class="md:col-span-1 lg:col-span-3 space-y-4">
-      <div class="flex items-center justify-between" data-controller="auto-save"
-           data-action="turbo:submit-end->auto-save#show">
-        <h2 class="text-xs font-semibold uppercase tracking-wider text-stone-400">ARRANGEMENT</h2>
-        <span data-auto-save-target="indicator"
-              class="text-xs text-stone-400 opacity-0 transition-opacity duration-300">Saved</span>
+<%# 3-column editor layout — full height panels %>
+<div class="grid grid-cols-1 lg:grid-cols-12 min-h-[calc(100vh-144px)]">
+
+  <%# LEFT — Arrangement + Add Songs %>
+  <aside class="lg:col-span-3 bg-surface-container-low border-r border-outline-variant/10 p-6 flex flex-col gap-8 overflow-y-auto lg:max-h-[calc(100vh-144px)]">
+
+    <%# Arrangement section %>
+    <section class="space-y-4" data-controller="auto-save"
+             data-action="turbo:submit-end->auto-save#show">
+      <div class="flex items-center justify-between">
+        <h3 class="font-headline text-xl text-on-surface">Arrangement</h3>
+        <div class="flex items-center gap-2">
+          <span data-auto-save-target="indicator"
+                class="text-xs text-on-surface-variant/60 font-body opacity-0 transition-opacity duration-300">Saved</span>
+          <span class="text-xs font-label uppercase tracking-widest text-outline">
+            <%= @deck.deck_songs.count %> <%= @deck.deck_songs.count == 1 ? "Song" : "Songs" %>
+          </span>
+        </div>
       </div>
 
-      <%# Sortable song list %>
       <div id="deck_songs_section">
         <%= render "decks/song_list", deck: @deck %>
       </div>
+    </section>
 
-      <%# Add Song — search library or import new %>
-      <h2 class="text-xs font-semibold uppercase tracking-wider text-stone-400">ADD SONGS</h2>
-      <div class="pt-3 border-t border-stone-100 space-y-3" data-controller="song-search">
-        <p class="text-xs font-semibold text-stone-500">Add a song</p>
+    <%# Add Songs section %>
+    <section class="space-y-4 pt-6 border-t border-outline-variant/20" data-controller="song-search">
+      <h3 class="font-headline text-xl text-on-surface">Add Songs</h3>
 
-        <%# Filter existing library %>
+      <%# Search with icon %>
+      <div class="relative">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
         <input type="text"
                placeholder="Search library..."
                data-song-search-target="input"
                data-action="input->song-search#filter"
-               class="w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600">
+               class="w-full pl-10 pr-4 py-2.5 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/20 text-sm font-body text-on-surface placeholder:text-outline">
+      </div>
 
-        <div class="max-h-52 overflow-y-auto space-y-1">
-          <% library_songs = Song.where(import_status: "done").order(:title) %>
-          <% library_songs.each do |song| %>
-            <div data-song-search-target="item" data-title="<%= song.title %>">
-              <%= form_with url: deck_deck_songs_path(@deck) do |f| %>
-                <%= f.hidden_field :song_id, value: song.id %>
-                <button type="submit" class="w-full text-left px-2 py-1.5 rounded-lg text-sm hover:bg-rose-50 flex items-center justify-between group">
-                  <span class="flex flex-col min-w-0">
-                    <span class="truncate text-stone-800"><%= song.title %></span>
-                    <% if song.artist.present? %>
-                      <span class="truncate text-xs text-stone-400"><%= song.artist %></span>
-                    <% end %>
-                  </span>
-                  <span class="text-rose-700 text-xs opacity-0 group-hover:opacity-100 shrink-0 ml-2">+ Add</span>
-                </button>
-              <% end %>
-            </div>
-          <% end %>
-          <% if library_songs.empty? %>
-            <p class="text-xs text-stone-400 px-2 py-1">No songs in library yet.</p>
-          <% end %>
-          <p data-song-search-target="empty" hidden class="text-xs text-stone-400 px-2 py-1">No matches.</p>
-        </div>
+      <div class="space-y-1 max-h-52 overflow-y-auto">
+        <% library_songs = Song.where(import_status: "done").order(:title) %>
+        <% library_songs.each do |song| %>
+          <div data-song-search-target="item" data-title="<%= song.title %>">
+            <%= form_with url: deck_deck_songs_path(@deck) do |f| %>
+              <%= f.hidden_field :song_id, value: song.id %>
+              <button type="submit" class="w-full text-left px-3 py-2 rounded-lg hover:bg-surface-container-high transition-colors flex items-center justify-between group">
+                <div>
+                  <p class="text-sm font-medium text-on-surface font-body"><%= song.title %></p>
+                  <% if song.artist.present? %>
+                    <p class="text-[10px] text-outline font-body"><%= song.artist %></p>
+                  <% end %>
+                </div>
+                <span class="text-xs bg-surface-container-lowest border border-outline-variant/40 px-3 py-1 rounded-full group-hover:bg-primary group-hover:text-on-primary group-hover:border-transparent transition-all font-label shrink-0 ml-2">+ Add</span>
+              </button>
+            <% end %>
+          </div>
+        <% end %>
+        <% if library_songs.empty? %>
+          <p class="text-xs text-outline px-3 py-2 font-body">No songs in library yet.</p>
+        <% end %>
+        <p data-song-search-target="empty" hidden class="text-xs text-outline px-3 py-2 font-body">No matches.</p>
+      </div>
 
-        <%# Import a new song — shown inline when search has no library matches %>
-        <div data-song-search-target="importSection" hidden class="border-t border-stone-100 pt-3 space-y-2">
-          <p class="text-xs text-stone-500">Not in library — import from web:</p>
-          <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex gap-2" do |f| %>
+      <%# Import/Paste — only shown when search has no matches %>
+      <div data-song-search-target="importSection" hidden class="space-y-3 mt-2">
+        <div class="flex items-center gap-3 p-3 bg-surface-container border border-dashed border-outline-variant/40 rounded-lg">
+          <span class="material-symbols-outlined text-outline/60">info</span>
+          <p class="text-xs text-on-surface-variant font-body flex-1">Not in library — import from web?</p>
+          <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex-shrink-0" do |f| %>
             <%= hidden_field_tag :deck_id, @deck.id %>
-            <%= f.text_field :title,
-                  placeholder: "Song title...",
-                  data: { "song-search-target": "importTitle" },
-                  class: "flex-1 min-w-0 border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
-            <%= f.submit "Import", class: "bg-rose-700 text-white text-sm px-3 py-2 rounded-lg hover:bg-rose-800 cursor-pointer shrink-0" %>
+            <%= f.hidden_field :title, data: { "song-search-target": "importTitle" } %>
+            <%= f.submit "Import", class: "h-8 px-4 bg-tertiary text-on-tertiary rounded-lg font-medium hover:bg-tertiary-container transition-colors cursor-pointer text-xs font-label" %>
           <% end %>
-          <details class="text-xs">
-            <summary class="cursor-pointer text-stone-400 hover:text-stone-600">Paste lyrics manually</summary>
-            <div class="mt-2">
-              <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "space-y-2" do |f| %>
-                <%= hidden_field_tag :deck_id, @deck.id %>
-                <%= f.text_field :title,
-                      placeholder: "Song title",
-                      data: { "song-search-target": "importTitle" },
-                      class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
-                <%= f.text_area :raw_lyrics, placeholder: "Paste raw lyrics here...", rows: 5, class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
-                <%= f.submit "Import Pasted Lyrics", class: "w-full bg-stone-700 text-white text-sm px-3 py-2 rounded-lg hover:bg-stone-800 cursor-pointer" %>
-              <% end %>
-            </div>
-          </details>
         </div>
+
+        <details class="group/paste">
+          <summary class="cursor-pointer text-primary font-medium flex items-center gap-2 select-none hover:underline decoration-outline-variant text-xs font-label">
+            <span class="material-symbols-outlined text-[16px] transition-transform group-open/paste:rotate-180">expand_more</span>
+            Paste lyrics manually instead
+          </summary>
+          <div class="mt-3 space-y-2">
+            <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "space-y-2" do |f| %>
+              <%= hidden_field_tag :deck_id, @deck.id %>
+              <%= f.text_field :title,
+                    placeholder: "Song title",
+                    data: { "song-search-target": "importTitle" },
+                    class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface placeholder:text-on-surface-variant/40 font-body" %>
+              <%= f.text_area :raw_lyrics, placeholder: "Paste raw lyrics here...", rows: 4,
+                    class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface placeholder:text-on-surface-variant/40 font-body" %>
+              <%= f.submit "Import Pasted Lyrics", class: "w-full bg-gradient-to-r from-primary to-primary-container text-on-primary text-sm px-3 py-2 rounded-lg font-medium hover:opacity-95 cursor-pointer" %>
+            <% end %>
+          </div>
+        </details>
+      </div>
+    </section>
+  </aside>
+
+  <%# MIDDLE — Slide preview %>
+  <main class="lg:col-span-6 p-8 overflow-y-auto lg:max-h-[calc(100vh-144px)] bg-surface" id="slide_preview_section">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h2 class="font-headline text-2xl text-on-surface">Slide Preview</h2>
+        <p class="text-sm text-on-surface-variant font-body">Approximate representation</p>
       </div>
     </div>
+    <%= render "decks/slide_preview", deck: @deck %>
+  </main>
 
-    <%# MIDDLE — Slide preview %>
-    <div class="md:col-span-1 lg:col-span-6" id="slide_preview_section">
-      <h2 class="text-xs font-semibold uppercase tracking-wider text-stone-400 mb-4">Slide Preview <span class="normal-case font-normal text-stone-300 ml-1">— approximate</span></h2>
-      <%= render "decks/slide_preview", deck: @deck %>
-    </div>
-
-    <%# RIGHT — Theme %>
-    <div class="md:col-span-2 lg:col-span-3" id="theme_section">
-      <h2 class="text-xs font-semibold uppercase tracking-wider text-stone-400 mb-4">Theme</h2>
+  <%# RIGHT — Theme %>
+  <aside class="lg:col-span-3 bg-surface-container-low border-l border-outline-variant/10 p-6 flex flex-col gap-8 overflow-y-auto lg:max-h-[calc(100vh-144px)]" id="theme_section">
+    <section class="space-y-6">
+      <h3 class="font-headline text-xl text-on-surface">Theme</h3>
 
       <%= turbo_stream_from "deck_export_#{@deck.id}" %>
       <%= turbo_stream_from "deck_themes_#{@deck.id}" %>
 
       <% if @deck.theme.present? %>
         <%= render "themes/applied_theme", theme: @deck.theme, deck: @deck %>
-        <details class="mt-4">
-          <summary class="text-xs text-rose-700 cursor-pointer hover:underline">Change theme</summary>
+        <details class="mt-2">
+          <summary class="text-xs text-primary cursor-pointer hover:underline decoration-outline-variant font-label">Change theme</summary>
           <div class="mt-3">
             <%= render "themes/form", deck: @deck %>
           </div>
@@ -182,16 +206,17 @@
       <% end %>
 
       <%# AI suggestions %>
-      <div class="mt-4 pt-4 border-t border-stone-100">
-        <%= button_to "✦ Get AI Suggestions",
-            suggest_deck_themes_path(@deck),
-            method: :post,
-            class: "w-full text-sm bg-white border border-rose-300 text-rose-700 px-3 py-2 rounded-lg hover:bg-rose-50 cursor-pointer" %>
-        <p class="text-xs text-stone-400 mt-1 text-center">Claude suggests 5 themes with worship photography.</p>
+      <div class="pt-6 border-t border-outline-variant/20">
+        <%= button_to suggest_deck_themes_path(@deck), method: :post,
+            class: "w-full py-4 rounded-xl bg-gradient-to-r from-primary to-primary-container text-on-primary font-semibold flex items-center justify-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-transform cursor-pointer" do %>
+          <span class="material-symbols-outlined text-xl">auto_awesome</span>
+          <span>Get AI Suggestions</span>
+        <% end %>
+        <p class="text-[10px] text-center mt-3 text-outline font-body italic px-4">Claude suggests 5 themes with worship photography.</p>
       </div>
 
-      <div id="theme_suggestions" class="mt-4"></div>
-    </div>
+      <div id="theme_suggestions"></div>
+    </section>
+  </aside>
 
-  </div>
 </div>

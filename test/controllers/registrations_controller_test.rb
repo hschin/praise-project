@@ -33,26 +33,26 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
-  test "GET edit account page returns 200 with warm palette classes" do
+  test "GET edit account page returns 200 with Sanctuary Stone tokens" do
     sign_in users(:one)
     get edit_user_registration_path
     assert_response :success
-    assert_match "focus:ring-rose-600", response.body
-    assert_match "border-stone-200", response.body
+    assert_match "focus:border-primary", response.body
+    assert_match "border-outline-variant", response.body
   end
 
   # AUTH-01
-  test "GET sign in page renders font-serif wordmark" do
+  test "GET sign in page renders Newsreader headline wordmark" do
     get new_user_session_path
     assert_response :success
-    assert_match(/font-serif/, response.body)
-    assert_match(/text-rose-700/, response.body)
+    assert_match(/font-headline/, response.body)
+    assert_match(/text-primary/, response.body)
   end
 
   # AUTH-01
-  test "GET sign up page renders card wrapper with rounded-xl" do
+  test "GET sign up page renders Sanctuary Stone card wrapper" do
     get new_user_registration_path
     assert_match(/rounded-xl/, response.body)
-    assert_match(/bg-white/, response.body)
+    assert_match(/bg-surface-container-lowest/, response.body)
   end
 end

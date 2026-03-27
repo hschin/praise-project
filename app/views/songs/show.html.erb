@@ -3,14 +3,20 @@
 <div class="max-w-2xl mx-auto px-4 py-8">
   <div class="flex items-center justify-between mb-6">
     <div>
-      <h1 class="text-2xl font-bold text-stone-900"><%= @song.title %></h1>
+      <h1 class="font-headline text-3xl text-on-surface"><%= @song.title %></h1>
+      <p class="text-sm text-on-surface-variant font-body mt-1">
+        <%= @song.artist.presence || "Unknown artist" %>
+        <% if @song.default_key.present? %>
+          <span class="mx-1 opacity-40">·</span>Key: <%= @song.default_key %>
+        <% end %>
+      </p>
       <% if @song.done? %>
-        <p class="text-sm text-stone-500 mt-1">
-          <%= link_to "Add this song to a deck →", decks_path, class: "text-rose-700 hover:underline" %>
+        <p class="text-sm text-on-surface-variant mt-1 font-body">
+          <%= link_to "Add this song to a deck →", decks_path, class: "text-primary hover:underline decoration-outline-variant" %>
         </p>
       <% end %>
     </div>
-    <%= link_to "Back to Library", songs_path, class: "text-sm text-rose-700 hover:underline" %>
+    <%= link_to "Back to Library", songs_path, class: "text-sm text-primary hover:underline decoration-outline-variant font-body" %>
   </div>
 
   <div id="song_status_<%= @song.id %>">

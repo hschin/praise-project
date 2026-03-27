@@ -14,3 +14,13 @@
 .pinyin-hidden ruby rp {
   display: none;
 }
+
+/* Material Symbols Outlined – default variation settings */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Ambient shadow utility */
+.shadow-ambient {
+  box-shadow: 0 10px 40px rgba(31, 27, 23, 0.06);
+}

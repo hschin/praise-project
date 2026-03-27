@@ -1,80 +1,107 @@
-<div class="max-w-4xl mx-auto px-4 py-8">
-  <div class="flex items-center justify-between mb-6">
-    <h1 class="text-2xl font-bold text-stone-900">Song Library</h1>
+<div data-controller="song-search">
+
+  <div class="mb-12">
+    <h1 class="font-headline text-4xl md:text-5xl text-on-surface mb-2 tracking-tight">Song Library</h1>
+    <p class="text-on-surface-variant font-body">Curate and organize your congregation's spiritual soundtrack.</p>
   </div>
 
-  <%# Search and import form %>
-  <div class="bg-white border border-stone-200 rounded-lg p-4 mb-6">
-    <h2 class="text-sm font-semibold text-stone-700 mb-3">Search for a song</h2>
-    <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex gap-2 mb-4" do |f| %>
-      <%= f.text_field :title,
-            placeholder: "Song title (Chinese or English)...",
-            class: "flex-1 border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
-      <%= f.submit "Import",
-            class: "bg-rose-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-rose-800 cursor-pointer" %>
-    <% end %>
+  <%# Unified search panel %>
+  <section class="bg-surface-container-low rounded-xl p-8 mb-8"
+           style="box-shadow: 0 10px 40px rgba(31,27,23,0.06);">
 
-    <%# LOCKED: Manual paste always visible as secondary option %>
-    <details class="text-sm">
-      <summary class="cursor-pointer text-stone-500 hover:text-stone-700">Paste lyrics manually instead</summary>
-      <div class="mt-3">
-        <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "space-y-2" do |f| %>
+    <label class="block text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Search songs</label>
+
+    <div class="flex gap-3 mb-2">
+      <input type="text"
+             data-song-search-target="input"
+             data-action="input->song-search#filter"
+             placeholder="Type a song title to search or import..."
+             class="flex-1 bg-surface-container-lowest border-0 focus:ring-2 focus:ring-primary rounded-lg h-12 px-4 text-on-surface placeholder:text-on-surface-variant/40 font-body">
+    </div>
+
+    <%# Shown only when no library matches %>
+    <div data-song-search-target="importSection" hidden class="mt-4 space-y-4">
+      <div class="flex items-center gap-3 p-4 bg-surface-container border border-dashed border-outline-variant/40 rounded-lg">
+        <span class="material-symbols-outlined text-outline/60">info</span>
+        <p class="text-sm text-on-surface-variant font-body flex-1">Not in your library — import from web?</p>
+        <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex gap-2 flex-shrink-0" do |f| %>
           <%= f.text_field :title,
-                placeholder: "Song title",
-                class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
-          <%= f.text_area :raw_lyrics,
-                placeholder: "Paste raw lyrics here — any format accepted",
-                rows: 6,
-                class: "w-full border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
-          <%= f.submit "Import Pasted Lyrics",
-                class: "bg-stone-700 text-white text-sm px-4 py-2 rounded-lg hover:bg-stone-800 cursor-pointer" %>
+                data: { "song-search-target": "importTitle" },
+                class: "hidden" %>
+          <%= f.submit "Import",
+                class: "h-10 px-6 bg-tertiary text-on-tertiary rounded-lg font-medium hover:bg-tertiary-container transition-colors cursor-pointer text-sm" %>
         <% end %>
       </div>
-    </details>
-  </div>
 
-  <%# Library search (title filter) %>
-  <%= form_with url: songs_path, method: :get, class: "flex gap-2 mb-4" do |f| %>
-    <%= f.text_field :q,
-          value: params[:q],
-          placeholder: "Filter by title...",
-          class: "flex-1 border border-stone-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-600" %>
-    <%= f.submit "Search", class: "bg-white border border-stone-200 text-sm px-4 py-2 rounded-lg hover:bg-stone-50 cursor-pointer" %>
-  <% end %>
+      <%# Manual paste %>
+      <details class="group">
+        <summary class="cursor-pointer text-primary font-medium flex items-center gap-2 select-none hover:underline decoration-outline-variant text-sm">
+          <span class="material-symbols-outlined text-[18px] transition-transform group-open:rotate-180">expand_more</span>
+          Paste lyrics manually instead
+        </summary>
+        <div class="mt-4 space-y-3">
+          <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "space-y-3" do |f| %>
+            <%= f.text_field :title,
+                  data: { "song-search-target": "importTitle" },
+                  placeholder: "Song title",
+                  class: "w-full bg-surface-container-lowest border-0 focus:ring-2 focus:ring-primary rounded-lg h-10 px-4 text-on-surface placeholder:text-on-surface-variant/40 font-body text-sm" %>
+            <%= f.text_area :raw_lyrics,
+                  placeholder: "Paste raw lyrics here — any format accepted",
+                  rows: 6,
+                  class: "w-full bg-surface-container-highest/50 border-0 rounded-lg p-4 focus:ring-2 focus:ring-primary text-on-surface placeholder:text-on-surface-variant/40 font-body text-sm" %>
+            <div class="flex justify-end">
+              <%= f.submit "Import Pasted Lyrics",
+                    class: "bg-gradient-to-r from-primary to-primary-container text-on-primary px-6 py-2 rounded-lg font-medium hover:opacity-95 transition-all cursor-pointer" %>
+            </div>
+          <% end %>
+        </div>
+      </details>
+    </div>
 
-  <%# Song cards %>
+    <%# Shown when library has songs but none match %>
+    <p data-song-search-target="empty" hidden
+       class="text-sm text-on-surface-variant/60 font-body mt-2 px-1">
+      No songs in your library match that title.
+    </p>
+  </section>
+
+  <%# Song list %>
   <% if @songs.any? %>
-    <div class="space-y-2">
+    <div class="space-y-1">
       <% @songs.each do |song| %>
-        <div class="relative group bg-white border border-stone-200 rounded-lg hover:border-rose-300 hover:shadow-sm transition-all">
-          <%= link_to song_path(song), class: "block p-4 focus:outline-none" do %>
-            <p class="font-medium text-stone-900"><%= song.title %></p>
-            <%# LOCKED: First lyric line preview (not section count) %>
+        <div class="group flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low transition-all duration-200"
+             data-song-search-target="item"
+             data-title="<%= song.title %>">
+          <%= link_to song_path(song), class: "flex flex-col flex-1 min-w-0 focus:outline-none" do %>
+            <h3 class="font-headline text-xl text-on-surface group-hover:text-primary transition-colors"><%= song.title %></h3>
+            <p class="text-xs text-on-surface-variant font-body mt-0.5">
+              <%= song.artist.presence || "Unknown artist" %>
+              <% if song.default_key.present? %>
+                <span class="mx-1 opacity-40">·</span>Key: <%= song.default_key %>
+              <% end %>
+            </p>
             <% first_lyric = song.lyrics.order(:position).first %>
             <% if first_lyric %>
-              <p class="text-sm text-stone-500 mt-0.5 truncate"><%= first_lyric.content.to_s.split("\n").first %></p>
+              <p class="text-sm text-on-surface-variant font-body italic truncate mt-0.5"><%= first_lyric.content.to_s.split("\n").first %></p>
             <% end %>
           <% end %>
-          <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-            <%= button_to song_path(song), method: :delete,
-                  data: { turbo_confirm: "Delete \"#{song.title}\"?" },
-                  class: "p-1.5 text-stone-400 hover:text-red-600 bg-transparent border-0 cursor-pointer rounded" do %>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.021-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-              </svg>
-            <% end %>
+          <div class="flex items-center gap-4 flex-shrink-0 ml-4">
+            <div class="opacity-0 group-hover:opacity-100 transition-opacity">
+              <%= button_to song_path(song), method: :delete,
+                    data: { turbo_confirm: "Delete \"#{song.title}\"?" },
+                    class: "p-2 text-error hover:bg-error-container rounded-full transition-all cursor-pointer bg-transparent border-0" do %>
+                <span class="material-symbols-outlined text-[18px]">delete</span>
+              <% end %>
+            </div>
           </div>
         </div>
       <% end %>
     </div>
   <% else %>
-    <div class="text-center py-8">
-      <div class="mx-auto w-8 h-8 text-stone-300 mb-2">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z" />
-        </svg>
-      </div>
-      <p class="text-sm text-stone-400">Import a song above to build your library.</p>
+    <div class="mt-12 text-center py-12 border-t border-dashed border-outline-variant/30">
+      <span class="material-symbols-outlined text-outline text-5xl mb-4">library_music</span>
+      <p class="font-headline text-on-surface-variant italic">"He put a new song in my mouth, a hymn of praise to our God."</p>
     </div>
   <% end %>
+
 </div>

@@ -1,6 +1,6 @@
 <% is_success = type == :notice %>
-<% bg_class    = is_success ? "bg-green-50 border border-green-200" : "bg-red-50 border border-red-200" %>
-<% text_class  = is_success ? "text-green-700" : "text-red-700" %>
+<% bg_class    = is_success ? "bg-secondary-container" : "bg-error-container" %>
+<% text_class  = is_success ? "text-on-secondary-container" : "text-on-error-container" %>
 
 <div data-controller="flash"
      data-flash-auto-dismiss-value="<%= is_success ? 'true' : 'false' %>"
@@ -10,27 +10,18 @@
             <%= bg_class %>">
 
   <% if is_success %>
-    <%# check-circle (success) %>
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 flex-shrink-0 <%= text_class %>">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-    </svg>
+    <span class="material-symbols-outlined text-xl flex-shrink-0 <%= text_class %>">check_circle</span>
   <% else %>
-    <%# exclamation-triangle (error) %>
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 flex-shrink-0 <%= text_class %>">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-    </svg>
+    <span class="material-symbols-outlined text-xl flex-shrink-0 <%= text_class %>">warning</span>
   <% end %>
 
   <p class="text-sm flex-1 <%= text_class %>"><%= message %></p>
 
   <% unless is_success %>
-    <%# x-mark (close button) — only on error toasts %>
     <button type="button"
             data-action="click->flash#dismiss"
-            class="text-stone-400 hover:text-stone-600 flex-shrink-0 ml-auto">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-      </svg>
+            class="<%= text_class %> opacity-60 hover:opacity-100 flex-shrink-0 ml-auto transition-opacity">
+      <span class="material-symbols-outlined text-base">close</span>
     </button>
   <% end %>
 </div>

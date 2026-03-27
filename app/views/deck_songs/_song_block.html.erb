@@ -1,27 +1,27 @@
 <%# locals: (deck:, deck_song:) %>
 <div data-id="<%= deck_song.id %>"
-     class="bg-white border border-stone-200 rounded-lg overflow-hidden">
-  <div class="px-4 py-3 flex items-center justify-between border-b border-stone-100">
+     class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden shadow-sm">
+  <div class="px-4 py-3 flex items-center justify-between border-b border-outline-variant/10 bg-surface-container-low/30">
     <div class="flex items-center gap-3">
-      <span data-song-drag-handle class="cursor-grab text-stone-300 select-none text-lg">&#x2837;</span>
+      <span data-song-drag-handle class="cursor-grab text-outline/40 select-none material-symbols-outlined text-[20px]">drag_indicator</span>
       <div>
-        <p class="font-medium text-stone-900"><%= deck_song.song.title %></p>
-        <p class="text-xs text-stone-400">
+        <p class="font-headline font-bold text-on-surface"><%= deck_song.song.title %></p>
+        <p class="text-xs text-on-surface-variant font-body">
           <%= deck_song.song.artist.presence || "—" %> &middot;
           Key: <%= deck_song.key.presence || deck_song.song.default_key || "—" %>
         </p>
       </div>
     </div>
     <div class="flex items-center gap-3">
-      <%= link_to "Edit lyrics &rarr;".html_safe,
+      <%= link_to "Edit lyrics →",
           edit_song_path(deck_song.song),
           target: "_blank",
-          class: "text-xs text-rose-700 hover:underline" %>
+          class: "text-xs text-primary hover:underline decoration-outline-variant font-label" %>
       <%= button_to "Remove song",
           deck_deck_song_path(deck, deck_song),
           method: :delete,
           data: { turbo_confirm: "Remove #{deck_song.song.title} from this deck?" },
-          class: "text-xs text-red-400 hover:text-red-600 bg-transparent border-0 cursor-pointer" %>
+          class: "text-xs text-on-surface-variant hover:text-error bg-transparent border-0 cursor-pointer font-label" %>
     </div>
   </div>
 
@@ -30,7 +30,7 @@
          data-sortable-url-value="<%= update_arrangement_deck_deck_song_path(deck, deck_song) %>"
          data-sortable-param-value="arrangement"
          data-sortable-group-value="slides"
-         class="divide-y divide-stone-100 p-2 space-y-1">
+         class="divide-y divide-outline-variant/10 p-2 space-y-1 ml-4 border-l-2 border-outline-variant/20 my-1">
       <% deck_song.arrangement.each_with_index do |lyric_id, idx| %>
         <% lyric = Lyric.find_by(id: lyric_id) %>
         <% next if lyric.nil? %>
@@ -41,6 +41,6 @@
       <% end %>
     </div>
   <% else %>
-    <p class="text-xs text-stone-400 px-4 py-3">No slides in arrangement.</p>
+    <p class="text-xs text-on-surface-variant/60 px-4 py-3 font-body">No slides in arrangement.</p>
   <% end %>
 </div>

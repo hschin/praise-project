@@ -68,17 +68,17 @@ class DecksControllerTest < ActionDispatch::IntegrationTest
   end
 
   # FORM-02
-  test "flash notice renders toast with green-50 class" do
+  test "flash notice renders toast with secondary-container class" do
     delete deck_url(decks(:one))
     follow_redirect!
-    assert_match(/green-50/, response.body)
+    assert_match(/secondary-container/, response.body)
   end
 
   # FORM-02
-  test "flash alert renders toast with red-50 class" do
+  test "flash alert renders toast with error-container class" do
     post import_songs_url, params: { title: "" }
     follow_redirect!
-    assert_match(/red-50/, response.body)
+    assert_match(/error-container/, response.body)
   end
 
   # NAV-02
@@ -98,7 +98,7 @@ class DecksControllerTest < ActionDispatch::IntegrationTest
   test "GET /decks shows empty state headline when no decks exist" do
     Deck.destroy_all
     get decks_url
-    assert_match(/Build worship slide decks in minutes/, response.body)
+    assert_match(/Begin your creative journey/, response.body)
   end
 
   # EMPTY-02
@@ -111,7 +111,8 @@ class DecksControllerTest < ActionDispatch::IntegrationTest
   # DECK-01: Section type chip styling in slide item
   test "deck show renders section chip for slide items" do
     get deck_url(decks(:one))
-    assert_match(/bg-amber-100|rounded-full.*section|section.*rounded-full/, response.body)
+    assert_match(/rounded-full/, response.body)
+    assert_match(/bg-tertiary-fixed|bg-primary-fixed|bg-surface-container/, response.body)
   end
 
   # DECK-02: Artist shown in library panel song list items
@@ -126,24 +127,24 @@ class DecksControllerTest < ActionDispatch::IntegrationTest
   # DECK-03: Idle export button renders download icon (arrow-down-tray SVG)
   test "export button idle renders download icon" do
     get deck_url(decks(:one))
-    assert_match(/arrow-down-tray|M12 16\.5V9\.75m0 0/, response.body)
+    assert_match(/material-symbols-outlined.*download/, response.body)
   end
 
-  # DECK-03: Ready export button renders green button with check-circle icon
-  test "export button ready renders green button with check icon" do
+  # DECK-03: Ready export button renders tertiary button with check-circle icon
+  test "export button ready renders tertiary button with check icon" do
     html = ApplicationController.render(
       partial: "decks/export_button",
       locals: { deck: decks(:one), state: :ready, token: "abc123" }
     )
-    assert_match(/bg-green-600/, html)
-    assert_match(/check-circle|M9 12\.75 11\.25 15 15 9\.75/, html)
+    assert_match(/bg-tertiary/, html)
+    assert_match(/material-symbols-outlined.*check_circle/, html)
   end
 
-  # DECK-04: Panel labels "ADD SONGS" and "ARRANGEMENT" both present
+  # DECK-04: Panel headings "Add Songs" and "Arrangement" both present
   test "deck show panel labels" do
     get deck_url(decks(:one))
-    assert_match(/ADD SONGS/, response.body)
-    assert_match(/ARRANGEMENT/, response.body)
+    assert_match(/Add Songs/, response.body)
+    assert_match(/Arrangement/, response.body)
   end
 
   # DECK-05: Pencil icon on deck title is hover-only (opacity-0 with group-hover:opacity-100)

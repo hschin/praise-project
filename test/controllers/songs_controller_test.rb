@@ -49,7 +49,7 @@ class SongsControllerTest < ActionDispatch::IntegrationTest
   test "GET /songs shows empty state copy when no songs exist" do
     Song.destroy_all
     get songs_url
-    assert_match(/Import a song above to build your library/, response.body)
+    assert_match(/He put a new song in my mouth/, response.body)
   end
 
   # IMPORT-01: Processing page renders updated Claude copy

@@ -1,24 +1,24 @@
 <div data-controller="pinyin-toggle">
   <div class="flex items-center justify-between mb-4">
     <div class="flex gap-3">
-      <%= link_to "Edit", edit_song_path(song), class: "text-sm text-rose-700 hover:underline" %>
+      <%= link_to "Edit", edit_song_path(song), class: "text-sm text-primary hover:underline decoration-outline-variant font-body" %>
     </div>
     <button data-pinyin-toggle-target="button"
             data-action="click->pinyin-toggle#toggle"
-            class="text-sm bg-stone-100 hover:bg-stone-200 px-3 py-1 rounded-lg text-stone-700">
+            class="text-sm bg-surface-container hover:bg-surface-container-high px-3 py-1 rounded-lg text-on-surface-variant font-body transition-colors">
       Hide Pinyin
     </button>
   </div>
 
   <div data-pinyin-toggle-target="container" class="space-y-4">
     <% song.lyrics.order(:position).each do |lyric| %>
-      <div class="lyric-section border border-stone-200 rounded-lg overflow-hidden">
-        <div class="bg-rose-50 border-b border-rose-100 px-4 py-2">
-          <h3 class="text-xs font-semibold uppercase tracking-widest text-rose-700">
+      <div class="lyric-section border border-outline-variant/20 rounded-lg overflow-hidden">
+        <div class="bg-surface-container-high border-b border-outline-variant/10 px-4 py-2">
+          <h3 class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant font-label">
             <%= localized_section_type(lyric.section_type) %>
           </h3>
         </div>
-        <div class="bg-white px-4 py-3 text-lg leading-loose">
+        <div class="bg-surface-container-lowest px-4 py-3 text-lg leading-loose font-body">
           <% content_lines = lyric.content.to_s.split("\n") %>
           <% pinyin_lines  = lyric.pinyin.to_s.split("\n") %>
           <% content_lines.each_with_index do |line, line_idx| %>
@@ -41,4 +41,3 @@
     <% end %>
   </div>
 </div>
-
