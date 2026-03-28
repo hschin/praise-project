@@ -51,6 +51,13 @@ class ImportSongJob < ApplicationJob
   end
 
   def broadcast_done(stream_key, redirect_url)
+    # Briefly show both steps complete before redirecting
+    Turbo::StreamsChannel.broadcast_update_to(
+      stream_key,
+      target: "import_status",
+      partial: "songs/processing",
+      locals: { step: "done" }
+    )
     Turbo::StreamsChannel.broadcast_update_to(
       stream_key,
       target: "import_status",

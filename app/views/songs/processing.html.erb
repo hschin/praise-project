@@ -1,16 +1,18 @@
 <%= turbo_stream_from "song_import_#{@title.parameterize}" %>
 
-<div class="max-w-2xl mx-auto px-4 py-8">
-  <div class="flex items-center justify-between mb-6">
-    <h1 class="font-headline text-3xl text-on-surface"><%= @title %></h1>
-    <% if @deck_id.present? %>
-      <%= link_to "Back to Deck", deck_path(@deck_id), class: "text-sm text-primary hover:underline decoration-outline-variant font-body" %>
-    <% else %>
-      <%= link_to "Back to Library", songs_path, class: "text-sm text-primary hover:underline decoration-outline-variant font-body" %>
-    <% end %>
-  </div>
+<div class="max-w-lg mx-auto px-4 py-16">
+  <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-3">Importing song</p>
+  <h1 class="font-headline text-4xl text-on-surface mb-10"><%= @title %></h1>
 
   <div id="import_status">
     <%= render "songs/processing", step: "searching" %>
+  </div>
+
+  <div class="mt-10">
+    <% if @deck_id.present? %>
+      <%= link_to "← Back to deck", deck_path(@deck_id), class: "text-sm text-on-surface-variant hover:text-primary transition-colors font-body" %>
+    <% else %>
+      <%= link_to "← Back to library", songs_path, class: "text-sm text-on-surface-variant hover:text-primary transition-colors font-body" %>
+    <% end %>
   </div>
 </div>

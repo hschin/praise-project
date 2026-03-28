@@ -1,23 +1,67 @@
-<div class="bg-surface-container rounded-xl p-6">
-  <div class="flex items-center gap-3 mb-4">
-    <div class="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full"></div>
-    <span class="text-sm font-medium text-on-surface font-body">Claude is structuring your lyrics...</span>
+<%
+  searching_done   = %w[generating done].include?(step)
+  searching_active = step == "searching"
+  generating_done  = step == "done"
+  generating_active = step == "generating"
+%>
+
+<div class="bg-surface-container-lowest rounded-2xl shadow-ambient overflow-hidden">
+  <%# Animated top bar %>
+  <div class="h-1 bg-surface-container-high">
+    <div class="h-full bg-gradient-to-r from-primary to-primary-container transition-all duration-700 ease-out
+                <%= step == "searching" ? "w-1/3" : step == "generating" ? "w-2/3" : "w-full" %>"></div>
   </div>
 
-  <div class="space-y-2">
-    <%
-      steps = [
-        ["Searching for lyrics", %w[searching generating].include?(step)],
-        ["Generating pinyin", step == "generating"]
-      ]
-    %>
-    <% steps.each do |label, active| %>
-      <div class="flex items-center gap-2 text-sm">
-        <span class="<%= active ? 'text-primary' : 'text-on-surface-variant/40' %>">
-          <%= active ? "✓" : "○" %>
-        </span>
-        <span class="<%= active ? 'text-on-surface font-medium' : 'text-on-surface-variant/40' %> font-body"><%= label %></span>
+  <div class="p-6 space-y-5">
+    <%# Step 1: Searching %>
+    <div class="flex items-center gap-4">
+      <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0
+                  <%= searching_done ? "bg-emerald-50" : searching_active ? "bg-primary/10" : "bg-surface-container" %>">
+        <% if searching_done %>
+          <span class="material-symbols-outlined text-emerald-600 text-base" style="font-variation-settings:'FILL' 1">check_circle</span>
+        <% elsif searching_active %>
+          <div class="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <% else %>
+          <span class="w-2 h-2 rounded-full bg-outline-variant/40 block"></span>
+        <% end %>
       </div>
-    <% end %>
+      <div class="flex-1">
+        <p class="text-sm font-medium font-body <%= searching_active ? "text-on-surface" : searching_done ? "text-on-surface" : "text-on-surface-variant/40" %>">
+          Searching for lyrics
+        </p>
+        <% if searching_active %>
+          <p class="text-xs text-on-surface-variant font-body mt-0.5">Looking up lyrics from the web…</p>
+        <% elsif searching_done %>
+          <p class="text-xs text-emerald-600 font-body mt-0.5">Lyrics found</p>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Connector line %>
+    <div class="ml-4 w-px h-4 <%= searching_done ? "bg-emerald-200" : "bg-outline-variant/20" %>"></div>
+
+    <%# Step 2: Generating %>
+    <div class="flex items-center gap-4">
+      <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0
+                  <%= generating_done ? "bg-emerald-50" : generating_active ? "bg-primary/10" : "bg-surface-container" %>">
+        <% if generating_done %>
+          <span class="material-symbols-outlined text-emerald-600 text-base" style="font-variation-settings:'FILL' 1">check_circle</span>
+        <% elsif generating_active %>
+          <div class="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <% else %>
+          <span class="w-2 h-2 rounded-full bg-outline-variant/40 block"></span>
+        <% end %>
+      </div>
+      <div class="flex-1">
+        <p class="text-sm font-medium font-body <%= generating_active ? "text-on-surface" : generating_done ? "text-on-surface" : "text-on-surface-variant/40" %>">
+          Generating Simplified Chinese + pinyin
+        </p>
+        <% if generating_active %>
+          <p class="text-xs text-on-surface-variant font-body mt-0.5">Claude is structuring your lyrics…</p>
+        <% elsif generating_done %>
+          <p class="text-xs text-emerald-600 font-body mt-0.5">Done — redirecting…</p>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

@@ -52,11 +52,12 @@ class SongsControllerTest < ActionDispatch::IntegrationTest
     assert_match(/He put a new song in my mouth/, response.body)
   end
 
-  # IMPORT-01: Processing page renders updated Claude copy
+  # IMPORT-01: Processing page renders step indicators
   test "processing page renders claude copy" do
     get processing_songs_path(title: "讚美之泉")
     assert_response :success
-    assert_match(/Claude is structuring your lyrics/, response.body)
+    assert_match(/Searching for lyrics/, response.body)
+    assert_match(/Generating Simplified Chinese/, response.body)
   end
 
   # IMPORT-02: Song show page for done song renders "Add this song to a deck" link
