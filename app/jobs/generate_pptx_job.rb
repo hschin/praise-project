@@ -49,8 +49,16 @@ class GeneratePptxJob < ApplicationJob
   def build_payload(deck, output_path)
     theme = deck.theme
     bg_image_b64 = nil
+
     if theme&.background_image&.attached?
       bg_image_b64 = Base64.strict_encode64(theme.background_image.download)
+    elsif theme&.unsplash_url.present?
+      begin
+        require "open-uri"
+        bg_image_b64 = Base64.strict_encode64(URI.open(theme.unsplash_url).read)
+      rescue => e
+        Rails.logger.warn("[GeneratePptxJob] Could not fetch Unsplash image: #{e.message}")
+      end
     end
 
     songs = deck.deck_songs.map do |ds|

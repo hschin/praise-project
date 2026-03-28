@@ -13,8 +13,10 @@ import zipfile
 from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
+from pptx.enum.text import MSO_ANCHOR
 from pptx.oxml.ns import qn
-from pptx.util import Inches, Pt
+from pptx.util import Inches, Pt, Emu
+from pptx.oxml import parse_xml
 from lxml import etree
 
 FONT_SIZE_MAP = {"small": 28, "medium": 36, "large": 48}
@@ -37,6 +39,23 @@ def set_ea_font(run, typeface):
     if ea_elem is None:
         ea_elem = etree.SubElement(rPr, qn("a:ea"))
     ea_elem.set("typeface", typeface)
+
+
+def set_para_spacing(para, space_before_pt=0, space_after_pt=0, line_spacing=1.0):
+    """Set paragraph spacing via pPr XML — python-pptx has no high-level API for this."""
+    pPr = para._p.get_or_add_pPr()
+    if space_before_pt:
+        spcBef = etree.SubElement(pPr, qn("a:spcBef"))
+        spcPct = etree.SubElement(spcBef, qn("a:spcPts"))
+        spcPct.set("val", str(int(space_before_pt * 100)))
+    if space_after_pt:
+        spcAft = etree.SubElement(pPr, qn("a:spcAft"))
+        spcPts = etree.SubElement(spcAft, qn("a:spcPts"))
+        spcPts.set("val", str(int(space_after_pt * 100)))
+    if line_spacing != 1.0:
+        lnSpc = etree.SubElement(pPr, qn("a:lnSpc"))
+        spcPct = etree.SubElement(lnSpc, qn("a:spcPct"))
+        spcPct.set("val", str(int(line_spacing * 100000)))
 
 
 def add_title_slide(prs, song_title, song_artist, theme):
@@ -76,19 +95,17 @@ def add_title_slide(prs, song_title, song_artist, theme):
 
     slide_w = prs.slide_width
     slide_h = prs.slide_height
-    margin = 0.1
-    txBox = slide.shapes.add_textbox(
-        left=int(slide_w * margin),
-        top=int(slide_h * margin),
-        width=int(slide_w * 0.8),
-        height=int(slide_h * 0.8),
-    )
+    # Full-slide textbox with vertical centering
+    txBox = slide.shapes.add_textbox(0, 0, slide_w, slide_h)
     tf = txBox.text_frame
     tf.word_wrap = True
+    tf.auto_size = None
+    txBox.text_frame.vertical_anchor = MSO_ANCHOR.MIDDLE
 
     # Title line
     para = tf.paragraphs[0]
     para.alignment = PP_ALIGN.CENTER
+    set_para_spacing(para, line_spacing=1.2)
     run = para.add_run()
     run.text = song_title
     run.font.name = FONT_NAME
@@ -101,6 +118,7 @@ def add_title_slide(prs, song_title, song_artist, theme):
     if song_artist:
         para2 = tf.add_paragraph()
         para2.alignment = PP_ALIGN.CENTER
+        set_para_spacing(para2, space_before_pt=title_pt * 0.3, line_spacing=1.2)
         run2 = para2.add_run()
         run2.text = song_artist
         run2.font.name = FONT_NAME
@@ -145,51 +163,63 @@ def add_slide(prs, slide_data, theme):
     pinyin_pt = round(chinese_pt * 0.6)
     text_rgb = hex_to_rgb(theme["text_color"])
 
-    # Text box: 10% margins, 80% width/height
+    # Full-slide textbox with vertical centering — matches preview flex centering
     slide_w = prs.slide_width
     slide_h = prs.slide_height
-    margin = 0.1
     txBox = slide.shapes.add_textbox(
-        left=int(slide_w * margin),
-        top=int(slide_h * margin),
-        width=int(slide_w * 0.8),
-        height=int(slide_h * 0.8),
+        left=int(slide_w * 0.08),
+        top=0,
+        width=int(slide_w * 0.84),
+        height=slide_h,
     )
     tf = txBox.text_frame
     tf.word_wrap = True
+    tf.auto_size = None
+    txBox.text_frame.vertical_anchor = MSO_ANCHOR.MIDDLE
 
     content = slide_data.get("content", "")
     pinyin = slide_data.get("pinyin", "")
 
-    # Interleave pinyin above each Chinese line, matching the preview's ruby-annotation layout
-    first_para = True
-
-    def add_text_paragraph(text_lines, font_pt, is_first):
-        nonlocal first_para
-        for i, line in enumerate(text_lines):
-            if is_first and i == 0:
-                para = tf.paragraphs[0]
-                is_first = False
-            else:
-                para = tf.add_paragraph()
-            para.alignment = PP_ALIGN.CENTER
-            run = para.add_run()
-            run.text = line
-            run.font.name = FONT_NAME
-            run.font.size = Pt(font_pt)
-            run.font.color.rgb = text_rgb
-            set_ea_font(run, FONT_NAME)
-        return is_first
-
     content_lines = content.split("\n") if content else []
     pinyin_lines = pinyin.split("\n") if pinyin else []
 
+    first_para = True
+
     for i, chinese_line in enumerate(content_lines):
         p_line = pinyin_lines[i] if i < len(pinyin_lines) else ""
+
+        # Pinyin line — tight spacing below (it sits just above the Chinese character)
         if p_line:
-            first_para = add_text_paragraph([p_line], pinyin_pt, first_para)
+            if first_para:
+                para = tf.paragraphs[0]
+                first_para = False
+            else:
+                para = tf.add_paragraph()
+            para.alignment = PP_ALIGN.CENTER
+            # No space before first pinyin; space before subsequent pairs = line gap
+            set_para_spacing(para, space_before_pt=(chinese_pt * 0.5) if i > 0 else 0, line_spacing=1.0)
+            run = para.add_run()
+            run.text = p_line
+            run.font.name = FONT_NAME
+            run.font.size = Pt(pinyin_pt)
+            run.font.color.rgb = text_rgb
+            set_ea_font(run, FONT_NAME)
+
+        # Chinese line — tight spacing below pinyin, normal line height
         if chinese_line:
-            first_para = add_text_paragraph([chinese_line], chinese_pt, first_para)
+            if first_para:
+                para = tf.paragraphs[0]
+                first_para = False
+            else:
+                para = tf.add_paragraph()
+            para.alignment = PP_ALIGN.CENTER
+            set_para_spacing(para, space_before_pt=0, line_spacing=1.1)
+            run = para.add_run()
+            run.text = chinese_line
+            run.font.name = FONT_NAME
+            run.font.size = Pt(chinese_pt)
+            run.font.color.rgb = text_rgb
+            set_ea_font(run, FONT_NAME)
 
 
 def embed_cjk_font(pptx_path):
