@@ -27,6 +27,11 @@ class ClaudeThemeService
     <<~PROMPT
       You are helping a church worship team choose a visual theme for their service deck titled "#{@deck.title}".
 
+      The deck contains these songs:
+      #{song_context}
+
+      Based on the lyrical and spiritual themes of these songs, suggest 5 visually distinct projection themes that feel cohesive with the worship content.
+
       Return a JSON array of exactly 5 theme suggestions. Each suggestion must have these keys:
       - "name": a short evocative theme name (2-4 words)
       - "background_color": a dark hex color suitable for projection (e.g. "#1a3a5c")
@@ -36,5 +41,20 @@ class ClaudeThemeService
 
       Return ONLY the JSON array, no explanation, no markdown code block.
     PROMPT
+  end
+
+  def song_context
+    songs = @deck.deck_songs.includes(song: :lyrics).map(&:song).uniq
+    return "No songs added yet." if songs.empty?
+
+    songs.map do |song|
+      lines = ["- #{song.title}#{song.artist.present? ? " (#{song.artist})" : ""}"]
+      # Include first line of up to 2 sections to give Claude lyrical flavour
+      song.lyrics.order(:position).first(2).each do |lyric|
+        first_line = lyric.content.to_s.lines.first&.strip
+        lines << "  #{lyric.section_type}: #{first_line}" if first_line.present?
+      end
+      lines.join("\n")
+    end.join("\n")
   end
 end

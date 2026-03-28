@@ -1,5 +1,5 @@
 <%# locals: (suggestions:, deck:) %>
-<div class="flex gap-3 overflow-x-auto py-2 pb-3" style="-webkit-overflow-scrolling: touch;">
+<div class="space-y-3">
   <% suggestions.each do |suggestion| %>
     <%= render "themes/suggestion_card", suggestion: suggestion, deck: deck %>
   <% end %>

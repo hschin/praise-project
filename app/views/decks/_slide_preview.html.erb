@@ -9,7 +9,7 @@
         <% slide_number += 1 %>
         <div class="group relative">
           <div class="slide-preview aspect-video rounded-xl overflow-hidden shadow-lg border-2 border-transparent hover:border-primary transition-all relative"
-               style="container-type: inline-size; background-color: <%= deck.theme&.background_color.presence || '#1a1a2e' %>;<%= deck.theme&.background_image&.attached? ? "background-image: url('#{url_for(deck.theme.background_image)}'); background-size: cover; background-position: center;" : "" %>">
+               style="container-type: inline-size; background-color: <%= deck.theme&.background_color.presence || '#1a1a2e' %>;<%= deck.theme&.background_image&.attached? ? "background-image: url('#{url_for(deck.theme.background_image)}'); background-size: cover; background-position: center;" : deck.theme&.unsplash_url.present? ? "background-image: url('#{deck.theme.unsplash_url}'); background-size: cover; background-position: center;" : "" %>">
             <div class="absolute inset-0 flex items-center justify-center" style="padding: 4cqw;">
               <% font_cqw = { "small" => "2.8", "large" => "4.5" }.fetch(deck.theme&.font_size.to_s, "3.5") %>
               <div class="text-center" style="color: <%= deck.theme&.text_color.presence || '#ffffff' %>; font-size: <%= font_cqw %>cqw; line-height: 1.8;">

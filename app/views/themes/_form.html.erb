@@ -3,6 +3,8 @@
 <% bg_color  = theme&.background_color.presence || "#000000" %>
 <% txt_color = theme&.text_color.presence || "#ffffff" %>
 <% font_size = theme&.font_size.presence || "medium" %>
+<% unsplash  = theme&.unsplash_url.presence %>
+<% has_file  = theme&.background_image&.attached? %>
 
 <%= form_with url: deck_themes_path(deck), multipart: true, class: "space-y-4" do |f| %>
   <div class="flex gap-6">
@@ -42,16 +44,46 @@
 
   <div>
     <%= label_tag :theme_background_image, "Background Image (optional)", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
-    <% if theme&.background_image&.attached? %>
-      <label class="flex items-center gap-2 mb-2 text-sm text-on-surface-variant cursor-pointer font-body">
-        <%= check_box_tag "theme[remove_background_image]", "1", false, class: "rounded border-outline-variant/30" %>
-        Remove current background image
-      </label>
+
+    <%# Show current background image — uploaded file takes priority over Unsplash URL %>
+    <% if has_file %>
+      <div class="mb-2 rounded-lg overflow-hidden border border-outline-variant/20">
+        <img src="<%= url_for(theme.background_image) %>"
+             alt="Current background"
+             class="w-full h-24 object-cover">
+        <div class="px-3 py-2 bg-surface-container-lowest flex items-center justify-between">
+          <span class="text-xs text-on-surface-variant font-body">Uploaded image</span>
+          <label class="flex items-center gap-1.5 text-xs text-error cursor-pointer font-body">
+            <%= check_box_tag "theme[remove_background_image]", "1", false, class: "rounded accent-primary" %>
+            Remove
+          </label>
+        </div>
+      </div>
+    <% elsif unsplash %>
+      <div class="mb-2 rounded-lg overflow-hidden border border-outline-variant/20">
+        <img src="<%= unsplash %>"
+             alt="Current background (Unsplash)"
+             class="w-full h-24 object-cover"
+             loading="lazy">
+        <div class="px-3 py-2 bg-surface-container-lowest flex items-center justify-between">
+          <span class="text-xs text-on-surface-variant font-body">Unsplash photo (AI suggested)</span>
+          <label class="flex items-center gap-1.5 text-xs text-error cursor-pointer font-body">
+            <%= check_box_tag "theme[remove_background_image]", "1", false, class: "rounded accent-primary" %>
+            Remove
+          </label>
+        </div>
+      </div>
+      <%# Preserve unsplash_url through re-submit unless user removes it %>
+      <%= hidden_field_tag "theme[unsplash_url]", unsplash %>
     <% end %>
+
     <%= file_field_tag "theme[background_image]",
         accept: "image/*",
         class: "text-sm text-on-surface-variant font-body file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-surface-container file:text-primary hover:file:bg-surface-container-high" %>
-    <p class="text-xs text-on-surface-variant/60 mt-1 font-body">Replaces background color when provided. JPEG, PNG, WebP.</p>
+    <p class="text-xs text-on-surface-variant/60 mt-1 font-body">
+      <%= (has_file || unsplash) ? "Upload a file to replace the current background." : "Replaces background color when provided." %>
+      JPEG, PNG, WebP.
+    </p>
   </div>
 
   <div>

@@ -9,6 +9,7 @@ class ThemesController < ApplicationController
 
     @theme = @deck.theme || Theme.new
     @theme.background_image.purge if remove_image && @theme.background_image.attached?
+    @theme.unsplash_url = nil if remove_image
     @theme.assign_attributes(attrs)
     @theme.source ||= "custom"
 

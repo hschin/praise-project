@@ -1,31 +1,40 @@
 <%# locals: (suggestion:, deck:) %>
-<div class="shrink-0 w-40 rounded-lg overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-md transition-shadow">
-  <%# Unsplash thumbnail or color swatch %>
+<div class="rounded-xl overflow-hidden border border-outline-variant/30 shadow-sm hover:shadow-md transition-shadow">
+  <%# Full-width image or color swatch %>
   <% if suggestion["unsplash_url"].present? %>
-    <img src="<%= suggestion["unsplash_url"] %>"
-         alt="<%= suggestion["name"] %> background"
-         class="w-full h-20 object-cover"
-         loading="lazy">
+    <div class="relative h-28 overflow-hidden">
+      <img src="<%= suggestion["unsplash_url"] %>"
+           alt="<%= suggestion["name"] %> background"
+           class="w-full h-full object-cover"
+           loading="lazy">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end px-3 pb-2">
+        <p class="text-sm font-semibold text-white font-body leading-tight"><%= suggestion["name"] %></p>
+      </div>
+    </div>
   <% else %>
-    <div class="w-full h-20"
-         style="background-color: <%= suggestion["background_color"] %>;"></div>
+    <div class="h-28 flex items-end px-3 pb-2"
+         style="background-color: <%= suggestion["background_color"] %>;">
+      <p class="text-sm font-semibold font-body leading-tight"
+         style="color: <%= suggestion["text_color"] %>;"><%= suggestion["name"] %></p>
+    </div>
   <% end %>
 
-  <div class="p-2">
-    <p class="text-xs font-semibold text-on-surface truncate mb-1 font-body"><%= suggestion["name"] %></p>
-
-    <%# Color swatches %>
-    <div class="flex gap-1 mb-2">
-      <div class="w-4 h-4 rounded-full border border-outline-variant/30"
-           style="background-color: <%= suggestion["background_color"] %>;"
-           title="Background: <%= suggestion["background_color"] %>"></div>
-      <div class="w-4 h-4 rounded-full border border-outline-variant/30"
-           style="background-color: <%= suggestion["text_color"] %>;"
-           title="Text: <%= suggestion["text_color"] %>"></div>
-      <span class="text-xs text-on-surface-variant/60 ml-1 font-label"><%= suggestion["font_size"] %></span>
+  <div class="p-3 flex items-center justify-between gap-3 bg-surface-container-lowest">
+    <div class="flex items-center gap-2 min-w-0">
+      <div class="w-5 h-5 rounded-full border border-outline-variant/30 shrink-0"
+           style="background-color: <%= suggestion["background_color"] %>;" title="Background"></div>
+      <div class="w-5 h-5 rounded-full border border-outline-variant/30 shrink-0"
+           style="background-color: <%= suggestion["text_color"] %>;" title="Text"></div>
+      <span class="text-xs text-on-surface-variant/60 font-label"><%= suggestion["font_size"] %></span>
+      <% if suggestion["unsplash_attribution_name"].present? %>
+        <span class="text-xs text-on-surface-variant/40 font-body truncate">
+          · <a href="<%= suggestion["unsplash_attribution_url"] %>?utm_source=praiseproject&utm_medium=referral"
+               target="_blank" rel="noopener"
+               class="hover:underline decoration-outline-variant"><%= suggestion["unsplash_attribution_name"] %></a> / Unsplash
+        </span>
+      <% end %>
     </div>
 
-    <%# Apply button %>
     <%= button_to "Apply",
         deck_themes_path(deck),
         method: :post,
@@ -39,19 +48,6 @@
             unsplash_url:     suggestion["unsplash_url"]
           }
         },
-        class: "w-full text-xs bg-gradient-to-r from-primary to-primary-container text-on-primary py-1 rounded-lg hover:opacity-95 cursor-pointer font-label" %>
-
-    <%# Unsplash attribution (required by Unsplash API terms) %>
-    <% if suggestion["unsplash_attribution_url"].present? %>
-      <p class="text-xs text-on-surface-variant/60 mt-1 leading-tight font-body">
-        Photo:
-        <a href="<%= suggestion["unsplash_attribution_url"] %>?utm_source=praiseproject&utm_medium=referral"
-           target="_blank"
-           rel="noopener"
-           class="hover:underline decoration-outline-variant">
-          <%= suggestion["unsplash_attribution_name"] %>
-        </a> / Unsplash
-      </p>
-    <% end %>
+        class: "shrink-0 text-xs bg-gradient-to-r from-primary to-primary-container text-on-primary px-4 py-1.5 rounded-lg hover:opacity-95 cursor-pointer font-label" %>
   </div>
 </div>

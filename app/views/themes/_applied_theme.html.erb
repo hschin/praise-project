@@ -1,20 +1,33 @@
 <%# locals: (theme:, deck:) %>
-<div class="flex items-center gap-4 p-3 bg-surface-container rounded-lg">
-  <div class="flex items-center gap-2">
-    <div class="w-6 h-6 rounded-full border border-outline-variant/30 shrink-0"
-         style="background-color: <%= theme.background_color %>;" title="Background"></div>
-    <div class="w-6 h-6 rounded-full border border-outline-variant/30 shrink-0"
-         style="background-color: <%= theme.text_color %>;" title="Text color"></div>
+<div class="rounded-xl overflow-hidden border border-outline-variant/20 shadow-sm">
+  <% if theme.background_image.attached? %>
+    <div class="h-20 overflow-hidden">
+      <img src="<%= url_for(theme.background_image) %>"
+           alt="Theme background"
+           class="w-full h-full object-cover">
+    </div>
+  <% elsif theme.unsplash_url.present? %>
+    <div class="h-20 overflow-hidden">
+      <img src="<%= theme.unsplash_url %>"
+           alt="<%= theme.name %> background"
+           class="w-full h-full object-cover"
+           loading="lazy">
+    </div>
+  <% else %>
+    <div class="h-20" style="background-color: <%= theme.background_color %>;"></div>
+  <% end %>
+
+  <div class="px-3 py-2 bg-surface-container-lowest flex items-center gap-3">
+    <div class="flex items-center gap-1.5 shrink-0">
+      <div class="w-4 h-4 rounded-full border border-outline-variant/30"
+           style="background-color: <%= theme.background_color %>;" title="Background"></div>
+      <div class="w-4 h-4 rounded-full border border-outline-variant/30"
+           style="background-color: <%= theme.text_color %>;" title="Text"></div>
+    </div>
+    <div class="flex-1 min-w-0">
+      <p class="text-sm font-medium text-on-surface truncate font-body"><%= theme.name %></p>
+      <p class="text-xs text-on-surface-variant font-body"><%= theme.source.capitalize %> · Font: <%= theme.font_size %></p>
+    </div>
+    <p class="text-xs text-on-surface-variant/60 italic font-body shrink-0">Applied</p>
   </div>
-  <div class="flex-1 min-w-0">
-    <p class="text-sm font-medium text-on-surface truncate font-body"><%= theme.name %></p>
-    <p class="text-xs text-on-surface-variant font-body">
-      <%= theme.source.capitalize %> ·
-      Font: <%= theme.font_size %>
-      <% if theme.background_image.attached? %>
-        · Custom background image
-      <% end %>
-    </p>
-  </div>
-  <p class="text-xs text-on-surface-variant/60 italic font-body">Applied</p>
 </div>
