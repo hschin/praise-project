@@ -15,6 +15,10 @@ export default class extends Controller {
       animation: 150,
       handle: this.handleValue,
       group: { name: this.groupValue || null, pull: false, put: false },
+      // Force pointer-event fallback so native drag events (and the draggable
+      // attribute) cannot interfere — required when nested inside elements that
+      // use HTML5 drag-and-drop (e.g. the song-order controller).
+      forceFallback: true,
       onStart: this.onStart.bind(this),
       onEnd: this.onEnd.bind(this)
     })

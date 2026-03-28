@@ -37,13 +37,21 @@ export default class extends Controller {
     this._dragged = null
   }
 
-  // Arm draggable only when the pointer goes down on the handle.
-  // This keeps draggable=false the rest of the time so SortableJS inside
-  // the cards can still handle slide reordering without interference.
+  // Arm draggable only when the pointer goes down on the song-level handle.
+  // We must only touch direct [data-id] children of this container — not nested
+  // slide items (which also carry data-id) — to avoid arming native drag on the
+  // wrong element when the user grabs a slide drag handle instead of a song handle.
   _onPointerdown(event) {
-    const item     = event.target.closest("[data-id]")
     const onHandle = !!event.target.closest(this.handleValue)
-    if (!item || !this.element.contains(item)) return
+
+    // Walk up from the event target to find a direct [data-id] child of this element,
+    // skipping any nested [data-id] elements (slide items inside song cards).
+    let item = event.target.closest("[data-id]")
+    while (item && item.parentElement !== this.element) {
+      item = item.parentElement?.closest("[data-id]") ?? null
+    }
+    if (!item || item.parentElement !== this.element) return
+
     item.draggable = onHandle
   }
 
