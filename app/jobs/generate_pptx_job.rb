@@ -57,7 +57,7 @@ class GeneratePptxJob < ApplicationJob
       slides = ds.safe_lyrics.map do |lyric|
         { section_type: lyric.section_type, content: lyric.content.to_s, pinyin: lyric.pinyin.to_s }
       end
-      { title: ds.song.title, slides: slides }
+      { title: ds.song.title, artist: ds.song.artist.to_s, slides: slides }
     end
 
     {

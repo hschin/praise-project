@@ -1,18 +1,46 @@
 <%# locals: (deck:) %>
 <% slide_number = 0 %>
+<% bg_style = "background-color: #{deck.theme&.background_color.presence || '#1a1a2e'};" %>
+<% if deck.theme&.background_image&.attached? %>
+  <% bg_style += "background-image: url('#{url_for(deck.theme.background_image)}'); background-size: cover; background-position: center;" %>
+<% elsif deck.theme&.unsplash_url.present? %>
+  <% bg_style += "background-image: url('#{deck.theme.unsplash_url}'); background-size: cover; background-position: center;" %>
+<% end %>
+<% text_color = deck.theme&.text_color.presence || '#ffffff' %>
+<% font_cqw = { "small" => "2.8", "large" => "4.5" }.fetch(deck.theme&.font_size.to_s, "3.5") %>
+
 <% if deck.deck_songs.any? %>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <% deck.deck_songs.each do |deck_song| %>
       <% slides = (deck_song.arrangement || []).filter_map { |id| Lyric.find_by(id: id) } %>
       <% next if slides.empty? %>
+
+      <%# Title slide %>
+      <% slide_number += 1 %>
+      <div class="group relative">
+        <div class="slide-preview aspect-video rounded-xl overflow-hidden shadow-lg border-2 border-transparent relative"
+             style="container-type: inline-size; <%= bg_style %>">
+          <div class="absolute inset-0 flex flex-col items-center justify-center" style="padding: 6cqw;">
+            <div class="text-center" style="color: <%= text_color %>;">
+              <div style="font-size: <%= font_cqw %>cqw; font-weight: bold; line-height: 1.4;"><%= deck_song.song.title %></div>
+              <% if deck_song.song.artist.present? %>
+                <div style="font-size: <%= (font_cqw.to_f * 0.55).round(1) %>cqw; opacity: 0.7; margin-top: 0.8cqw;"><%= deck_song.song.artist %></div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <span class="absolute top-3 left-3 bg-black/40 text-white text-[10px] font-label px-2 py-0.5 rounded-full backdrop-blur-sm"><%= slide_number %></span>
+        <span class="absolute top-3 right-3 bg-black/30 text-white text-[9px] font-label px-1.5 py-0.5 rounded-full backdrop-blur-sm uppercase tracking-wide">Title</span>
+      </div>
+
+      <%# Lyric slides %>
       <% slides.each do |lyric| %>
         <% slide_number += 1 %>
         <div class="group relative">
           <div class="slide-preview aspect-video rounded-xl overflow-hidden shadow-lg border-2 border-transparent hover:border-primary transition-all relative"
-               style="container-type: inline-size; background-color: <%= deck.theme&.background_color.presence || '#1a1a2e' %>;<%= deck.theme&.background_image&.attached? ? "background-image: url('#{url_for(deck.theme.background_image)}'); background-size: cover; background-position: center;" : deck.theme&.unsplash_url.present? ? "background-image: url('#{deck.theme.unsplash_url}'); background-size: cover; background-position: center;" : "" %>">
+               style="container-type: inline-size; <%= bg_style %>">
             <div class="absolute inset-0 flex items-center justify-center" style="padding: 4cqw;">
-              <% font_cqw = { "small" => "2.8", "large" => "4.5" }.fetch(deck.theme&.font_size.to_s, "3.5") %>
-              <div class="text-center" style="color: <%= deck.theme&.text_color.presence || '#ffffff' %>; font-size: <%= font_cqw %>cqw; line-height: 1.8;">
+              <div class="text-center" style="color: <%= text_color %>; font-size: <%= font_cqw %>cqw; line-height: 1.8;">
                 <% lyric.content.to_s.split("\n").each_with_index do |line, li| %>
                   <% pinyin_line = lyric.pinyin.to_s.split("\n")[li] || "" %>
                   <div>
@@ -28,11 +56,10 @@
                 <% end %>
               </div>
             </div>
-            <div class="absolute bottom-0 right-0 opacity-40" style="font-size: 1.8cqw; padding: 1cqw 2cqw; color: <%= deck.theme&.text_color.presence || '#ffffff' %>;">
+            <div class="absolute bottom-0 right-0 opacity-40" style="font-size: 1.8cqw; padding: 1cqw 2cqw; color: <%= text_color %>;">
               <%= lyric.section_type %>
             </div>
           </div>
-          <%# Slide number badge %>
           <span class="absolute top-3 left-3 bg-black/40 text-white text-[10px] font-label px-2 py-0.5 rounded-full backdrop-blur-sm"><%= slide_number %></span>
         </div>
       <% end %>

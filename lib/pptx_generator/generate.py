@@ -39,6 +39,76 @@ def set_ea_font(run, typeface):
     ea_elem.set("typeface", typeface)
 
 
+def add_title_slide(prs, song_title, song_artist, theme):
+    """Add a song title slide before the lyric slides."""
+    blank_layout = prs.slide_layouts[6]
+    slide = prs.slides.add_slide(blank_layout)
+
+    # Background
+    bg_rgb = hex_to_rgb(theme["background_color"])
+    background = slide.background
+    fill = background.fill
+    fill.solid()
+    fill.fore_color.rgb = bg_rgb
+
+    # Background image (same as lyric slides)
+    bg_b64 = theme.get("background_image_base64")
+    if bg_b64:
+        img_bytes = base64.b64decode(bg_b64)
+        with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp_img:
+            tmp_img.write(img_bytes)
+            tmp_img_path = tmp_img.name
+        try:
+            slide.shapes.add_picture(
+                tmp_img_path,
+                Inches(0), Inches(0),
+                width=prs.slide_width,
+                height=prs.slide_height,
+            )
+        finally:
+            if os.path.exists(tmp_img_path):
+                os.unlink(tmp_img_path)
+
+    text_rgb = hex_to_rgb(theme["text_color"])
+    font_size_key = theme.get("font_size", "medium")
+    title_pt = FONT_SIZE_MAP.get(font_size_key, FONT_SIZE_MAP["medium"])
+    artist_pt = round(title_pt * 0.55)
+
+    slide_w = prs.slide_width
+    slide_h = prs.slide_height
+    margin = 0.1
+    txBox = slide.shapes.add_textbox(
+        left=int(slide_w * margin),
+        top=int(slide_h * margin),
+        width=int(slide_w * 0.8),
+        height=int(slide_h * 0.8),
+    )
+    tf = txBox.text_frame
+    tf.word_wrap = True
+
+    # Title line
+    para = tf.paragraphs[0]
+    para.alignment = PP_ALIGN.CENTER
+    run = para.add_run()
+    run.text = song_title
+    run.font.name = FONT_NAME
+    run.font.size = Pt(title_pt)
+    run.font.color.rgb = text_rgb
+    run.font.bold = True
+    set_ea_font(run, FONT_NAME)
+
+    # Artist line (if present)
+    if song_artist:
+        para2 = tf.add_paragraph()
+        para2.alignment = PP_ALIGN.CENTER
+        run2 = para2.add_run()
+        run2.text = song_artist
+        run2.font.name = FONT_NAME
+        run2.font.size = Pt(artist_pt)
+        run2.font.color.rgb = text_rgb
+        set_ea_font(run2, FONT_NAME)
+
+
 def add_slide(prs, slide_data, theme):
     """Add a single content slide to the presentation."""
     blank_layout = prs.slide_layouts[6]  # blank layout
@@ -190,6 +260,8 @@ def main():
 
         # Add slides for each song's lyric blocks
         for song in deck.get("songs", []):
+            # Title slide first
+            add_title_slide(prs, song.get("title", ""), song.get("artist", ""), theme)
             for slide_data in song.get("slides", []):
                 add_slide(prs, slide_data, theme)
 
