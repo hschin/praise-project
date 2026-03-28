@@ -42,6 +42,7 @@
 /.claude/worktrees/
 
 # ── GSD baseline (auto-generated) ──
+.gsd
 .DS_Store
 Thumbs.db
 *.swp

@@ -1,27 +1,44 @@
 <% is_success = type == :notice %>
-<% bg_class    = is_success ? "bg-secondary-container" : "bg-error-container" %>
-<% text_class  = is_success ? "text-on-secondary-container" : "text-on-error-container" %>
 
 <div data-controller="flash"
      data-flash-auto-dismiss-value="<%= is_success ? 'true' : 'false' %>"
      data-flash-delay-value="4000"
-     class="w-80 rounded-lg shadow-md px-4 py-3 flex items-start gap-3 pointer-events-auto
-            transition-all duration-300 translate-x-full opacity-0
-            <%= bg_class %>">
+     class="relative w-96 bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_10px_40px_rgba(31,27,23,0.10)] pointer-events-auto
+            transition-all duration-300 translate-x-full opacity-0">
 
-  <% if is_success %>
-    <span class="material-symbols-outlined text-xl flex-shrink-0 <%= text_class %>">check_circle</span>
-  <% else %>
-    <span class="material-symbols-outlined text-xl flex-shrink-0 <%= text_class %>">warning</span>
-  <% end %>
+  <div class="flex items-start p-5 gap-4">
+    <%# Icon badge %>
+    <% if is_success %>
+      <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center flex-shrink-0">
+        <span class="material-symbols-outlined text-emerald-700 text-xl" style="font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;">check_circle</span>
+      </div>
+    <% else %>
+      <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+        <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;">warning</span>
+      </div>
+    <% end %>
 
-  <p class="text-sm flex-1 <%= text_class %>"><%= message %></p>
+    <%# Message %>
+    <div class="flex-1 pr-6 min-w-0">
+      <p class="font-headline text-lg leading-snug <%= is_success ? 'text-on-surface' : 'text-primary' %>"><%= message %></p>
+    </div>
 
-  <% unless is_success %>
+    <%# Close button — both success and error %>
     <button type="button"
             data-action="click->flash#dismiss"
-            class="<%= text_class %> opacity-60 hover:opacity-100 flex-shrink-0 ml-auto transition-opacity">
+            class="absolute top-4 right-4 text-on-surface-variant/40 hover:text-on-surface transition-colors flex-shrink-0">
       <span class="material-symbols-outlined text-base">close</span>
     </button>
+  </div>
+
+  <%# Accent bar %>
+  <% if is_success %>
+    <div class="h-1 w-full bg-emerald-500/10">
+      <div class="h-full bg-emerald-500 w-1/3 opacity-40"></div>
+    </div>
+  <% else %>
+    <div class="h-1 w-full bg-primary/10">
+      <div class="h-full bg-primary w-full opacity-60"></div>
+    </div>
   <% end %>
 </div>

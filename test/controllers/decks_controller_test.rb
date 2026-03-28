@@ -68,17 +68,19 @@ class DecksControllerTest < ActionDispatch::IntegrationTest
   end
 
   # FORM-02
-  test "flash notice renders toast with secondary-container class" do
+  test "flash notice renders toast with success styling" do
     delete deck_url(decks(:one))
     follow_redirect!
-    assert_match(/secondary-container/, response.body)
+    assert_match(/bg-emerald-50/, response.body)
+    assert_match(/check_circle/, response.body)
   end
 
   # FORM-02
-  test "flash alert renders toast with error-container class" do
+  test "flash alert renders toast with error styling" do
     post import_songs_url, params: { title: "" }
     follow_redirect!
-    assert_match(/error-container/, response.body)
+    assert_match(/bg-red-50/, response.body)
+    assert_match(/warning/, response.body)
   end
 
   # NAV-02
