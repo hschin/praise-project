@@ -217,6 +217,46 @@
 
       <div id="theme_suggestions"></div>
     </section>
+
+    <%# Display Settings %>
+    <section class="space-y-4 pt-6 border-t border-outline-variant/20">
+      <h3 class="font-headline text-xl text-on-surface">Display</h3>
+
+      <%= form_with url: deck_path(@deck), method: :patch, scope: :deck, class: "space-y-4" do |f| %>
+        <%# Show Pinyin %>
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-on-surface font-body">Show Pinyin</p>
+            <p class="text-xs text-on-surface-variant font-body">Tone-marked pronunciation above characters</p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <%= f.check_box :show_pinyin,
+                { checked: @deck.show_pinyin,
+                  class: "sr-only peer",
+                  id: "show_pinyin_toggle" },
+                "1", "0" %>
+            <div class="w-11 h-6 bg-surface-container-highest rounded-full peer
+                        peer-checked:bg-primary peer-checked:after:translate-x-full
+                        after:content-[''] after:absolute after:top-[2px] after:left-[2px]
+                        after:bg-white after:rounded-full after:h-5 after:w-5
+                        after:transition-all transition-colors"></div>
+          </label>
+        </div>
+
+        <%# Lines per Slide %>
+        <div>
+          <label class="block text-sm font-medium text-on-surface font-body mb-1">Lines per Slide</label>
+          <p class="text-xs text-on-surface-variant font-body mb-2">Sections with more lines split into multiple slides</p>
+          <%= f.select :lines_per_slide,
+              options_for_select((1..8).map { |n| ["#{n} line#{'s' if n > 1}", n] }, @deck.lines_per_slide),
+              {},
+              class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
+        </div>
+
+        <%= f.submit "Save Display Settings",
+            class: "w-full bg-gradient-to-r from-primary to-primary-container text-on-primary text-sm px-4 py-2 rounded-lg font-medium hover:opacity-95 active:scale-[0.98] transition-all cursor-pointer" %>
+      <% end %>
+    </section>
   </aside>
 
 </div>

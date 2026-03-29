@@ -94,7 +94,7 @@ class DecksController < ApplicationController
   end
 
   def deck_params
-    params.require(:deck).permit(:title, :date, :notes)
+    params.require(:deck).permit(:title, :date, :notes, :show_pinyin, :lines_per_slide)
   end
 
   def upcoming_sunday_date

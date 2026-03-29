@@ -6,4 +6,5 @@ class Deck < ApplicationRecord
 
   validates :title, presence: true
   validates :date, presence: true
+  validates :lines_per_slide, numericality: { only_integer: true, in: 1..8 }
 end
