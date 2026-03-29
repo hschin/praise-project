@@ -127,7 +127,7 @@ def add_title_slide(prs, song_title, song_artist, theme):
         set_ea_font(run2, FONT_NAME)
 
 
-def add_slide(prs, slide_data, theme):
+def add_slide(prs, slide_data, theme, show_pinyin=True):
     """Add a single content slide to the presentation."""
     blank_layout = prs.slide_layouts[6]  # blank layout
     slide = prs.slides.add_slide(blank_layout)
@@ -189,7 +189,7 @@ def add_slide(prs, slide_data, theme):
         p_line = pinyin_lines[i] if i < len(pinyin_lines) else ""
 
         # Pinyin line — tight spacing below (it sits just above the Chinese character)
-        if p_line:
+        if p_line and show_pinyin:
             if first_para:
                 para = tf.paragraphs[0]
                 first_para = False
@@ -277,6 +277,9 @@ def main():
         deck = payload["deck"]
         output_path = payload["output_path"]
         theme = deck["theme"]
+        settings = deck.get("settings", {})
+        show_pinyin = settings.get("show_pinyin", True)
+        lines_per_slide = max(1, min(8, int(settings.get("lines_per_slide", 4))))
 
         # Validate output directory exists
         out_dir = os.path.dirname(os.path.abspath(output_path))
@@ -293,7 +296,21 @@ def main():
             # Title slide first
             add_title_slide(prs, song.get("title", ""), song.get("artist", ""), theme)
             for slide_data in song.get("slides", []):
-                add_slide(prs, slide_data, theme)
+                # Split content into chunks of lines_per_slide
+                content_lines = slide_data.get("content", "").split("\n") if slide_data.get("content") else []
+                pinyin_lines  = slide_data.get("pinyin", "").split("\n") if slide_data.get("pinyin") else []
+                chunks = [content_lines[i:i+lines_per_slide] for i in range(0, max(len(content_lines), 1), lines_per_slide)]
+                total_chunks = len(chunks)
+                for chunk_idx, chunk in enumerate(chunks):
+                    chunk_start = chunk_idx * lines_per_slide
+                    chunk_pinyin = pinyin_lines[chunk_start:chunk_start + lines_per_slide] if show_pinyin else []
+                    chunk_data = {
+                        "section_type": slide_data.get("section_type", ""),
+                        "content": "\n".join(chunk),
+                        "pinyin": "\n".join(chunk_pinyin),
+                        "chunk_label": f"{chunk_idx+1}/{total_chunks}" if total_chunks > 1 else None
+                    }
+                    add_slide(prs, chunk_data, theme, show_pinyin=show_pinyin)
 
         prs.save(output_path)
         embed_cjk_font(output_path)

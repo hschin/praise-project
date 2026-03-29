@@ -8,12 +8,14 @@
 <% end %>
 <% text_color = deck.theme&.text_color.presence || '#ffffff' %>
 <% font_cqw = { "small" => "2.8", "large" => "4.5" }.fetch(deck.theme&.font_size.to_s, "3.5") %>
+<% show_pinyin = deck.show_pinyin %>
+<% lines_per_slide = deck.lines_per_slide.clamp(1, 8) %>
 
 <% if deck.deck_songs.any? %>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <% deck.deck_songs.each do |deck_song| %>
-      <% slides = (deck_song.arrangement || []).filter_map { |id| Lyric.find_by(id: id) } %>
-      <% next if slides.empty? %>
+      <% arrangement_lyrics = (deck_song.arrangement || []).filter_map { |id| Lyric.find_by(id: id) } %>
+      <% next if arrangement_lyrics.empty? %>
 
       <%# Title slide %>
       <% slide_number += 1 %>
@@ -33,35 +35,47 @@
         <span class="absolute top-3 right-3 bg-black/30 text-white text-[9px] font-label px-1.5 py-0.5 rounded-full backdrop-blur-sm uppercase tracking-wide">Title</span>
       </div>
 
-      <%# Lyric slides %>
-      <% slides.each do |lyric| %>
-        <% slide_number += 1 %>
-        <div class="group relative">
-          <div class="slide-preview aspect-video rounded-xl overflow-hidden shadow-lg border-2 border-transparent hover:border-primary transition-all relative"
-               style="container-type: inline-size; <%= bg_style %>">
-            <div class="absolute inset-0 flex items-center justify-center" style="padding: 4cqw;">
-              <div class="text-center" style="color: <%= text_color %>; font-size: <%= font_cqw %>cqw; line-height: 1.8;">
-                <% lyric.content.to_s.split("\n").each_with_index do |line, li| %>
-                  <% pinyin_line = lyric.pinyin.to_s.split("\n")[li] || "" %>
-                  <div>
-                    <% chars = line.chars %>
-                    <% tokens = pinyin_line.split(" ") %>
-                    <% pi = 0 %>
-                    <% chars.each do |char| %>
-                      <% if char.match?(/\p{Han}/) %>
-                        <ruby><%= char %><rt style="font-size:0.6em"><%= tokens[pi] %></rt></ruby><% pi += 1 %>
-                      <% else %><%= char %><% end %>
-                    <% end %>
-                  </div>
-                <% end %>
+      <%# Lyric slides — each lyric section may be split into multiple slides %>
+      <% arrangement_lyrics.each do |lyric| %>
+        <% content_lines = lyric.content.to_s.split("\n") %>
+        <% pinyin_lines  = lyric.pinyin.to_s.split("\n") %>
+        <% chunks = content_lines.each_slice(lines_per_slide).to_a %>
+
+        <% chunks.each_with_index do |chunk, chunk_idx| %>
+          <% chunk_start = chunk_idx * lines_per_slide %>
+          <% slide_number += 1 %>
+          <div class="group relative">
+            <div class="slide-preview aspect-video rounded-xl overflow-hidden shadow-lg border-2 border-transparent hover:border-primary transition-all relative"
+                 style="container-type: inline-size; <%= bg_style %>">
+              <div class="absolute inset-0 flex items-center justify-center" style="padding: 4cqw;">
+                <div class="text-center" style="color: <%= text_color %>; font-size: <%= font_cqw %>cqw; line-height: 1.8;">
+                  <% chunk.each_with_index do |line, i| %>
+                    <% li = chunk_start + i %>
+                    <% pinyin_line = show_pinyin ? (pinyin_lines[li] || "") : "" %>
+                    <div>
+                      <% if show_pinyin && pinyin_line.present? %>
+                        <% chars = line.chars %>
+                        <% tokens = pinyin_line.split(" ") %>
+                        <% pi = 0 %>
+                        <% chars.each do |char| %>
+                          <% if char.match?(/\p{Han}/) %>
+                            <ruby><%= char %><rt style="font-size:0.6em"><%= tokens[pi] %></rt></ruby><% pi += 1 %>
+                          <% else %><%= char %><% end %>
+                        <% end %>
+                      <% else %>
+                        <%= line %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              <div class="absolute bottom-0 right-0 opacity-40" style="font-size: 1.8cqw; padding: 1cqw 2cqw; color: <%= text_color %>;">
+                <%= lyric.section_type %><% if chunks.length > 1 %> (<%= chunk_idx + 1 %>/<%= chunks.length %>)<% end %>
               </div>
             </div>
-            <div class="absolute bottom-0 right-0 opacity-40" style="font-size: 1.8cqw; padding: 1cqw 2cqw; color: <%= text_color %>;">
-              <%= lyric.section_type %>
-            </div>
+            <span class="absolute top-3 left-3 bg-black/40 text-white text-[10px] font-label px-2 py-0.5 rounded-full backdrop-blur-sm"><%= slide_number %></span>
           </div>
-          <span class="absolute top-3 left-3 bg-black/40 text-white text-[10px] font-label px-2 py-0.5 rounded-full backdrop-blur-sm"><%= slide_number %></span>
-        </div>
+        <% end %>
       <% end %>
     <% end %>
   </div>

@@ -77,6 +77,10 @@ class GeneratePptxJob < ApplicationJob
           font_size:        theme&.font_size.presence || "medium",
           background_image_base64: bg_image_b64
         },
+        settings: {
+          show_pinyin:     deck.show_pinyin,
+          lines_per_slide: deck.lines_per_slide
+        },
         songs: songs
       },
       output_path: output_path
