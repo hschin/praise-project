@@ -14,6 +14,10 @@ services:
         value: "1"
       - key: RAILS_LOG_LEVEL
         value: info
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: UNSPLASH_ACCESS_KEY
+        sync: false
 
 databases:
   - name: praise-project-db

@@ -12,7 +12,9 @@ Worship leaders can go from song title to a complete, formatted Chinese+pinyin P
 
 - **v1.0** shipped 2026-03-15 — fully functional end-to-end
 - **v1.1** completed — warm palette, navigation polish, empty states, flash messages, auth reskin, deck editor UX improvements
-- **v1.2** in progress — "Sanctuary Stone" design system overhaul from Google Stitch designs
+- **v1.2** completed — "Sanctuary Stone" design system overhaul from Google Stitch designs
+- **v1.3** completed — deck quality & polish: Stitch toast, drag-drop fix, song-aware AI suggestions, import status, song title slides, PPTX fidelity
+- **v1.4** completed — deck display settings: show/hide pinyin toggle and lines-per-slide control
 
 ## Architecture / Key Patterns
 
@@ -30,4 +32,5 @@ See `.gsd/REQUIREMENTS.md` for the explicit capability contract, requirement sta
 ## Milestone Sequence
 
 - [x] M001: v1.1 Design — Warm palette, navigation polish, empty states, consistent forms
-- [ ] M002: v1.2 Sanctuary Stone — Complete visual reskin implementing the Sanctuary Stone design system from Google Stitch designs
+- [x] M002: v1.2 Sanctuary Stone — Complete visual reskin implementing the Sanctuary Stone design system from Google Stitch designs
+- [x] M003: v1.3 Deck Quality & Polish — Toast redesign, drag-drop fix, song-aware AI suggestions, import status, song title slides, PPTX fidelity

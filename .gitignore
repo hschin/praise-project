@@ -68,3 +68,7 @@ vendor/
 coverage/
 .cache/
 tmp/
+
+# Stitch design exports — reference files, not deployed
+stitch_deck_editor/
+stitch_deck_editor.zip
