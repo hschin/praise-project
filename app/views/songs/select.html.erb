@@ -1,0 +1,75 @@
+<%= turbo_stream_from "song_search_#{[@title, @artist].compact.join('_').parameterize}" %>
+
+<div class="max-w-2xl mx-auto px-4 py-16">
+  <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-3">Searching</p>
+  <h1 class="font-headline text-4xl text-on-surface mb-2"><%= @title %></h1>
+  <% if @artist.present? %>
+    <p class="text-on-surface-variant font-body mb-10">by <%= @artist %></p>
+  <% end %>
+
+  <div id="search_results">
+    <div class="bg-surface-container-low rounded-xl overflow-hidden"
+         data-controller="progress"
+         data-progress-start-value="0"
+         data-progress-end-value="85"
+         data-progress-duration-value="6000">
+      
+      <%# Progress bar %>
+      <div class="h-1 bg-surface-container-high relative overflow-hidden">
+        <div class="h-full bg-gradient-to-r from-primary to-primary-container transition-all duration-700 ease-out w-0"
+             data-progress-target="bar"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
+      </div>
+      
+      <div class="flex items-center gap-3 p-6">
+        <div class="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full"></div>
+        <div class="flex-1">
+          <p class="text-on-surface font-body font-medium">Searching for matching songs</p>
+          <p class="text-xs text-on-surface-variant font-body mt-0.5 animate-pulse-text">
+            Looking up lyrics from the web<span class="animate-dots">…</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-10">
+    <% if @deck_id.present? %>
+      <%= link_to "← Back to deck", deck_path(@deck_id), class: "text-sm text-on-surface-variant hover:text-primary transition-colors font-body" %>
+    <% else %>
+      <%= link_to "← Back to library", songs_path, class: "text-sm text-on-surface-variant hover:text-primary transition-colors font-body" %>
+    <% end %>
+  </div>
+</div>
+
+<style>
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  
+  @keyframes pulse-text {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+  
+  @keyframes dots {
+    0%, 20% { content: ''; }
+    40% { content: '.'; }
+    60% { content: '..'; }
+    80%, 100% { content: '...'; }
+  }
+  
+  .animate-shimmer {
+    animation: shimmer 2s infinite;
+  }
+  
+  .animate-pulse-text {
+    animation: pulse-text 2s ease-in-out infinite;
+  }
+  
+  .animate-dots::after {
+    content: '...';
+    animation: dots 1.5s steps(4, end) infinite;
+  }
+</style>

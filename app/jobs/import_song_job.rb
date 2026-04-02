@@ -4,18 +4,18 @@ class ImportSongJob < ApplicationJob
   STEP_SEARCH = "searching"
   STEP_CLAUDE = "generating"
 
-  def perform(title, raw_lyrics: nil, deck_id: nil)
+  def perform(title, artist: nil, raw_lyrics: nil, deck_id: nil)
     stream_key = stream_for(title)
-    broadcast_step(stream_key, raw_lyrics ? STEP_CLAUDE : STEP_SEARCH)
+    broadcast_step(stream_key, STEP_CLAUDE)
 
-    result = ClaudeLyricsService.call(title: title, raw_lyrics: raw_lyrics)
+    result = ClaudeLyricsService.import(title: title, artist: artist, raw_lyrics: raw_lyrics)
 
     if result["unknown"]
       broadcast_failed(stream_key, title)
       return
     end
 
-    song = Song.create!(title: title, import_status: "done")
+    song = Song.create!(title: title, artist: artist, import_status: "done")
     save_lyrics!(song, result["sections"])
 
     if deck_id.present? && (deck = Deck.find_by(id: deck_id))

@@ -1,0 +1,45 @@
+<div class="space-y-3">
+  <p class="text-sm text-on-surface-variant font-body mb-4">
+    <%= candidates.length == 1 ? "Found this song:" : "Found #{candidates.length} possible matches — select the correct one:" %>
+  </p>
+
+  <% candidates.each_with_index do |candidate, index| %>
+    <form action="<%= confirm_import_songs_path %>" method="post" class="block">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <input type="hidden" name="title" value="<%= candidate["title"] %>">
+      <input type="hidden" name="artist" value="<%= candidate["artist"] %>">
+      <input type="hidden" name="raw_lyrics" value="<%= raw_lyrics %>">
+      <input type="hidden" name="deck_id" value="<%= params[:deck_id] %>">
+      
+      <button type="submit" class="w-full text-left p-6 bg-surface-container-low hover:bg-surface-container rounded-xl transition-all border-2 border-transparent hover:border-primary group cursor-pointer">
+        <div class="flex items-start gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary font-headline group-hover:bg-primary group-hover:text-on-primary transition-colors">
+            <%= index + 1 %>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-headline text-xl text-on-surface group-hover:text-primary transition-colors mb-1">
+              <%= candidate["title"] %>
+            </h3>
+            <p class="text-sm text-on-surface-variant font-body mb-2">
+              <span class="font-medium"><%= candidate["artist"] %></span>
+              <% if candidate["album"].present? %>
+                <span class="mx-1.5 opacity-40">·</span>
+                <span><%= candidate["album"] %></span>
+              <% end %>
+              <% if candidate["year"].present? %>
+                <span class="mx-1.5 opacity-40">·</span>
+                <span><%= candidate["year"] %></span>
+              <% end %>
+            </p>
+            <% if candidate["snippet"].present? %>
+              <p class="text-sm text-on-surface-variant/70 font-body italic line-clamp-2">
+                "<%= candidate["snippet"] %>"
+              </p>
+            <% end %>
+          </div>
+          <span class="material-symbols-outlined text-outline opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
+        </div>
+      </button>
+    </form>
+  <% end %>
+</div>

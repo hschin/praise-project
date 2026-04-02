@@ -12,16 +12,41 @@ class SongsController < ApplicationController
   end
 
   def import
-    title      = params[:title].to_s.strip
+    input      = params[:title].to_s.strip
     raw_lyrics = params[:raw_lyrics].to_s.strip.presence
     deck_id    = params[:deck_id].presence
 
-    if title.blank?
+    if input.blank?
       redirect_to songs_path, alert: "Please enter a song title."
       return
     end
 
-    ImportSongJob.perform_later(title, raw_lyrics: raw_lyrics, deck_id: deck_id)
+    # Parse "Title - Artist" format
+    title, artist = parse_title_artist(input)
+
+    SearchSongJob.perform_later(title, artist: artist, raw_lyrics: raw_lyrics, deck_id: deck_id)
+    redirect_to select_songs_path(title: title, artist: artist, deck_id: deck_id)
+  end
+
+  def select
+    @title   = params[:title].to_s.strip
+    @artist  = params[:artist].to_s.strip.presence
+    @deck_id = params[:deck_id].presence
+    redirect_to songs_path if @title.blank?
+  end
+
+  def confirm_import
+    title      = params[:title].to_s.strip
+    artist     = params[:artist].to_s.strip
+    raw_lyrics = params[:raw_lyrics].to_s.strip.presence
+    deck_id    = params[:deck_id].presence
+
+    if title.blank? || artist.blank?
+      redirect_to songs_path, alert: "Missing song information."
+      return
+    end
+
+    ImportSongJob.perform_later(title, artist: artist, raw_lyrics: raw_lyrics, deck_id: deck_id)
     redirect_to processing_songs_path(title: title, deck_id: deck_id)
   end
 
@@ -74,5 +99,15 @@ class SongsController < ApplicationController
   def song_params
     params.require(:song).permit(:title, :artist, :default_key,
                                  lyrics_attributes: [:id, :section_type, :content, :pinyin, :position])
+  end
+
+  def parse_title_artist(input)
+    # Split on " - " or " — " (em dash)
+    parts = input.split(/\s+[-—]\s+/, 2)
+    if parts.length == 2
+      [parts[0].strip, parts[1].strip]
+    else
+      [input, nil]
+    end
   end
 end

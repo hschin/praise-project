@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   resources :songs do
     collection do
       post :import
+      get :select
+      post :confirm_import
       get :processing
     end
   end
