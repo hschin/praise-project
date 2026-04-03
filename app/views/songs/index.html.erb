@@ -67,9 +67,9 @@
 
   <%# Song list %>
   <% if @songs.any? %>
-    <div class="space-y-1">
+    <div class="space-y-3">
       <% @songs.each do |song| %>
-        <div class="group flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low transition-all duration-200"
+        <div class="group flex items-center justify-between p-5 rounded-xl bg-surface-container-low/40 hover:bg-surface-container-low transition-all duration-200 shadow-[0_1px_3px_rgba(31,27,23,0.02)] hover:shadow-[0_4px_12px_rgba(31,27,23,0.06)] border border-outline-variant/8"
              data-song-search-target="item"
              data-title="<%= song.title %>">
           <%= link_to song_path(song), class: "flex flex-col flex-1 min-w-0 focus:outline-none" do %>
