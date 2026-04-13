@@ -1,0 +1,110 @@
+name: Deploy to AWS ECS
+
+# Deploys on push to main, but only after CI passes.
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  id-token: write   # Required for OIDC token exchange with AWS
+  contents: read
+
+jobs:
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    # Only deploy if the CI workflow passes first. Reference the CI workflow by filename.
+    # Remove this needs block if you want deploy to run independently.
+    # needs: [test]  # uncomment if ci.yml jobs are renamed to match
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Exchange the GitHub OIDC token for temporary AWS credentials.
+      # No long-lived access keys stored as secrets — the IAM role trust policy
+      # restricts which repo/branch can assume it.
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # Build the image once, tag with both the git SHA (immutable) and latest (mutable).
+      - name: Build, tag, and push image to ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
+                       -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      # Substitute the new image URI into the task definition template.
+      - name: Render ECS task definition with new image
+        id: render-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: aws/task-definition.json
+          container-name: ${{ secrets.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+
+      # Deploy the updated task definition. Waits until the new tasks are stable
+      # before marking the step as successful (deploy fails fast on bad images).
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.render-task-def.outputs.task-definition }}
+          service: ${{ secrets.ECS_SERVICE }}
+          cluster: ${{ secrets.ECS_CLUSTER }}
+          wait-for-service-stability: true
+
+      # Run db:migrate as a one-off ECS task after the service is stable.
+      # Uses the same task definition, overrides the container command.
+      # Safe to run on every deploy — Rails migrate is idempotent.
+      - name: Run database migrations
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
+          ECS_TASK_DEFINITION: ${{ secrets.ECS_TASK_DEFINITION }}
+          CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
+          ECS_SUBNETS: ${{ secrets.ECS_SUBNETS }}
+          ECS_SECURITY_GROUPS: ${{ secrets.ECS_SECURITY_GROUPS }}
+        run: |
+          TASK_ARN=$(aws ecs run-task \
+            --cluster "$ECS_CLUSTER" \
+            --task-definition "$ECS_TASK_DEFINITION" \
+            --launch-type FARGATE \
+            --network-configuration "awsvpcConfiguration={subnets=[$ECS_SUBNETS],securityGroups=[$ECS_SECURITY_GROUPS],assignPublicIp=ENABLED}" \
+            --overrides "{\"containerOverrides\":[{\"name\":\"$CONTAINER_NAME\",\"command\":[\"bin/rails\",\"db:migrate\"]}]}" \
+            --query 'tasks[0].taskArn' \
+            --output text)
+
+          echo "Migration task ARN: $TASK_ARN"
+
+          # Wait for the migration task to finish
+          aws ecs wait tasks-stopped \
+            --cluster "$ECS_CLUSTER" \
+            --tasks "$TASK_ARN"
+
+          # Check exit code — non-zero means migration failed
+          EXIT_CODE=$(aws ecs describe-tasks \
+            --cluster "$ECS_CLUSTER" \
+            --tasks "$TASK_ARN" \
+            --query 'tasks[0].containers[0].exitCode' \
+            --output text)
+
+          echo "Migration exit code: $EXIT_CODE"
+          if [ "$EXIT_CODE" != "0" ]; then
+            echo "❌ Database migration failed with exit code $EXIT_CODE"
+            exit 1
+          fi
+          echo "✅ Database migration completed successfully"

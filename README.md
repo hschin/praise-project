@@ -44,4 +44,8 @@ rails test
 
 ## Deployment
 
-Configured for [Kamal](https://kamal-deploy.org) — see `config/deploy.yml`.
+**Production:** AWS ECS Fargate — see [`docs/aws-deployment.md`](docs/aws-deployment.md) for full setup instructions.
+
+Deployments are automated via GitHub Actions on push to `main` — builds a Docker image, pushes to ECR, updates the ECS service, and runs `db:migrate`.
+
+> `config/deploy.yml` (Kamal) and `render.yaml` are retained for reference but are not the active deployment targets.
