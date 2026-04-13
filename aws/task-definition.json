@@ -1,0 +1,66 @@
+{
+  "family": "praise-project",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::ACCOUNT_ID:role/praise-project-execution-role",
+  "taskRoleArn": "arn:aws:iam::ACCOUNT_ID:role/praise-project-task-role",
+  "containerDefinitions": [
+    {
+      "name": "praise-project",
+      "image": "ACCOUNT_ID.dkr.ecr.REGION.amazonaws.com/praise-project:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        { "name": "RAILS_ENV",              "value": "production" },
+        { "name": "SOLID_QUEUE_IN_PUMA",    "value": "true" },
+        { "name": "RAILS_LOG_LEVEL",        "value": "info" },
+        { "name": "AWS_REGION",             "value": "ap-southeast-1" }
+      ],
+      "secrets": [
+        {
+          "name": "RAILS_MASTER_KEY",
+          "valueFrom": "arn:aws:ssm:REGION:ACCOUNT_ID:parameter/praise-project/RAILS_MASTER_KEY"
+        },
+        {
+          "name": "DATABASE_URL",
+          "valueFrom": "arn:aws:ssm:REGION:ACCOUNT_ID:parameter/praise-project/DATABASE_URL"
+        },
+        {
+          "name": "ANTHROPIC_API_KEY",
+          "valueFrom": "arn:aws:ssm:REGION:ACCOUNT_ID:parameter/praise-project/ANTHROPIC_API_KEY"
+        },
+        {
+          "name": "APP_HOST",
+          "valueFrom": "arn:aws:ssm:REGION:ACCOUNT_ID:parameter/praise-project/APP_HOST"
+        },
+        {
+          "name": "S3_BUCKET",
+          "valueFrom": "arn:aws:ssm:REGION:ACCOUNT_ID:parameter/praise-project/S3_BUCKET"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/praise-project",
+          "awslogs-region": "ap-southeast-1",
+          "awslogs-stream-prefix": "ecs",
+          "awslogs-create-group": "true"
+        }
+      },
+      "healthCheck": {
+        "command": ["CMD-SHELL", "curl -f http://localhost/up || exit 1"],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 60
+      }
+    }
+  ]
+}

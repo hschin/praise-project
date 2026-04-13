@@ -40,6 +40,9 @@ gem "thruster", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.2"
 
+# AWS S3 for ActiveStorage in production
+gem "aws-sdk-s3", "~> 1.168", require: false
+
 group :development, :test do
   # Load .env file for local secrets (ANTHROPIC_API_KEY, UNSPLASH_ACCESS_KEY, etc.)
   gem "dotenv-rails"
