@@ -75,6 +75,6 @@ gem "devise", "~> 5.0"
 
 gem "tailwindcss-rails", "~> 4.4"
 
-gem "anthropic", "~> 1.23.0"
+gem "anthropic", "~> 1.32.0"
 gem "serpapi", "~> 1.0", ">= 1.0.3"
 gem "faraday"
