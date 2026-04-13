@@ -21,7 +21,8 @@
         { "name": "RAILS_ENV",              "value": "production" },
         { "name": "SOLID_QUEUE_IN_PUMA",    "value": "true" },
         { "name": "RAILS_LOG_LEVEL",        "value": "info" },
-        { "name": "AWS_REGION",             "value": "ap-southeast-1" }
+        { "name": "AWS_REGION",             "value": "ap-southeast-1" },
+        { "name": "HTTP_PORT",              "value": "3000" }
       ],
       "secrets": [
         {
