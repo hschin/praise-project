@@ -43,6 +43,10 @@
         {
           "name": "S3_BUCKET",
           "valueFrom": "arn:aws:ssm:ap-southeast-1:ACCOUNT_ID:parameter/praise-project/S3_BUCKET"
+        },
+        {
+          "name": "UNSPLASH_ACCESS_KEY",
+          "valueFrom": "arn:aws:ssm:ap-southeast-1:ACCOUNT_ID:parameter/praise-project/UNSPLASH_ACCESS_KEY"
         }
       ],
       "logConfiguration": {
