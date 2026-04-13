@@ -9,7 +9,7 @@
   "containerDefinitions": [
     {
       "name": "praise-project",
-      "image": "ACCOUNT_ID.dkr.ecr.REGION.amazonaws.com/praise-project:latest",
+      "image": "ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/praise-project:latest",
       "essential": true,
       "portMappings": [
         {
@@ -26,23 +26,23 @@
       "secrets": [
         {
           "name": "RAILS_MASTER_KEY",
-          "valueFrom": "arn:aws:ssm:REGION:ACCOUNT_ID:parameter/praise-project/RAILS_MASTER_KEY"
+          "valueFrom": "arn:aws:ssm:ap-southeast-1:ACCOUNT_ID:parameter/praise-project/RAILS_MASTER_KEY"
         },
         {
           "name": "DATABASE_URL",
-          "valueFrom": "arn:aws:ssm:REGION:ACCOUNT_ID:parameter/praise-project/DATABASE_URL"
+          "valueFrom": "arn:aws:ssm:ap-southeast-1:ACCOUNT_ID:parameter/praise-project/DATABASE_URL"
         },
         {
           "name": "ANTHROPIC_API_KEY",
-          "valueFrom": "arn:aws:ssm:REGION:ACCOUNT_ID:parameter/praise-project/ANTHROPIC_API_KEY"
+          "valueFrom": "arn:aws:ssm:ap-southeast-1:ACCOUNT_ID:parameter/praise-project/ANTHROPIC_API_KEY"
         },
         {
           "name": "APP_HOST",
-          "valueFrom": "arn:aws:ssm:REGION:ACCOUNT_ID:parameter/praise-project/APP_HOST"
+          "valueFrom": "arn:aws:ssm:ap-southeast-1:ACCOUNT_ID:parameter/praise-project/APP_HOST"
         },
         {
           "name": "S3_BUCKET",
-          "valueFrom": "arn:aws:ssm:REGION:ACCOUNT_ID:parameter/praise-project/S3_BUCKET"
+          "valueFrom": "arn:aws:ssm:ap-southeast-1:ACCOUNT_ID:parameter/praise-project/S3_BUCKET"
         }
       ],
       "logConfiguration": {
