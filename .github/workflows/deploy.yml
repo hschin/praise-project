@@ -25,7 +25,7 @@ jobs:
       # No long-lived access keys stored as secrets — the IAM role trust policy
       # restricts which repo/branch can assume it.
       - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
