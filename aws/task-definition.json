@@ -23,7 +23,7 @@
         { "name": "RAILS_LOG_LEVEL",        "value": "info" },
         { "name": "AWS_REGION",             "value": "ap-southeast-1" },
         { "name": "HTTP_PORT",              "value": "3000" },
-        { "name": "PORT",                   "value": "3001" }
+        { "name": "TARGET_PORT",            "value": "3001" }
       ],
       "secrets": [
         {
