@@ -1,0 +1,414 @@
+<%# ── Hero ──────────────────────────────────────────────────────────────── %>
+<section class="relative overflow-hidden px-6 md:px-12 pt-24 pb-32">
+  <%# Background blobs %>
+  <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div class="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl"></div>
+    <div class="absolute top-16 right-0 w-[500px] h-[500px] rounded-full bg-primary/4 blur-3xl"></div>
+  </div>
+
+  <div class="max-w-6xl mx-auto text-center">
+    <div class="inline-flex items-center gap-2 bg-surface-container-low border border-outline-variant/30 text-on-surface-variant text-xs font-medium px-3 py-1.5 rounded-full mb-8 tracking-wide uppercase">
+      <span class="material-symbols-outlined text-[14px] text-primary">auto_awesome</span>
+      AI-powered worship tools
+    </div>
+
+    <h1 class="font-headline text-5xl md:text-7xl text-on-surface leading-tight mb-6">
+      Worship slides,<br>
+      <span class="italic text-primary">ready in minutes.</span>
+    </h1>
+
+    <p class="text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+      Import Chinese worship songs with AI, arrange your service deck, and export a projection-ready PowerPoint — complete with pinyin — in one click.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <%= link_to new_user_registration_path, class: "bg-gradient-to-r from-primary to-primary-container text-on-primary px-8 py-3.5 rounded-xl font-medium text-base hover:opacity-90 transition-all active:scale-95 duration-150" do %>
+        Get started free
+      <% end %>
+      <%= link_to new_user_session_path, class: "bg-surface-container-low border border-outline-variant/40 text-on-surface px-8 py-3.5 rounded-xl font-medium text-base hover:bg-surface-container transition-colors duration-150" do %>
+        Sign in
+      <% end %>
+    </div>
+  </div>
+
+  <%# Hero mockup — a stylised slide preview %>
+  <div class="max-w-4xl mx-auto mt-20">
+    <div class="rounded-2xl overflow-hidden shadow-[0_24px_80px_rgba(31,27,23,0.12)] border border-outline-variant/20">
+      <%# Fake browser chrome %>
+      <div class="bg-surface-container-highest flex items-center gap-2 px-4 py-3">
+        <div class="w-3 h-3 rounded-full bg-outline-variant/50"></div>
+        <div class="w-3 h-3 rounded-full bg-outline-variant/50"></div>
+        <div class="w-3 h-3 rounded-full bg-outline-variant/50"></div>
+        <div class="flex-1 bg-surface-container rounded-md h-5 mx-4 flex items-center px-3">
+          <span class="text-xs text-on-surface-variant/50 font-mono">praiseproject.app/decks/sunday-service</span>
+        </div>
+      </div>
+      <%# App content mockup %>
+      <div class="bg-surface grid grid-cols-12 min-h-[360px]">
+        <%# Left: song list %>
+        <div class="col-span-3 border-r border-outline-variant/20 p-4 space-y-2 hidden md:block">
+          <p class="text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-3">Service Songs</p>
+          <% [["奇异恩典", "Amazing Grace"], ["主祢是我力量", "You Are My Strength"], ["哈利路亚颂", "Hallelujah Chorus"]].each_with_index do |(cn, en), i| %>
+            <div class="flex items-center gap-2 px-3 py-2 rounded-lg <%= i == 1 ? 'bg-primary/10' : 'hover:bg-surface-container-low' %>">
+              <span class="material-symbols-outlined text-[16px] <%= i == 1 ? 'text-primary' : 'text-on-surface-variant' %>">music_note</span>
+              <div class="min-w-0">
+                <p class="text-xs font-medium text-on-surface truncate"><%= cn %></p>
+                <p class="text-[10px] text-on-surface-variant truncate"><%= en %></p>
+              </div>
+            </div>
+          <% end %>
+          <div class="flex items-center gap-2 px-3 py-2 rounded-lg border border-dashed border-outline-variant/40 text-on-surface-variant/60 mt-4 cursor-pointer hover:border-primary/40 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[16px]">add</span>
+            <span class="text-xs">Add song</span>
+          </div>
+        </div>
+        <%# Center: slide preview %>
+        <div class="col-span-12 md:col-span-6 p-6 flex flex-col items-center justify-center">
+          <div class="w-full aspect-video bg-[#1a1a2e] rounded-xl flex flex-col items-center justify-center p-6 shadow-[0_8px_32px_rgba(31,27,23,0.16)]">
+            <p class="text-[10px] text-white/40 uppercase tracking-widest mb-3">第二節 Verse 2</p>
+            <div class="space-y-3 text-center">
+              <div>
+                <ruby class="text-white text-xl md:text-2xl font-medium leading-loose">
+                  主<rt class="text-white/50 text-[9px]">zhǔ</rt>
+                  祢<rt class="text-white/50 text-[9px]">nǐ</rt>
+                  是<rt class="text-white/50 text-[9px]">shì</rt>
+                  我<rt class="text-white/50 text-[9px]">wǒ</rt>
+                  力<rt class="text-white/50 text-[9px]">lì</rt>
+                  量<rt class="text-white/50 text-[9px]">liàng</rt>
+                </ruby>
+              </div>
+              <div>
+                <ruby class="text-white text-xl md:text-2xl font-medium leading-loose">
+                  我<rt class="text-white/50 text-[9px]">wǒ</rt>
+                  心<rt class="text-white/50 text-[9px]">xīn</rt>
+                  所<rt class="text-white/50 text-[9px]">suǒ</rt>
+                  爱<rt class="text-white/50 text-[9px]">ài</rt>
+                  慕<rt class="text-white/50 text-[9px]">mù</rt>
+                </ruby>
+              </div>
+              <div>
+                <ruby class="text-white text-xl md:text-2xl font-medium leading-loose">
+                  我<rt class="text-white/50 text-[9px]">wǒ</rt>
+                  要<rt class="text-white/50 text-[9px]">yào</rt>
+                  寻<rt class="text-white/50 text-[9px]">xún</rt>
+                  求<rt class="text-white/50 text-[9px]">qiú</rt>
+                  祢<rt class="text-white/50 text-[9px]">nǐ</rt>
+                </ruby>
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-1.5 mt-4">
+            <% 5.times do |i| %>
+              <div class="w-2 h-2 rounded-full <%= i == 2 ? 'bg-primary' : 'bg-outline-variant/40' %>"></div>
+            <% end %>
+          </div>
+        </div>
+        <%# Right: theme panel %>
+        <div class="col-span-3 border-l border-outline-variant/20 p-4 hidden md:block">
+          <p class="text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-3">Theme</p>
+          <div class="grid grid-cols-2 gap-2 mb-4">
+            <% [["#1a1a2e", "#ffffff"], ["#2d1b0e", "#f5e6d3"], ["#0a2744", "#e8f4ff"], ["#1a2e1a", "#e6f5e6"]].each_with_index do |(bg, _), i| %>
+              <div class="aspect-video rounded-lg border-2 <%= i == 0 ? 'border-primary' : 'border-transparent' %> cursor-pointer overflow-hidden"
+                   style="background-color: <%= bg %>">
+              </div>
+            <% end %>
+          </div>
+          <div class="mt-4 pt-4 border-t border-outline-variant/20">
+            <p class="text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-2">Export</p>
+            <div class="flex items-center gap-2 bg-gradient-to-r from-primary to-primary-container text-on-primary px-3 py-2 rounded-lg text-xs font-medium cursor-pointer hover:opacity-90 transition-opacity">
+              <span class="material-symbols-outlined text-[14px]">download</span>
+              Download .pptx
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%# ── Features ─────────────────────────────────────────────────────────── %>
+<section class="px-6 md:px-12 py-24 bg-surface-container-low/50">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16">
+      <p class="text-xs font-medium text-primary uppercase tracking-widest mb-3">How it works</p>
+      <h2 class="font-headline text-4xl md:text-5xl text-on-surface">Three steps to Sunday ready.</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <%# Step 1 — Import %>
+      <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-ambient border border-outline-variant/20 hover:-translate-y-1 transition-transform duration-200">
+        <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-primary text-[24px]">auto_awesome</span>
+        </div>
+        <h3 class="font-headline text-2xl text-on-surface mb-3">Import any song</h3>
+        <p class="text-on-surface-variant leading-relaxed mb-6">
+          Type a song title or paste lyrics. Claude searches the web, fetches the full lyrics, and structures them into labelled sections — complete with tone-marked pinyin.
+        </p>
+        <div class="bg-surface-container rounded-xl p-4 text-sm font-mono space-y-2">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[16px] text-on-surface-variant">search</span>
+            <span class="text-on-surface-variant">主祢是我力量</span>
+          </div>
+          <div class="border-t border-outline-variant/20 pt-2 space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="text-on-surface">主祢是我力量</span>
+              <span class="text-on-surface-variant/60">Verse 1</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-on-surface">哈利路亚颂</span>
+              <span class="text-on-surface-variant/60">Chorus</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-on-surface">奇异恩典</span>
+              <span class="text-on-surface-variant/60">Bridge</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%# Step 2 — Build deck %>
+      <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-ambient border border-outline-variant/20 hover:-translate-y-1 transition-transform duration-200">
+        <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-primary text-[24px]">dashboard_customize</span>
+        </div>
+        <h3 class="font-headline text-2xl text-on-surface mb-3">Build your deck</h3>
+        <p class="text-on-surface-variant leading-relaxed mb-6">
+          Add songs to a service deck, drag to reorder, repeat a chorus, skip an intro. Pick an AI-suggested theme or choose your own colours and background photo.
+        </p>
+        <div class="bg-surface-container rounded-xl p-4 space-y-2">
+          <% [["奇异恩典", "C", 1], ["主祢是我力量", "G", 2], ["哈利路亚颂", "D", 3]].each do |title, key, pos| %>
+            <div class="flex items-center gap-3 bg-surface-container-lowest rounded-lg px-3 py-2">
+              <span class="material-symbols-outlined text-[16px] text-on-surface-variant/50">drag_indicator</span>
+              <span class="text-xs text-on-surface-variant/50 w-4"><%= pos %></span>
+              <span class="text-sm text-on-surface flex-1"><%= title %></span>
+              <span class="text-xs font-medium bg-primary/10 text-primary px-2 py-0.5 rounded"><%= key %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <%# Step 3 — Export %>
+      <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-ambient border border-outline-variant/20 hover:-translate-y-1 transition-transform duration-200">
+        <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-primary text-[24px]">slideshow</span>
+        </div>
+        <h3 class="font-headline text-2xl text-on-surface mb-3">Export to PowerPoint</h3>
+        <p class="text-on-surface-variant leading-relaxed mb-6">
+          One click generates a widescreen 16:9 PPTX with embedded Chinese fonts — so it renders perfectly on any Windows projector, no font installation needed.
+        </p>
+        <div class="bg-[#1a1a2e] rounded-xl p-5 flex flex-col items-center justify-center aspect-video">
+          <div class="text-center space-y-1.5">
+            <ruby class="text-white text-base font-medium leading-loose">
+              奇<rt class="text-white/40 text-[8px]">qí</rt>
+              异<rt class="text-white/40 text-[8px]">yì</rt>
+              恩<rt class="text-white/40 text-[8px]">ēn</rt>
+              典<rt class="text-white/40 text-[8px]">diǎn</rt>
+            </ruby>
+            <p class="text-white/30 text-[10px] uppercase tracking-widest">Amazing Grace</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%# ── Deeper Feature Highlights ────────────────────────────────────────── %>
+<section class="px-6 md:px-12 py-24">
+  <div class="max-w-6xl mx-auto space-y-24">
+
+    <%# Song Import — detail row %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div>
+        <p class="text-xs font-medium text-primary uppercase tracking-widest mb-3">AI Song Import</p>
+        <h2 class="font-headline text-4xl text-on-surface mb-5">Your entire song library, imported with a search.</h2>
+        <p class="text-on-surface-variant leading-relaxed mb-6">
+          Search by title or artist in English or Chinese. Claude fetches lyrics from the web, converts Traditional to Simplified automatically, and generates tone-marked pinyin for every character. Or paste in your own lyrics — it structures those too.
+        </p>
+        <ul class="space-y-3">
+          <% [
+            ["auto_awesome", "Claude fetches & structures lyrics automatically"],
+            ["translate", "Traditional → Simplified Chinese conversion"],
+            ["record_voice_over", "Tone-marked pinyin (nǐ hǎo, not ni3 hao3)"],
+            ["content_copy", "Paste raw lyrics and skip the search entirely"],
+          ].each do |icon, text| %>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-[20px] mt-0.5"><%= icon %></span>
+              <span class="text-on-surface-variant text-sm"><%= text %></span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="bg-surface-container-lowest rounded-2xl shadow-ambient border border-outline-variant/20 overflow-hidden">
+        <div class="bg-surface-container-high px-5 py-3 flex items-center gap-3 border-b border-outline-variant/20">
+          <span class="material-symbols-outlined text-primary text-[18px]">library_music</span>
+          <span class="text-sm font-medium text-on-surface">Import Song</span>
+        </div>
+        <div class="p-5 space-y-4">
+          <div class="bg-surface-container rounded-lg px-4 py-3 flex items-center gap-3 border border-outline-variant/20">
+            <span class="material-symbols-outlined text-on-surface-variant text-[18px]">search</span>
+            <span class="text-on-surface-variant text-sm">主祢是我力量</span>
+          </div>
+          <div class="space-y-2">
+            <p class="text-xs text-on-surface-variant uppercase tracking-widest font-medium">Found 3 matches</p>
+            <% [
+              ["主祢是我力量", "Gateway Worship", true],
+              ["You Are My Strength", "Hillsong", false],
+              ["主是我力量", "赞美之泉", false],
+            ].each do |title, artist, selected| %>
+              <div class="flex items-center gap-3 px-4 py-3 rounded-xl border <%= selected ? 'border-primary bg-primary/5' : 'border-outline-variant/20 bg-surface-container-lowest' %>">
+                <div class="w-4 h-4 rounded-full border-2 <%= selected ? 'border-primary bg-primary' : 'border-outline-variant' %> flex-shrink-0"></div>
+                <div class="min-w-0">
+                  <p class="text-sm font-medium text-on-surface truncate"><%= title %></p>
+                  <p class="text-xs text-on-surface-variant"><%= artist %></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <div class="flex items-center gap-2 text-xs text-on-surface-variant bg-surface-container rounded-lg px-3 py-2">
+            <span class="material-symbols-outlined text-[14px] text-primary">check_circle</span>
+            Generating lyrics & pinyin…
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# Deck Builder — detail row %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div class="order-2 md:order-1 bg-surface-container-lowest rounded-2xl shadow-ambient border border-outline-variant/20 overflow-hidden">
+        <div class="bg-surface-container-high px-5 py-3 flex items-center gap-3 border-b border-outline-variant/20">
+          <span class="material-symbols-outlined text-primary text-[18px]">dashboard</span>
+          <span class="text-sm font-medium text-on-surface">Sunday Morning Service</span>
+          <span class="ml-auto text-xs text-on-surface-variant">3 songs · 18 slides</span>
+        </div>
+        <div class="p-5 space-y-2">
+          <% [
+            ["奇异恩典", "Amazing Grace", "C", "Verse 1 · Chorus · Verse 2 · Chorus"],
+            ["主祢是我力量", "You Are My Strength", "G", "Verse 1 · Pre-Chorus · Chorus × 2"],
+            ["哈利路亚颂", "Hallelujah Chorus", "D", "Intro · Chorus · Bridge · Chorus"],
+          ].each_with_index do |(cn, en, key, arrangement), i| %>
+            <div class="bg-surface-container rounded-xl p-4">
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <div class="flex items-center gap-2 min-w-0">
+                  <span class="material-symbols-outlined text-[16px] text-on-surface-variant/50">drag_indicator</span>
+                  <div class="min-w-0">
+                    <p class="text-sm font-medium text-on-surface"><%= cn %></p>
+                    <p class="text-xs text-on-surface-variant"><%= en %></p>
+                  </div>
+                </div>
+                <span class="text-xs font-semibold bg-primary/10 text-primary px-2 py-0.5 rounded flex-shrink-0"><%= key %></span>
+              </div>
+              <p class="text-[10px] text-on-surface-variant/60 ml-6"><%= arrangement %></p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="order-1 md:order-2">
+        <p class="text-xs font-medium text-primary uppercase tracking-widest mb-3">Deck Builder</p>
+        <h2 class="font-headline text-4xl text-on-surface mb-5">Arrange your service in seconds.</h2>
+        <p class="text-on-surface-variant leading-relaxed mb-6">
+          Drag songs into order, set the transposition key for each one, and customise the section arrangement — repeat the chorus, skip the bridge, add an extra verse. Every change streams live to a slide preview.
+        </p>
+        <ul class="space-y-3">
+          <% [
+            ["drag_indicator", "Drag-to-reorder songs"],
+            ["music_note", "Per-song transposition key"],
+            ["repeat", "Custom section arrangement (repeat, skip, reorder)"],
+            ["visibility", "Live slide preview as you edit"],
+          ].each do |icon, text| %>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-[20px] mt-0.5"><%= icon %></span>
+              <span class="text-on-surface-variant text-sm"><%= text %></span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <%# PowerPoint Export — detail row %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div>
+        <p class="text-xs font-medium text-primary uppercase tracking-widest mb-3">PowerPoint Export</p>
+        <h2 class="font-headline text-4xl text-on-surface mb-5">Projection-ready slides, every Sunday.</h2>
+        <p class="text-on-surface-variant leading-relaxed mb-6">
+          One click generates a widescreen 16:9 PPTX file with an embedded Chinese font — no font installation needed on the projection computer. Each song gets a title slide, then one content slide per section, with pinyin above the characters.
+        </p>
+        <ul class="space-y-3">
+          <% [
+            ["slideshow", "16:9 widescreen PowerPoint format"],
+            ["font_download", "Embedded Noto Sans SC font — works on any Windows PC"],
+            ["palette", "Your custom theme, colours, and background photo"],
+            ["auto_stories", "Pinyin above every character for congregation follow-along"],
+          ].each do |icon, text| %>
+            <li class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-[20px] mt-0.5"><%= icon %></span>
+              <span class="text-on-surface-variant text-sm"><%= text %></span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="space-y-3">
+        <%# Slide preview stack %>
+        <div class="relative">
+          <div class="absolute inset-0 translate-x-3 translate-y-3 bg-surface-container-high rounded-2xl"></div>
+          <div class="absolute inset-0 translate-x-1.5 translate-y-1.5 bg-surface-container rounded-2xl"></div>
+          <div class="relative bg-[#1a1a2e] rounded-2xl aspect-video flex flex-col items-center justify-center p-8 shadow-[0_12px_48px_rgba(31,27,23,0.16)]">
+            <p class="text-white/30 text-[10px] uppercase tracking-widest mb-4">Chorus</p>
+            <div class="space-y-3 text-center">
+              <div>
+                <ruby class="text-white text-xl md:text-2xl font-medium leading-loose">
+                  奇<rt class="text-white/40 text-[9px]">qí</rt>
+                  异<rt class="text-white/40 text-[9px]">yì</rt>
+                  恩<rt class="text-white/40 text-[9px]">ēn</rt>
+                  典<rt class="text-white/40 text-[9px]">diǎn</rt>
+                  何<rt class="text-white/40 text-[9px]">hé</rt>
+                  等<rt class="text-white/40 text-[9px]">děng</rt>
+                  甘<rt class="text-white/40 text-[9px]">gān</rt>
+                  甜<rt class="text-white/40 text-[9px]">tián</rt>
+                </ruby>
+              </div>
+              <div>
+                <ruby class="text-white text-xl md:text-2xl font-medium leading-loose">
+                  我<rt class="text-white/40 text-[9px]">wǒ</rt>
+                  罪<rt class="text-white/40 text-[9px]">zuì</rt>
+                  已<rt class="text-white/40 text-[9px]">yǐ</rt>
+                  得<rt class="text-white/40 text-[9px]">dé</rt>
+                  赦<rt class="text-white/40 text-[9px]">shè</rt>
+                  免<rt class="text-white/40 text-[9px]">miǎn</rt>
+                </ruby>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center justify-between px-1">
+          <span class="text-xs text-on-surface-variant">Slide 4 of 18</span>
+          <div class="flex items-center gap-2 bg-gradient-to-r from-primary to-primary-container text-on-primary text-xs font-medium px-4 py-2 rounded-lg cursor-pointer hover:opacity-90 transition-opacity">
+            <span class="material-symbols-outlined text-[14px]">download</span>
+            Download .pptx
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%# ── CTA ──────────────────────────────────────────────────────────────── %>
+<section class="px-6 md:px-12 py-24">
+  <div class="max-w-6xl mx-auto">
+    <div class="bg-gradient-to-br from-primary to-primary-container rounded-3xl p-12 md:p-16 text-center relative overflow-hidden">
+      <div class="pointer-events-none absolute inset-0">
+        <div class="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-white/5 blur-2xl"></div>
+        <div class="absolute -bottom-16 -left-16 w-64 h-64 rounded-full bg-white/5 blur-2xl"></div>
+      </div>
+      <div class="relative">
+        <h2 class="font-headline italic text-5xl md:text-6xl text-on-primary mb-5">Ready for Sunday?</h2>
+        <p class="text-on-primary/80 text-lg max-w-xl mx-auto mb-10">
+          Create an account and build your first deck today. Free to use.
+        </p>
+        <%= link_to new_user_registration_path, class: "inline-flex items-center gap-2 bg-on-primary text-primary px-8 py-3.5 rounded-xl font-semibold text-base hover:opacity-90 transition-all active:scale-95 duration-150" do %>
+          Get started free
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
