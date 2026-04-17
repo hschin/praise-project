@@ -6,88 +6,85 @@
 <% unsplash  = theme&.unsplash_url.presence %>
 <% has_file  = theme&.background_image&.attached? %>
 
-<%= form_with url: deck_themes_path(deck), multipart: true, class: "space-y-4" do |f| %>
-  <div class="flex gap-6">
+<%= form_with url: deck_themes_path(deck), multipart: true, class: "space-y-5" do |f| %>
+
+  <%# Colors row %>
+  <div class="grid grid-cols-2 gap-3">
     <div data-controller="color-picker">
-      <%= label_tag :theme_background_color, "Background Color", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
+      <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Background</p>
       <div class="flex items-center gap-2">
         <%= color_field_tag "theme[background_color]", bg_color,
             data: { "color-picker-target": "picker", action: "input->color-picker#pickerChanged" },
-            class: "w-10 h-8 rounded-lg border border-outline-variant/30 cursor-pointer p-0.5" %>
+            class: "w-8 h-8 rounded-lg border border-outline-variant/30 cursor-pointer p-0.5 shrink-0" %>
         <%= text_field_tag nil, bg_color,
             data: { "color-picker-target": "hex", action: "input->color-picker#hexChanged" },
-            class: "w-24 bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-2 py-1 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-primary",
+            class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-2 py-1.5 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-primary text-on-surface",
             placeholder: "#000000" %>
       </div>
     </div>
 
     <div data-controller="color-picker">
-      <%= label_tag :theme_text_color, "Text Color", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
+      <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Text</p>
       <div class="flex items-center gap-2">
         <%= color_field_tag "theme[text_color]", txt_color,
             data: { "color-picker-target": "picker", action: "input->color-picker#pickerChanged" },
-            class: "w-10 h-8 rounded-lg border border-outline-variant/30 cursor-pointer p-0.5" %>
+            class: "w-8 h-8 rounded-lg border border-outline-variant/30 cursor-pointer p-0.5 shrink-0" %>
         <%= text_field_tag nil, txt_color,
             data: { "color-picker-target": "hex", action: "input->color-picker#hexChanged" },
-            class: "w-24 bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-2 py-1 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-primary",
+            class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-2 py-1.5 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-primary text-on-surface",
             placeholder: "#ffffff" %>
       </div>
     </div>
   </div>
 
+  <%# Font size %>
   <div>
-    <%= label_tag :theme_font_size, "Font Size", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
-    <%= select_tag "theme[font_size]",
-        options_for_select([["Small (28pt)", "small"], ["Medium (36pt)", "medium"], ["Large (48pt)", "large"]], font_size),
-        class: "bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
+    <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Font Size</p>
+    <div class="grid grid-cols-3 gap-2">
+      <% [["Small (28pt)", "small"], ["Medium (36pt)", "medium"], ["Large (48pt)", "large"]].each do |label, val| %>
+        <label class="cursor-pointer">
+          <input type="radio" name="theme[font_size]" value="<%= val %>"
+                 <%= "checked" if font_size == val %>
+                 class="sr-only peer">
+          <span class="block text-center text-xs font-label px-2 py-2 rounded-lg border border-outline-variant/30
+                       bg-surface-container-lowest text-on-surface-variant
+                       peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-primary
+                       hover:bg-surface-container transition-colors">
+            <%= label %>
+          </span>
+        </label>
+      <% end %>
+    </div>
   </div>
 
+  <%# Background image %>
   <div>
-    <%= label_tag :theme_background_image, "Background Image (optional)", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
+    <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Background Image</p>
 
-    <%# Show current background image — uploaded file takes priority over Unsplash URL %>
-    <% if has_file %>
-      <div class="mb-2 rounded-lg overflow-hidden border border-outline-variant/20">
-        <img src="<%= url_for(theme.background_image) %>"
-             alt="Current background"
-             class="w-full h-24 object-cover">
-        <div class="px-3 py-2 bg-surface-container-lowest flex items-center justify-between">
-          <span class="text-xs text-on-surface-variant font-body">Uploaded image</span>
-          <label class="flex items-center gap-1.5 text-xs text-error cursor-pointer font-body">
-            <%= check_box_tag "theme[remove_background_image]", "1", false, class: "rounded accent-primary" %>
-            Remove
-          </label>
-        </div>
+    <% if has_file || unsplash %>
+      <div class="mb-3 flex items-center justify-between px-3 py-2 bg-surface-container rounded-lg border border-outline-variant/20">
+        <span class="text-xs text-on-surface-variant font-body"><%= has_file ? "Uploaded image" : "Unsplash photo" %> applied</span>
+        <label class="flex items-center gap-1.5 text-xs text-error cursor-pointer font-body">
+          <%= check_box_tag "theme[remove_background_image]", "1", false, class: "rounded accent-primary" %>
+          Remove
+        </label>
       </div>
-    <% elsif unsplash %>
-      <div class="mb-2 rounded-lg overflow-hidden border border-outline-variant/20">
-        <img src="<%= unsplash %>"
-             alt="Current background (Unsplash)"
-             class="w-full h-24 object-cover"
-             loading="lazy">
-        <div class="px-3 py-2 bg-surface-container-lowest flex items-center justify-between">
-          <span class="text-xs text-on-surface-variant font-body">Unsplash photo (AI suggested)</span>
-          <label class="flex items-center gap-1.5 text-xs text-error cursor-pointer font-body">
-            <%= check_box_tag "theme[remove_background_image]", "1", false, class: "rounded accent-primary" %>
-            Remove
-          </label>
-        </div>
-      </div>
-      <%# Preserve unsplash_url through re-submit unless user removes it %>
-      <%= hidden_field_tag "theme[unsplash_url]", unsplash %>
+      <% unless has_file %>
+        <%= hidden_field_tag "theme[unsplash_url]", unsplash %>
+      <% end %>
     <% end %>
 
     <%= file_field_tag "theme[background_image]",
         accept: "image/*",
-        class: "text-sm text-on-surface-variant font-body file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-surface-container file:text-primary hover:file:bg-surface-container-high" %>
-    <p class="text-xs text-on-surface-variant/60 mt-1 font-body">
-      <%= (has_file || unsplash) ? "Upload a file to replace the current background." : "Replaces background color when provided." %>
-      JPEG, PNG, WebP.
-    </p>
+        class: "w-full text-xs text-on-surface-variant font-body
+                file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0
+                file:text-xs file:font-label file:bg-surface-container file:text-primary
+                hover:file:bg-surface-container-high file:cursor-pointer" %>
+    <p class="text-xs text-on-surface-variant/50 mt-1 font-body">JPEG, PNG, WebP · overrides background colour</p>
   </div>
 
   <div>
     <%= submit_tag "Apply Theme",
-        class: "bg-gradient-to-r from-primary to-primary-container text-on-primary text-sm px-4 py-2 rounded-lg font-medium hover:opacity-95 active:scale-[0.98] transition-all cursor-pointer" %>
+        class: "w-full flex items-center justify-center bg-primary text-on-primary text-sm px-4 py-2 rounded-lg font-label hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer" %>
   </div>
 <% end %>
