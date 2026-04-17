@@ -71,23 +71,29 @@
       <%# Import from web card %>
       <%= form_with url: import_songs_path, method: :post, data: { turbo: false } do |f| %>
         <%= f.hidden_field :title, data: { "song-search-target": "importTitle" } %>
-        <button type="submit" class="w-full h-full text-left rounded-xl border border-dashed border-outline-variant/40 bg-surface-container-low/20 hover:bg-surface-container-low hover:border-outline-variant/60 transition-all p-5 flex flex-col gap-2 group">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">language</span>
-            <h3 class="font-headline text-lg text-on-surface group-hover:text-primary transition-colors">Import from web</h3>
+        <button type="submit" class="w-full h-full text-left rounded-xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container hover:shadow-md active:scale-[0.98] transition-all p-5 flex items-center gap-4 group shadow-sm cursor-pointer">
+          <div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-tertiary/20 transition-colors">
+            <span class="material-symbols-outlined text-tertiary text-[20px]">language</span>
           </div>
-          <p class="text-xs text-on-surface-variant font-body">Claude will search and structure the lyrics automatically.</p>
+          <div class="flex-1 min-w-0">
+            <p class="font-headline text-base text-on-surface group-hover:text-primary transition-colors">Import from web</p>
+            <p class="text-xs text-on-surface-variant font-body mt-0.5">Claude searches and structures lyrics automatically</p>
+          </div>
+          <span class="material-symbols-outlined text-outline/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all">arrow_forward</span>
         </button>
       <% end %>
 
       <%# Paste lyrics card %>
       <%= link_to new_song_path, data: { "song-search-target": "pastePath" },
-            class: "rounded-xl border border-dashed border-outline-variant/40 bg-surface-container-low/20 hover:bg-surface-container-low hover:border-outline-variant/60 transition-all p-5 flex flex-col gap-2 group" do %>
-        <div class="flex items-center gap-2">
-          <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">content_paste</span>
-          <h3 class="font-headline text-lg text-on-surface group-hover:text-primary transition-colors">Paste lyrics</h3>
+            class: "rounded-xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container hover:shadow-md active:scale-[0.98] transition-all p-5 flex items-center gap-4 group shadow-sm" do %>
+        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+          <span class="material-symbols-outlined text-primary text-[20px]">content_paste</span>
         </div>
-        <p class="text-xs text-on-surface-variant font-body">Already have the lyrics? Paste them in and Claude will add pinyin.</p>
+        <div class="flex-1 min-w-0">
+          <p class="font-headline text-base text-on-surface group-hover:text-primary transition-colors">Paste lyrics</p>
+          <p class="text-xs text-on-surface-variant font-body mt-0.5">Already have lyrics? Claude will add pinyin</p>
+        </div>
+        <span class="material-symbols-outlined text-outline/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all">arrow_forward</span>
       <% end %>
 
     </div>
