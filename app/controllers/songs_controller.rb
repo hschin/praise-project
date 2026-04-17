@@ -5,7 +5,8 @@ class SongsController < ApplicationController
   def index
     scope = Song.where(import_status: "done")
     @songs = if params[:q].present?
-      scope.where("title ILIKE ?", "%#{Song.sanitize_sql_like(params[:q])}%").order(:title)
+      q = "%#{Song.sanitize_sql_like(params[:q])}%"
+      scope.where("title ILIKE ? OR english_title ILIKE ?", q, q).order(:title)
     else
       scope.order(:title)
     end
@@ -97,7 +98,7 @@ class SongsController < ApplicationController
   end
 
   def song_params
-    params.require(:song).permit(:title, :artist, :default_key,
+    params.require(:song).permit(:title, :english_title, :artist, :default_key, :ccli_number,
                                  lyrics_attributes: [:id, :section_type, :content, :pinyin, :position])
   end
 
