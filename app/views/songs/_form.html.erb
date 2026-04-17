@@ -18,6 +18,12 @@
       <% end %>
     </div>
     <div>
+      <%= f.label :english_title, "English Title", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
+      <%= f.text_field :english_title,
+            placeholder: "English name or alias",
+            class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
+    </div>
+    <div>
       <%= f.label :artist, class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
       <%= f.text_field :artist,
             class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
@@ -27,6 +33,12 @@
       <%= f.select :default_key, ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"],
           { include_blank: "Select key" },
           class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
+    </div>
+    <div>
+      <%= f.label :ccli_number, "CCLI Number", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
+      <%= f.text_field :ccli_number,
+            placeholder: "e.g. 1234567",
+            class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
     </div>
   </div>
 
