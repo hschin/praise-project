@@ -67,7 +67,7 @@
 
   <%# Song list %>
   <% if @songs.any? %>
-    <div class="space-y-3">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
       <% @songs.each do |song| %>
         <div class="group rounded-xl bg-surface-container-low/40 hover:bg-surface-container-low transition-all duration-200 shadow-[0_1px_3px_rgba(31,27,23,0.02)] hover:shadow-[0_4px_12px_rgba(31,27,23,0.06)] border border-outline-variant/8 overflow-hidden"
              data-song-search-target="item"
