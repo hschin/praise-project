@@ -109,8 +109,8 @@ class ClaudeLyricsService
     }
     response = client.messages.create(**params)
     text_block = response.content.reverse.find { |b| b.type == :text }
-    result = JSON.parse("{" + text_block.text)
-    
+    result = parse_json(text_block&.text, context: "search")
+
     # Fallback: if no candidates found, try a second search with different query
     if result["candidates"].nil? || result["candidates"].empty?
       Rails.logger.warn("[ClaudeLyricsService] First search returned no results, trying fallback search")
@@ -120,9 +120,9 @@ class ClaudeLyricsService
       ]
       response = client.messages.create(**params)
       text_block = response.content.reverse.find { |b| b.type == :text }
-      result = JSON.parse("{" + text_block.text)
+      result = parse_json(text_block&.text, context: "search_fallback")
     end
-    
+
     result
   end
 
@@ -131,7 +131,7 @@ class ClaudeLyricsService
     params = {
       model: MODEL,
       max_tokens: 4096,
-      temperature: 0.2, # Low temperature for consistent pinyin and structure
+      temperature: 0.2,
       system: LYRICS_SYSTEM_PROMPT,
       messages: [
         { role: "user", content: import_user_message },
@@ -141,7 +141,9 @@ class ClaudeLyricsService
     params[:tools] = [ WEB_SEARCH_TOOL ] if @raw_lyrics.blank?
     response = client.messages.create(**params)
     text_block = response.content.reverse.find { |b| b.type == :text }
-    JSON.parse("{" + text_block.text)
+    result = parse_json(text_block&.text, context: "import")
+    validate_sections!(result)
+    result
   end
 
   def search_user_message
@@ -174,6 +176,31 @@ class ClaudeLyricsService
       "Song title: #{@title}\nArtist: #{@artist}\n\nRaw lyrics to structure:\n#{@raw_lyrics}"
     else
       "Song title: #{@title}\nArtist: #{@artist}\n\nSearch the web for the complete lyrics for this specific song, then return them structured with pinyin."
+    end
+  end
+
+  def parse_json(text, context:)
+    raise ArgumentError, "Empty response from Claude (#{context})" if text.blank?
+
+    JSON.parse("{" + text)
+  rescue JSON::ParserError => e
+    Rails.logger.error("[ClaudeLyricsService] JSON parse failure (#{context}): #{e.message} | raw=#{text.truncate(200)}")
+    { "candidates" => [], "sections" => [], "unknown" => true }
+  end
+
+  def validate_sections!(result)
+    sections = result["sections"]
+    return unless sections.is_a?(Array)
+
+    sections.each_with_index do |section, i|
+      lines = section["lines"]
+      raise ArgumentError, "Section #{i} missing 'lines' array" unless lines.is_a?(Array)
+
+      lines.each_with_index do |line, j|
+        unless line["chars"].is_a?(Array) && line["pinyin"].is_a?(Array)
+          raise ArgumentError, "Section #{i} line #{j} missing 'chars'/'pinyin' arrays"
+        end
+      end
     end
   end
 end
