@@ -69,41 +69,37 @@
   <% if @songs.any? %>
     <div class="space-y-3">
       <% @songs.each do |song| %>
-        <div class="group flex items-center justify-between p-5 rounded-xl bg-surface-container-low/40 hover:bg-surface-container-low transition-all duration-200 shadow-[0_1px_3px_rgba(31,27,23,0.02)] hover:shadow-[0_4px_12px_rgba(31,27,23,0.06)] border border-outline-variant/8"
+        <div class="group rounded-xl bg-surface-container-low/40 hover:bg-surface-container-low transition-all duration-200 shadow-[0_1px_3px_rgba(31,27,23,0.02)] hover:shadow-[0_4px_12px_rgba(31,27,23,0.06)] border border-outline-variant/8 overflow-hidden"
              data-song-search-target="item"
              data-title="<%= song.title %>">
-          <%= link_to song_path(song), class: "flex flex-col flex-1 min-w-0 focus:outline-none" do %>
-            <h3 class="font-headline text-xl text-on-surface group-hover:text-primary transition-colors"><%= song.title %></h3>
-            <% if song.english_title.present? %>
-              <p class="text-sm text-on-surface-variant/70 font-body"><%= song.english_title %></p>
+          <div class="flex items-start justify-between p-5 pb-3">
+            <%= link_to song_path(song), class: "flex-1 min-w-0 focus:outline-none" do %>
+              <h3 class="font-headline text-xl text-on-surface group-hover:text-primary transition-colors leading-tight"><%= song.title %></h3>
+              <% if song.english_title.present? %>
+                <p class="text-sm text-on-surface-variant/70 font-body mt-0.5"><%= song.english_title %></p>
+              <% end %>
+              <div class="flex flex-wrap items-center gap-3 mt-2">
+                <% if song.artist.present? %>
+                  <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
+                    <span class="material-symbols-outlined text-[14px] text-outline">person</span>
+                    <%= song.artist %>
+                  </span>
+                <% end %>
+                <% if song.default_key.present? %>
+                  <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
+                    <span class="material-symbols-outlined text-[14px] text-outline">music_note</span>
+                    Key of <%= song.default_key %>
+                  </span>
+                <% end %>
+                <% if song.ccli_number.present? %>
+                  <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
+                    <span class="material-symbols-outlined text-[14px] text-outline">tag</span>
+                    CCLI <%= song.ccli_number %>
+                  </span>
+                <% end %>
+              </div>
             <% end %>
-            <div class="flex flex-wrap items-center gap-3 mt-1">
-              <% if song.artist.present? %>
-                <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
-                  <span class="material-symbols-outlined text-[14px] text-outline">person</span>
-                  <%= song.artist %>
-                </span>
-              <% end %>
-              <% if song.default_key.present? %>
-                <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
-                  <span class="material-symbols-outlined text-[14px] text-outline">music_note</span>
-                  Key of <%= song.default_key %>
-                </span>
-              <% end %>
-              <% if song.ccli_number.present? %>
-                <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
-                  <span class="material-symbols-outlined text-[14px] text-outline">tag</span>
-                  CCLI <%= song.ccli_number %>
-                </span>
-              <% end %>
-            </div>
-            <% first_lyric = song.lyrics.order(:position).first %>
-            <% if first_lyric %>
-              <p class="text-sm text-on-surface-variant font-body italic truncate mt-1"><%= first_lyric.content.to_s.split("\n").first %></p>
-            <% end %>
-          <% end %>
-          <div class="flex items-center gap-4 flex-shrink-0 ml-4">
-            <div class="opacity-0 group-hover:opacity-100 transition-opacity">
+            <div class="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-4 mt-0.5">
               <%= button_to song_path(song), method: :delete,
                     data: { turbo_confirm: "Delete \"#{song.title}\"?" },
                     class: "p-2 text-error hover:bg-error-container rounded-full transition-all cursor-pointer bg-transparent border-0" do %>
@@ -111,6 +107,20 @@
               <% end %>
             </div>
           </div>
+          <% first_lyric = song.lyrics.order(:position).first %>
+          <% if first_lyric %>
+            <% preview_lines = first_lyric.content.to_s.split("\n").first(4) %>
+            <%= link_to song_path(song), class: "block px-5 pb-4 focus:outline-none" do %>
+              <div class="border-t border-outline-variant/10 pt-3">
+                <% preview_lines.each do |line| %>
+                  <p class="text-sm text-on-surface-variant/60 font-body italic leading-relaxed"><%= line %></p>
+                <% end %>
+                <% if first_lyric.content.to_s.split("\n").length > 4 %>
+                  <p class="text-xs text-outline/50 font-body mt-1">…</p>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
         </div>
       <% end %>
     </div>
