@@ -132,77 +132,94 @@
       <h2 class="font-headline text-4xl md:text-5xl text-on-surface">Three steps to Sunday ready.</h2>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <%# Step 1 — Import %>
-      <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-ambient border border-outline-variant/20 hover:-translate-y-1 transition-transform duration-200">
-        <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
-          <span class="material-symbols-outlined text-primary text-[24px]">auto_awesome</span>
-        </div>
-        <h3 class="font-headline text-2xl text-on-surface mb-3">Import any song</h3>
-        <p class="text-on-surface-variant leading-relaxed mb-6">
-          Type a song title or paste lyrics. AI searches the web, fetches the full lyrics, and structures them into labelled sections — complete with tone-marked pinyin.
-        </p>
-        <div class="bg-surface-container rounded-xl p-4 text-sm font-mono space-y-2">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-[16px] text-on-surface-variant">search</span>
-            <span class="text-on-surface-variant">主祢是我力量</span>
+      <div class="bg-surface-container-lowest rounded-2xl shadow-ambient border border-outline-variant/20 hover:-translate-y-1 transition-transform duration-200 overflow-hidden">
+        <%# md: side-by-side; otherwise stacked %>
+        <div class="flex flex-col md:flex-row lg:flex-col">
+          <div class="p-8 md:w-1/2 lg:w-auto">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-primary text-[24px]">auto_awesome</span>
+            </div>
+            <h3 class="font-headline text-2xl text-on-surface mb-3">Import any song</h3>
+            <p class="text-on-surface-variant leading-relaxed mb-6 lg:mb-6">
+              Type a song title or paste lyrics. AI searches the web, fetches the full lyrics, and structures them into labelled sections — complete with tone-marked pinyin.
+            </p>
           </div>
-          <div class="border-t border-outline-variant/20 pt-2 space-y-1">
-            <div class="flex justify-between text-xs">
-              <span class="text-on-surface">主祢是我力量</span>
-              <span class="text-on-surface-variant/60">Verse 1</span>
-            </div>
-            <div class="flex justify-between text-xs">
-              <span class="text-on-surface">哈利路亚颂</span>
-              <span class="text-on-surface-variant/60">Chorus</span>
-            </div>
-            <div class="flex justify-between text-xs">
-              <span class="text-on-surface">奇异恩典</span>
-              <span class="text-on-surface-variant/60">Bridge</span>
+          <div class="bg-surface-container p-8 flex items-center md:w-1/2 lg:w-auto lg:flex-1">
+            <div class="w-full bg-surface-container-lowest rounded-xl p-4 text-sm font-mono space-y-2">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-[16px] text-on-surface-variant">search</span>
+                <span class="text-on-surface-variant">主祢是我力量</span>
+              </div>
+              <div class="border-t border-outline-variant/20 pt-2 space-y-1">
+                <div class="flex justify-between text-xs">
+                  <span class="text-on-surface">主祢是我力量</span>
+                  <span class="text-on-surface-variant/60">Verse 1</span>
+                </div>
+                <div class="flex justify-between text-xs">
+                  <span class="text-on-surface">哈利路亚颂</span>
+                  <span class="text-on-surface-variant/60">Chorus</span>
+                </div>
+                <div class="flex justify-between text-xs">
+                  <span class="text-on-surface">奇异恩典</span>
+                  <span class="text-on-surface-variant/60">Bridge</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <%# Step 2 — Build deck %>
-      <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-ambient border border-outline-variant/20 hover:-translate-y-1 transition-transform duration-200">
-        <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
-          <span class="material-symbols-outlined text-primary text-[24px]">dashboard_customize</span>
-        </div>
-        <h3 class="font-headline text-2xl text-on-surface mb-3">Build your deck</h3>
-        <p class="text-on-surface-variant leading-relaxed mb-6">
-          Add songs to a service deck, drag to reorder, repeat a chorus, skip an intro. Pick an AI-suggested theme or choose your own colours and background photo.
-        </p>
-        <div class="bg-surface-container rounded-xl p-4 space-y-2">
-          <% [["奇异恩典", "C", 1], ["主祢是我力量", "G", 2], ["哈利路亚颂", "D", 3]].each do |title, key, pos| %>
-            <div class="flex items-center gap-3 bg-surface-container-lowest rounded-lg px-3 py-2">
-              <span class="material-symbols-outlined text-[16px] text-on-surface-variant/50">drag_indicator</span>
-              <span class="text-xs text-on-surface-variant/50 w-4"><%= pos %></span>
-              <span class="text-sm text-on-surface flex-1"><%= title %></span>
-              <span class="text-xs font-medium bg-primary/10 text-primary px-2 py-0.5 rounded"><%= key %></span>
+      <div class="bg-surface-container-lowest rounded-2xl shadow-ambient border border-outline-variant/20 hover:-translate-y-1 transition-transform duration-200 overflow-hidden">
+        <div class="flex flex-col md:flex-row lg:flex-col">
+          <div class="p-8 md:w-1/2 lg:w-auto">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-primary text-[24px]">dashboard_customize</span>
             </div>
-          <% end %>
+            <h3 class="font-headline text-2xl text-on-surface mb-3">Build your deck</h3>
+            <p class="text-on-surface-variant leading-relaxed mb-6">
+              Add songs to a service deck, drag to reorder, repeat a chorus, skip an intro. Pick an AI-suggested theme or choose your own colours and background photo.
+            </p>
+          </div>
+          <div class="bg-surface-container p-8 flex items-center md:w-1/2 lg:w-auto lg:flex-1">
+            <div class="w-full space-y-2">
+              <% [["奇异恩典", "C", 1], ["主祢是我力量", "G", 2], ["哈利路亚颂", "D", 3]].each do |title, key, pos| %>
+                <div class="flex items-center gap-3 bg-surface-container-lowest rounded-lg px-3 py-2">
+                  <span class="material-symbols-outlined text-[16px] text-on-surface-variant/50">drag_indicator</span>
+                  <span class="text-xs text-on-surface-variant/50 w-4"><%= pos %></span>
+                  <span class="text-sm text-on-surface flex-1"><%= title %></span>
+                  <span class="text-xs font-medium bg-primary/10 text-primary px-2 py-0.5 rounded"><%= key %></span>
+                </div>
+              <% end %>
+            </div>
+          </div>
         </div>
       </div>
 
       <%# Step 3 — Export %>
-      <div class="bg-surface-container-lowest rounded-2xl p-8 shadow-ambient border border-outline-variant/20 hover:-translate-y-1 transition-transform duration-200">
-        <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
-          <span class="material-symbols-outlined text-primary text-[24px]">slideshow</span>
-        </div>
-        <h3 class="font-headline text-2xl text-on-surface mb-3">Export to PowerPoint</h3>
-        <p class="text-on-surface-variant leading-relaxed mb-6">
-          One click generates a widescreen 16:9 PPTX with embedded Chinese fonts — so it renders perfectly on any Windows projector, no font installation needed.
-        </p>
-        <div class="bg-[#1a1a2e] rounded-xl p-5 flex flex-col items-center justify-center aspect-video">
-          <div class="text-center space-y-1.5">
-            <ruby class="text-white text-base font-medium leading-loose">
-              奇<rt class="text-white/40 text-[8px]">qí</rt>
-              异<rt class="text-white/40 text-[8px]">yì</rt>
-              恩<rt class="text-white/40 text-[8px]">ēn</rt>
-              典<rt class="text-white/40 text-[8px]">diǎn</rt>
-            </ruby>
-            <p class="text-white/30 text-[10px] uppercase tracking-widest">Amazing Grace</p>
+      <div class="bg-surface-container-lowest rounded-2xl shadow-ambient border border-outline-variant/20 hover:-translate-y-1 transition-transform duration-200 overflow-hidden">
+        <div class="flex flex-col md:flex-row lg:flex-col">
+          <div class="p-8 md:w-1/2 lg:w-auto">
+            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-primary text-[24px]">slideshow</span>
+            </div>
+            <h3 class="font-headline text-2xl text-on-surface mb-3">Export to PowerPoint</h3>
+            <p class="text-on-surface-variant leading-relaxed mb-6">
+              One click generates a widescreen 16:9 PPTX with embedded Chinese fonts — so it renders perfectly on any Windows projector, no font installation needed.
+            </p>
+          </div>
+          <div class="bg-[#1a1a2e] p-8 flex items-center justify-center md:w-1/2 lg:w-auto lg:flex-1 lg:aspect-video">
+            <div class="text-center space-y-1.5">
+              <ruby class="text-white text-base font-medium leading-loose">
+                奇<rt class="text-white/40 text-[8px]">qí</rt>
+                异<rt class="text-white/40 text-[8px]">yì</rt>
+                恩<rt class="text-white/40 text-[8px]">ēn</rt>
+                典<rt class="text-white/40 text-[8px]">diǎn</rt>
+              </ruby>
+              <p class="text-white/30 text-[10px] uppercase tracking-widest">Amazing Grace</p>
+            </div>
           </div>
         </div>
       </div>
