@@ -61,7 +61,7 @@ Rails.application.configure do
 
   # Restrict requests to the configured app hostname to prevent DNS rebinding attacks.
   # APP_HOST is set in the ECS task environment (e.g. "myapp.example.com").
-  config.hosts = [ ENV.fetch("APP_HOST", nil) ].compact
+  config.hosts = [ ENV.fetch("APP_HOST", nil), "localhost" ].compact
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via bin/rails credentials:edit.
   # config.action_mailer.smtp_settings = {
