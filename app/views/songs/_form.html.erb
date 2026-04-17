@@ -10,7 +10,7 @@
   <%# Song metadata %>
   <div class="space-y-4">
     <div>
-      <%= f.label :title, class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
+      <%= f.label :title, t("songs.form.title"), class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
       <%= f.text_field :title,
             class: "w-full bg-surface-container-lowest border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body #{song.errors[:title].any? ? 'border-primary' : 'border-outline-variant/30'}" %>
       <% if song.errors[:title].any? %>
@@ -18,55 +18,55 @@
       <% end %>
     </div>
     <div>
-      <%= f.label :english_title, "English Title", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
+      <%= f.label :english_title, t("songs.form.english_title"), class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
       <%= f.text_field :english_title,
-            placeholder: "English name or alias",
+            placeholder: t("songs.form.placeholder_english_title"),
             class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
     </div>
     <div>
-      <%= f.label :artist, class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
+      <%= f.label :artist, t("songs.form.artist"), class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
       <%= f.text_field :artist,
             class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
     </div>
     <div>
-      <%= f.label :default_key, "Default Key", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
+      <%= f.label :default_key, t("songs.form.default_key"), class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
       <%= f.select :default_key, ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"],
-          { include_blank: "Select key" },
+          { include_blank: t("songs.form.select_key") },
           class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
     </div>
     <div>
-      <%= f.label :ccli_number, "CCLI Number", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
+      <%= f.label :ccli_number, t("songs.form.ccli_number"), class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
       <%= f.text_field :ccli_number,
-            placeholder: "e.g. 1234567",
+            placeholder: t("songs.form.placeholder_ccli"),
             class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
     </div>
   </div>
 
-  <%# Nested lyric sections — LOCKED: section_type, content, and pinyin all editable %>
+  <%# Nested lyric sections %>
   <% if song.lyrics.any? %>
     <div class="space-y-5">
-      <h2 class="text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label border-b border-outline-variant/20 pb-2">Lyrics Sections</h2>
+      <h2 class="text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label border-b border-outline-variant/20 pb-2"><%= t("songs.form.lyrics_sections") %></h2>
       <%= f.fields_for :lyrics, song.lyrics.order(:position) do |lf| %>
         <div class="bg-surface-container rounded-lg p-4 space-y-3">
           <div>
-            <%= lf.label :section_type, "Section Label", class: "block text-xs font-medium text-on-surface-variant font-label mb-1" %>
+            <%= lf.label :section_type, t("songs.form.section_label"), class: "block text-xs font-medium text-on-surface-variant font-label mb-1" %>
             <%= lf.text_field :section_type,
                   class: "border border-outline-variant/30 rounded-lg px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface bg-surface-container-lowest font-body",
-                  placeholder: "verse, chorus, bridge..." %>
+                  placeholder: t("songs.form.placeholder_section_type") %>
           </div>
           <div>
-            <%= lf.label :content, "Lyrics (Chinese)", class: "block text-xs font-medium text-on-surface-variant font-label mb-1" %>
+            <%= lf.label :content, t("songs.form.lyrics_content"), class: "block text-xs font-medium text-on-surface-variant font-label mb-1" %>
             <%= lf.text_area :content,
                   rows: 4,
                   class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-2 py-1 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body",
-                  placeholder: "One character per token, lines separated by newlines" %>
+                  placeholder: t("songs.form.placeholder_content") %>
           </div>
           <div>
-            <%= lf.label :pinyin, "Pinyin", class: "block text-xs font-medium text-on-surface-variant font-label mb-1" %>
+            <%= lf.label :pinyin, t("songs.form.pinyin"), class: "block text-xs font-medium text-on-surface-variant font-label mb-1" %>
             <%= lf.text_area :pinyin,
                   rows: 4,
                   class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body",
-                  placeholder: "Space-separated tone-marked pinyin, lines separated by newlines" %>
+                  placeholder: t("songs.form.placeholder_pinyin") %>
           </div>
           <%= lf.hidden_field :id %>
           <%= lf.hidden_field :position %>
@@ -74,12 +74,12 @@
       <% end %>
     </div>
   <% else %>
-    <p class="text-sm text-on-surface-variant italic font-body">No lyrics yet — lyrics appear here after import completes.</p>
+    <p class="text-sm text-on-surface-variant italic font-body"><%= t("songs.form.no_lyrics") %></p>
   <% end %>
 
   <div class="flex gap-3 pt-2">
-    <%= f.submit "Save Changes",
+    <%= f.submit t("songs.form.save"),
           class: "bg-gradient-to-r from-primary to-primary-container text-on-primary text-sm px-4 py-2 rounded-lg font-medium hover:opacity-95 active:scale-[0.98] transition-all cursor-pointer" %>
-    <%= link_to "Cancel", song_path(song), class: "text-sm text-on-surface-variant hover:text-primary transition-colors self-center font-body" %>
+    <%= link_to t("songs.form.cancel"), song_path(song), class: "text-sm text-on-surface-variant hover:text-primary transition-colors self-center font-body" %>
   </div>
 <% end %>

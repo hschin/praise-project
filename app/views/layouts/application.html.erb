@@ -40,20 +40,27 @@
           
           <%# Desktop nav %>
           <nav class="hidden md:flex gap-6">
-            <%= link_to "Decks", root_path, class: "font-medium transition-colors duration-200 #{request.path.start_with?('/decks') || request.path == '/' ? 'text-primary border-b-2 border-primary pb-0.5' : 'text-on-surface-variant hover:text-primary'}" %>
-            <%= link_to "Songs", songs_path, class: "font-medium transition-colors duration-200 #{request.path.start_with?('/songs') ? 'text-primary border-b-2 border-primary pb-0.5' : 'text-on-surface-variant hover:text-primary'}" %>
+            <%= link_to t("nav.decks"), root_path, class: "font-medium transition-colors duration-200 #{request.path.start_with?('/decks') || request.path == '/' ? 'text-primary border-b-2 border-primary pb-0.5' : 'text-on-surface-variant hover:text-primary'}" %>
+            <%= link_to t("nav.songs"), songs_path, class: "font-medium transition-colors duration-200 #{request.path.start_with?('/songs') ? 'text-primary border-b-2 border-primary pb-0.5' : 'text-on-surface-variant hover:text-primary'}" %>
             <% if current_user.admin? %>
-              <%= link_to "Admin", admin_path, class: "font-medium transition-colors duration-200 #{request.path == '/admin' ? 'text-primary border-b-2 border-primary pb-0.5' : 'text-on-surface-variant hover:text-primary'}" %>
+              <%= link_to t("nav.admin"), admin_path, class: "font-medium transition-colors duration-200 #{request.path == '/admin' ? 'text-primary border-b-2 border-primary pb-0.5' : 'text-on-surface-variant hover:text-primary'}" %>
             <% end %>
           </nav>
         </div>
-        
+
         <%# Desktop actions %>
         <div class="hidden md:flex items-center gap-4">
-          <%= button_to "New Deck", quick_create_decks_path, method: :post,
+          <%# Locale toggle %>
+          <div class="flex items-center gap-1 bg-surface-container rounded-lg p-0.5 text-xs font-medium font-label">
+            <%= button_to "EN", locale_path(locale: :en), method: :patch,
+                  class: "px-2.5 py-1 rounded-md transition-all cursor-pointer border-0 #{I18n.locale == :en ? 'bg-surface text-on-surface shadow-sm' : 'text-on-surface-variant hover:text-on-surface bg-transparent'}" %>
+            <%= button_to "中文", locale_path(locale: :"zh-CN"), method: :patch,
+                  class: "px-2.5 py-1 rounded-md transition-all cursor-pointer border-0 #{I18n.locale == :"zh-CN" ? 'bg-surface text-on-surface shadow-sm' : 'text-on-surface-variant hover:text-on-surface bg-transparent'}" %>
+          </div>
+          <%= button_to t("nav.new_deck"), quick_create_decks_path, method: :post,
                 class: "bg-gradient-to-r from-primary to-primary-container text-on-primary px-5 py-2 rounded-xl font-medium hover:opacity-90 transition-all active:scale-95 duration-150 cursor-pointer" %>
           <span class="text-sm text-on-surface-variant"><%= current_user.email %></span>
-          <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete },
+          <%= link_to t("nav.logout"), destroy_user_session_path, data: { turbo_method: :delete },
                 class: "text-on-surface-variant font-medium hover:text-primary transition-colors" %>
         </div>
         
@@ -72,36 +79,46 @@
                   data: { action: "click->mobile-menu#close" },
                   class: "flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors #{request.path.start_with?('/decks') || request.path == '/' ? 'bg-primary/10 text-primary' : 'text-on-surface hover:bg-surface-container-low'}" do %>
               <span class="material-symbols-outlined text-[20px]">dashboard</span>
-              Decks
+              <%= t("nav.decks") %>
             <% end %>
             <%= link_to songs_path,
                   data: { action: "click->mobile-menu#close" },
                   class: "flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors #{request.path.start_with?('/songs') ? 'bg-primary/10 text-primary' : 'text-on-surface hover:bg-surface-container-low'}" do %>
               <span class="material-symbols-outlined text-[20px]">library_music</span>
-              Songs
+              <%= t("nav.songs") %>
             <% end %>
             <% if current_user.admin? %>
               <%= link_to admin_path,
                     data: { action: "click->mobile-menu#close" },
                     class: "flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors #{request.path == '/admin' ? 'bg-primary/10 text-primary' : 'text-on-surface hover:bg-surface-container-low'}" do %>
                 <span class="material-symbols-outlined text-[20px]">analytics</span>
-                Admin
+                <%= t("nav.admin") %>
               <% end %>
             <% end %>
           </nav>
-          
+
           <div class="border-t border-outline-variant/20 p-4 space-y-3">
-            <%= button_to "New Deck", quick_create_decks_path, method: :post,
+            <%# Locale toggle — mobile %>
+            <div class="flex items-center gap-1 bg-surface-container rounded-lg p-0.5 text-xs font-medium font-label w-fit">
+              <%= button_to "EN", locale_path(locale: :en), method: :patch,
+                    data: { action: "click->mobile-menu#close" },
+                    class: "px-3 py-1.5 rounded-md transition-all cursor-pointer border-0 #{I18n.locale == :en ? 'bg-surface text-on-surface shadow-sm' : 'text-on-surface-variant hover:text-on-surface bg-transparent'}" %>
+              <%= button_to "中文", locale_path(locale: :"zh-CN"), method: :patch,
+                    data: { action: "click->mobile-menu#close" },
+                    class: "px-3 py-1.5 rounded-md transition-all cursor-pointer border-0 #{I18n.locale == :"zh-CN" ? 'bg-surface text-on-surface shadow-sm' : 'text-on-surface-variant hover:text-on-surface bg-transparent'}" %>
+            </div>
+
+            <%= button_to t("nav.new_deck"), quick_create_decks_path, method: :post,
                   data: { action: "click->mobile-menu#close" },
                   class: "w-full bg-gradient-to-r from-primary to-primary-container text-on-primary px-5 py-3 rounded-xl font-medium hover:opacity-90 transition-all active:scale-95 duration-150 cursor-pointer" %>
-            
+
             <div class="flex items-center justify-between px-4 py-2">
               <span class="text-sm text-on-surface-variant truncate flex-1 mr-4"><%= current_user.email %></span>
-              <%= link_to destroy_user_session_path, 
+              <%= link_to destroy_user_session_path,
                     data: { turbo_method: :delete },
                     class: "text-on-surface-variant font-medium hover:text-primary transition-colors flex items-center gap-1" do %>
                 <span class="material-symbols-outlined text-[18px]">logout</span>
-                <span>Logout</span>
+                <span><%= t("nav.logout") %></span>
               <% end %>
             </div>
           </div>

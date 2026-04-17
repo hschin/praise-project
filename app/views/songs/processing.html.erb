@@ -1,7 +1,7 @@
 <%= turbo_stream_from "song_import_#{@title.parameterize}" %>
 
 <div class="max-w-lg mx-auto px-4 py-16">
-  <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-3">Importing song</p>
+  <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-3"><%= t("songs.importing") %></p>
   <h1 class="font-headline text-4xl text-on-surface mb-10"><%= @title %></h1>
 
   <div id="import_status">
@@ -12,12 +12,12 @@
     <% if @deck_id.present? %>
       <%= link_to deck_path(@deck_id), class: "inline-flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors font-body" do %>
         <span class="material-symbols-outlined text-[14px]">arrow_back</span>
-        Back to deck
+        <%= t("songs.back_to_deck") %>
       <% end %>
     <% else %>
       <%= link_to songs_path, class: "inline-flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors font-body" do %>
         <span class="material-symbols-outlined text-[14px]">arrow_back</span>
-        Song Library
+        <%= t("songs.back_to_library") %>
       <% end %>
     <% end %>
   </div>

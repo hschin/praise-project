@@ -6,6 +6,8 @@ export default class extends Controller {
   toggle() {
     this.containerTarget.classList.toggle("pinyin-hidden")
     const hidden = this.containerTarget.classList.contains("pinyin-hidden")
-    this.buttonTarget.textContent = hidden ? "Show Pinyin" : "Hide Pinyin"
+    this.buttonTarget.textContent = hidden
+      ? (this.buttonTarget.dataset.showText || "Show Pinyin")
+      : (this.buttonTarget.dataset.hideText || "Hide Pinyin")
   }
 }

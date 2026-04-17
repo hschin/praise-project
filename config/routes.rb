@@ -38,5 +38,7 @@ Rails.application.routes.draw do
   get  "admin/decks"     => "admin#decks",  as: :admin_decks
   get  "admin/decks/:id" => "admin#deck",   as: :admin_deck
 
+  patch "locale", to: "locales#update", as: :locale
+
   get "up" => "rails/health#show", as: :rails_health_check
 end

@@ -1,10 +1,10 @@
 <div class="max-w-2xl mx-auto px-4 py-8">
   <%= link_to song_path(@song), class: "inline-flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors font-body mb-4" do %>
     <span class="material-symbols-outlined text-[14px]">arrow_back</span>
-    Back to song
+    <%= t("songs.back_to_song") %>
   <% end %>
 
-  <h1 class="font-headline text-3xl text-on-surface mb-6">Edit Song</h1>
+  <h1 class="font-headline text-3xl text-on-surface mb-6"><%= t("songs.edit_title") %></h1>
 
   <%= render "form", song: @song %>
 </div>

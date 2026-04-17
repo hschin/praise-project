@@ -1,31 +1,90 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  nav:
+    decks: Decks
+    songs: Songs
+    admin: Admin
+    new_deck: New Deck
+    logout: Logout
+
+  songs:
+    library: Song Library
+    library_subtitle: Curate and organize your congregation's spiritual soundtrack.
+    search_label: Search songs
+    search_placeholder: Search by title, English name, or artist...
+    no_results: No songs in your library match that title.
+    import_web: Import from web
+    import_web_subtitle: Claude searches and structures lyrics
+    paste_lyrics: Paste lyrics
+    paste_lyrics_subtitle: Already have lyrics? Claude adds pinyin
+    add_title: Add Song
+    add_subtitle: Paste raw lyrics and Claude will structure them with pinyin.
+    back_to_library: Song Library
+    back_to_deck: Back to deck
+    back_to_song: Back to song
+    add_to_deck: Add to deck
+    key_of: "Key of %{key}"
+    ccli: "CCLI %{number}"
+    edit_title: Edit Song
+    importing: Importing song
+    searching: Searching
+    searching_status: Searching for matching songs
+    searching_detail: Looking up lyrics from the web
+    by_artist: "by %{artist}"
+    form:
+      title: Title
+      english_title: English Title
+      artist: Artist
+      default_key: Default Key
+      ccli_number: CCLI Number
+      lyrics_sections: Lyrics Sections
+      section_label: Section Label
+      lyrics_content: Lyrics (Chinese)
+      pinyin: Pinyin
+      save: Save Changes
+      cancel: Cancel
+      submit_new: Import Pasted Lyrics
+      no_lyrics: No lyrics yet — lyrics appear here after import completes.
+      select_key: Select key
+      placeholder_title: "e.g. 奇异恩典"
+      placeholder_english_title: English name or alias
+      placeholder_ccli: "e.g. 1234567"
+      placeholder_lyrics: Paste raw lyrics here — any format accepted
+      placeholder_section_type: "verse, chorus, bridge..."
+      placeholder_content: One character per token, lines separated by newlines
+      placeholder_pinyin: Space-separated tone-marked pinyin, lines separated by newlines
+    lyrics:
+      edit: Edit
+      delete: Delete
+      hide_pinyin: Hide Pinyin
+      show_pinyin: Show Pinyin
+      delete_confirm: 'Delete "%{title}"?'
+
+  decks:
+    title: My Decks
+    subtitle: Curated collections for your upcoming services.
+    pick_title: Choose a Deck
+    pick_subtitle: Select the deck you want to add this song to.
+    adding_label: Adding to a deck
+    cancel: Cancel
+    add_here: Add here
+    songs_count:
+      one: "1 song"
+      other: "%{count} songs"
+    create_new: Create New Deck
+    empty_title: Begin your creative journey
+    empty_step1_title: Search for songs
+    empty_step1_desc: Explore and build your library.
+    empty_step2_title: Build your deck
+    empty_step2_desc: Arrange lyrics into a worship order.
+    empty_step3_title: Download as PPTX
+    empty_step3_desc: Export perfectly formatted slides.
+
+  section_types:
+    verse: Verse
+    chorus: Chorus
+    bridge: Bridge
+    intro: Intro
+    outro: Outro
+    pre_chorus: Pre-Chorus
+    tag: Tag
+    song: Song

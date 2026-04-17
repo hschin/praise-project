@@ -1,19 +1,18 @@
 module ApplicationHelper
-  SECTION_TYPE_TRANSLATIONS = {
-    "主歌" => "Verse", "verse" => "Verse",
-    "副歌" => "Chorus", "chorus" => "Chorus",
-    "桥段" => "Bridge", "bridge" => "Bridge",
-    "前奏" => "Intro", "intro" => "Intro",
-    "尾奏" => "Outro", "outro" => "Outro",
-    "结尾" => "Outro",
-    "诗歌" => "Song",
-    "pre-chorus" => "Pre-Chorus", "前副歌" => "Pre-Chorus",
-    "tag" => "Tag", "尾声" => "Tag"
+  SECTION_TYPE_KEY_MAP = {
+    "主歌" => :verse,   "verse" => :verse,
+    "副歌" => :chorus,  "chorus" => :chorus,
+    "桥段" => :bridge,  "bridge" => :bridge,
+    "前奏" => :intro,   "intro" => :intro,
+    "尾奏" => :outro,   "outro" => :outro,   "结尾" => :outro,
+    "诗歌" => :song,
+    "pre-chorus" => :pre_chorus, "前副歌" => :pre_chorus,
+    "tag" => :tag,      "尾声" => :tag
   }.freeze
 
   def localized_section_type(section_type)
-    SECTION_TYPE_TRANSLATIONS[section_type.to_s] ||
-      SECTION_TYPE_TRANSLATIONS[section_type.to_s.downcase] ||
-      section_type.to_s.humanize
+    key = SECTION_TYPE_KEY_MAP[section_type.to_s] ||
+          SECTION_TYPE_KEY_MAP[section_type.to_s.downcase]
+    key ? t("section_types.#{key}") : section_type.to_s.humanize
   end
 end

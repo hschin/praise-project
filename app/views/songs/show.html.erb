@@ -4,12 +4,12 @@
   <div class="flex items-center justify-between mb-4">
     <%= link_to songs_path, class: "inline-flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors font-body" do %>
       <span class="material-symbols-outlined text-[14px]">arrow_back</span>
-      Song Library
+      <%= t("songs.back_to_library") %>
     <% end %>
     <% if @song.done? %>
       <%= link_to decks_path(song_id: @song.id), class: "inline-flex items-center gap-1.5 text-sm bg-gradient-to-r from-primary to-primary-container text-on-primary px-4 py-2 rounded-lg font-medium hover:opacity-95 active:scale-[0.98] transition-all" do %>
         <span class="material-symbols-outlined text-[16px]">add</span>
-        Add to deck
+        <%= t("songs.add_to_deck") %>
       <% end %>
     <% end %>
   </div>
@@ -29,13 +29,13 @@
       <% if @song.default_key.present? %>
         <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
           <span class="material-symbols-outlined text-[14px] text-outline">music_note</span>
-          Key of <%= @song.default_key %>
+          <%= t("songs.key_of", key: @song.default_key) %>
         </span>
       <% end %>
       <% if @song.ccli_number.present? %>
         <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
           <span class="material-symbols-outlined text-[14px] text-outline">tag</span>
-          CCLI <%= @song.ccli_number %>
+          <%= t("songs.ccli", number: @song.ccli_number) %>
         </span>
       <% end %>
     </div>
