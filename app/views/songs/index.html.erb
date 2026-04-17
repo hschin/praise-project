@@ -77,22 +77,19 @@
               <h3 class="font-headline text-xl text-on-surface group-hover:text-primary transition-colors leading-tight truncate"><%= song.title %></h3>
               <p class="text-sm text-on-surface-variant/70 font-body mt-0.5 truncate min-h-[1.25rem]"><%= song.english_title %></p>
               <div class="flex items-center gap-2 mt-1.5 overflow-hidden">
-                <% meta = [] %>
-                <% meta << { icon: "person",     label: song.artist }                    if song.artist.present? %>
-                <% meta << { icon: "music_note",  label: song.default_key }               if song.default_key.present? %>
-                <% meta << { icon: "tag",          label: "CCLI #{song.ccli_number}" }   if song.ccli_number.present? %>
-                <% if meta.any? %>
-                  <% meta.each_with_index do |m, i| %>
-                    <% unless i == 0 %>
-                      <span class="text-outline/30 text-xs flex-shrink-0">·</span>
-                    <% end %>
-                    <span class="inline-flex items-center gap-0.5 text-xs text-on-surface-variant font-body flex-shrink-0">
-                      <span class="material-symbols-outlined text-[13px] text-outline"><%=m[:icon]%></span>
-                      <span class="truncate"><%= m[:label] %></span>
-                    </span>
+                <% meta = [
+                     { icon: "person",     label: song.artist.presence,       placeholder: "Unknown artist" },
+                     { icon: "music_note", label: song.default_key.presence,  placeholder: "No key" },
+                     { icon: "tag",        label: song.ccli_number.presence ? "CCLI #{song.ccli_number}" : nil, placeholder: "No CCLI" },
+                   ] %>
+                <% meta.each_with_index do |m, i| %>
+                  <% unless i == 0 %>
+                    <span class="text-outline/30 text-xs flex-shrink-0">·</span>
                   <% end %>
-                <% else %>
-                  <span class="min-h-[1rem]"></span>
+                  <span class="inline-flex items-center gap-0.5 text-xs font-body flex-shrink-0 <%= m[:label] ? 'text-on-surface-variant' : 'text-outline/50' %>">
+                    <span class="material-symbols-outlined text-[13px] text-outline/60"><%= m[:icon] %></span>
+                    <span class="truncate"><%= m[:label] || m[:placeholder] %></span>
+                  </span>
                 <% end %>
               </div>
             <% end %>
