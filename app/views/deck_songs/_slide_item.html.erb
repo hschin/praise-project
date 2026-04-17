@@ -20,17 +20,21 @@
     </span>
     <p class="text-sm text-on-surface truncate font-body"><%= lyric.content.to_s.lines.first&.strip %></p>
   </div>
-  <div class="flex items-center gap-2 shrink-0">
-    <%= button_to "+ Repeat",
-        update_arrangement_deck_deck_song_path(deck_song.deck, deck_song),
+  <div class="flex items-center gap-1 shrink-0">
+    <%= button_to update_arrangement_deck_deck_song_path(deck_song.deck, deck_song),
         method: :patch,
         params: { arrangement: new_arrangement_repeat },
-        class: "text-xs text-secondary bg-secondary/5 hover:bg-secondary/10 bg-transparent border-0 cursor-pointer px-1 font-label" %>
-    <%= button_to "Remove",
-        update_arrangement_deck_deck_song_path(deck_song.deck, deck_song),
+        title: "Repeat section",
+        class: "p-1 rounded-lg text-outline hover:text-primary hover:bg-surface-container transition-colors bg-transparent border-0 cursor-pointer" do %>
+      <span class="material-symbols-outlined text-[16px]">repeat</span>
+    <% end %>
+    <%= button_to update_arrangement_deck_deck_song_path(deck_song.deck, deck_song),
         method: :patch,
         params: { arrangement: new_arrangement_without },
+        title: "Remove from arrangement",
         data: { turbo_confirm: "Remove this slide from the arrangement?" },
-        class: "text-xs text-error hover:bg-error-container bg-transparent border-0 cursor-pointer px-1 rounded font-label" %>
+        class: "p-1 rounded-lg text-outline hover:text-error hover:bg-surface-container transition-colors bg-transparent border-0 cursor-pointer" do %>
+      <span class="material-symbols-outlined text-[16px]">remove_circle</span>
+    <% end %>
   </div>
 </div>
