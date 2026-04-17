@@ -7,7 +7,7 @@ image: praise_project
 # Deploy to these servers.
 servers:
   web:
-    - 192.168.0.1
+    - praise-project.hschin.com
   # job:
   #   hosts:
   #     - 192.168.0.1
