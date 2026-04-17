@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # Exchange the GitHub OIDC token for temporary AWS credentials.
       # No long-lived access keys stored as secrets — the IAM role trust policy
