@@ -51,6 +51,9 @@ class SongsController < ApplicationController
     redirect_to processing_songs_path(title: title, deck_id: deck_id)
   end
 
+  def paste
+  end
+
   def processing
     @title   = params[:title].to_s.strip
     @deck_id = params[:deck_id].presence
