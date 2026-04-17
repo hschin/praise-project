@@ -4,6 +4,7 @@ name: Deploy to AWS ECS
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 permissions:
   id-token: write   # Required for OIDC token exchange with AWS
