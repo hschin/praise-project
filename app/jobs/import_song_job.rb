@@ -110,7 +110,18 @@ class ImportSongJob < ApplicationJob
   def save_lyrics!(song, sections)
     sections.each_with_index do |section, idx|
       lines_content = section["lines"].map { |l| l["chars"].join }.join("\n")
-      lines_pinyin  = section["lines"].map { |l| l["pinyin"].join(" ") }.join("\n")
+      lines_pinyin  = section["lines"].map do |l|
+        chars   = l["chars"] || []
+        pinyins = l["pinyin"] || []
+        # Claude sometimes returns one token per char (including punctuation).
+        # When lengths match, filter to Han-only so punctuation tokens don't
+        # shift pinyin alignment in the view.
+        if chars.length == pinyins.length
+          chars.zip(pinyins).filter_map { |c, p| c.match?(/\p{Han}/) ? p : nil }.join(" ")
+        else
+          pinyins.join(" ")
+        end
+      end.join("\n")
       song.lyrics.create!(
         section_type: section["section_type"],
         position:     idx + 1,
