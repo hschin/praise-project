@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  root "decks#index"
+  root "home#index"
+  get "app", to: "decks#index", as: :app
 
   resources :decks do
     collection do
