@@ -72,7 +72,7 @@
         <div class="group rounded-xl bg-surface-container-low/40 hover:bg-surface-container-low transition-all duration-200 shadow-[0_1px_3px_rgba(31,27,23,0.02)] hover:shadow-[0_4px_12px_rgba(31,27,23,0.06)] border border-outline-variant/8 overflow-hidden"
              data-song-search-target="item"
              data-title="<%= song.title %>">
-          <div class="flex items-start justify-between p-5 pb-3">
+          <div class="flex items-start p-5 pb-3">
             <%= link_to song_path(song), class: "flex-1 min-w-0 focus:outline-none" do %>
               <h3 class="font-headline text-xl text-on-surface group-hover:text-primary transition-colors leading-tight truncate"><%= song.title %></h3>
               <p class="text-sm text-on-surface-variant/70 font-body mt-0.5 truncate min-h-[1.25rem]"><%= song.english_title %></p>
@@ -93,13 +93,6 @@
                 <% end %>
               </div>
             <% end %>
-            <div class="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-4 mt-0.5">
-              <%= button_to song_path(song), method: :delete,
-                    data: { turbo_confirm: "Delete \"#{song.title}\"?" },
-                    class: "p-2 text-error hover:bg-error-container rounded-full transition-all cursor-pointer bg-transparent border-0" do %>
-                <span class="material-symbols-outlined text-[18px]">delete</span>
-              <% end %>
-            </div>
           </div>
           <% first_lyric = song.lyrics.order(:position).first %>
           <% if first_lyric %>
