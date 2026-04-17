@@ -4,6 +4,7 @@ class DecksController < ApplicationController
 
   def index
     @decks = current_user.decks.order(date: :desc)
+    @song = Song.find_by(id: params[:song_id]) if params[:song_id]
   end
 
   def show

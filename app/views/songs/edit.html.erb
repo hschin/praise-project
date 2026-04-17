@@ -1,8 +1,10 @@
 <div class="max-w-2xl mx-auto px-4 py-8">
-  <div class="flex items-center justify-between mb-6">
-    <h1 class="font-headline text-3xl text-on-surface">Edit Song</h1>
-    <%= link_to "Cancel", song_path(@song), class: "text-sm text-on-surface-variant hover:text-primary transition-colors font-body" %>
-  </div>
+  <%= link_to song_path(@song), class: "inline-flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors font-body mb-4" do %>
+    <span class="material-symbols-outlined text-[14px]">arrow_back</span>
+    Back to song
+  <% end %>
+
+  <h1 class="font-headline text-3xl text-on-surface mb-6">Edit Song</h1>
 
   <%= render "form", song: @song %>
 </div>
