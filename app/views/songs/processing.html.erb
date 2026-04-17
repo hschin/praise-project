@@ -5,7 +5,7 @@
   <h1 class="font-headline text-4xl text-on-surface mb-10"><%= @title %></h1>
 
   <div id="import_status">
-    <%= render "songs/processing", step: "searching" %>
+    <%= render "songs/processing", step: (params[:step] || "searching") %>
   </div>
 
   <div class="mt-10">
