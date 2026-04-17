@@ -79,7 +79,7 @@
               <div class="flex items-center gap-2 mt-1.5 overflow-hidden">
                 <% meta = [] %>
                 <% meta << { icon: "person",     label: song.artist }                    if song.artist.present? %>
-                <% meta << { icon: "music_note",  label: "Key #{song.default_key}" }     if song.default_key.present? %>
+                <% meta << { icon: "music_note",  label: song.default_key }               if song.default_key.present? %>
                 <% meta << { icon: "tag",          label: "CCLI #{song.ccli_number}" }   if song.ccli_number.present? %>
                 <% if meta.any? %>
                   <% meta.each_with_index do |m, i| %>
