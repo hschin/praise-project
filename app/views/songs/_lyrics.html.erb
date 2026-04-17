@@ -4,7 +4,8 @@
       <%= link_to "Edit", edit_song_path(song), class: "text-sm text-primary hover:underline decoration-outline-variant font-body" %>
       <%= button_to "Delete", song_path(song), method: :delete,
             data: { turbo_confirm: "Delete \"#{song.title}\"?" },
-            class: "text-sm text-error hover:underline decoration-outline-variant font-body bg-transparent border-0 cursor-pointer p-0" %>
+            form_class: "flex items-center",
+            class: "text-sm text-error hover:underline decoration-outline-variant font-body bg-transparent border-0 cursor-pointer p-0 leading-none" %>
     </div>
     <button data-pinyin-toggle-target="button"
             data-action="click->pinyin-toggle#toggle"
