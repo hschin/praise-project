@@ -49,17 +49,17 @@ Worship leaders can go from song title to a complete, formatted Chinese+pinyin P
 - Helpful error states, clear loading indicators, polished flash messages
 - Onboarding cues and empty states guiding new users through the full workflow
 
-### Active
+### Completed
 
-- [ ] UI has a warm, worshipful visual identity (custom palette, typography, rounded components)
-- [ ] Deck creation is the primary navigation flow; songs can be added inline
-- [ ] Song library page is retained but de-emphasized in navigation
-- [ ] All forms use consistent input styles, labels, and spacing
-- [ ] Error states provide actionable messages; loading states are clearly indicated
-- [ ] Flash messages are visually polished and contextually appropriate
-- [ ] Empty states guide new users on what to do next
-- [ ] Song can store English title as alias for bilingual search (META-01)
-- [ ] Song can store CCLI number, key, and artist/composer (META-02)
+- ✓ UI has a warm, worshipful visual identity (custom palette, typography, rounded components)
+- ✓ Deck creation is the primary navigation flow; songs can be added inline
+- ✓ Song library page is retained but de-emphasized in navigation
+- ✓ All forms use consistent input styles, labels, and spacing
+- ✓ Error states provide actionable messages; loading states are clearly indicated
+- ✓ Flash messages are visually polished and contextually appropriate
+- ✓ Empty states guide new users on what to do next
+- ✓ Song can store English title as alias for bilingual search (META-01)
+- ✓ Song can store CCLI number, key, and artist/composer (META-02)
 
 ### Out of Scope
 
