@@ -39,8 +39,11 @@
           
           <%# Desktop nav %>
           <nav class="hidden md:flex gap-6">
-            <%= link_to "Decks", decks_path, class: "font-medium transition-colors duration-200 #{request.path.start_with?('/decks') ? 'text-primary border-b-2 border-primary pb-0.5' : 'text-on-surface-variant hover:text-primary'}" %>
+            <%= link_to "Decks", root_path, class: "font-medium transition-colors duration-200 #{request.path.start_with?('/decks') || request.path == '/' ? 'text-primary border-b-2 border-primary pb-0.5' : 'text-on-surface-variant hover:text-primary'}" %>
             <%= link_to "Songs", songs_path, class: "font-medium transition-colors duration-200 #{request.path.start_with?('/songs') ? 'text-primary border-b-2 border-primary pb-0.5' : 'text-on-surface-variant hover:text-primary'}" %>
+            <% if current_user.admin? %>
+              <%= link_to "Admin", admin_path, class: "font-medium transition-colors duration-200 #{request.path == '/admin' ? 'text-primary border-b-2 border-primary pb-0.5' : 'text-on-surface-variant hover:text-primary'}" %>
+            <% end %>
           </nav>
         </div>
         
@@ -64,9 +67,9 @@
         <div data-mobile-menu-target="menu"
              class="hidden absolute top-16 left-0 right-0 bg-surface/95 backdrop-blur-xl shadow-lg border-t border-outline-variant/20">
           <nav class="flex flex-col p-4 gap-1">
-            <%= link_to decks_path, 
+            <%= link_to root_path,
                   data: { action: "click->mobile-menu#close" },
-                  class: "flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors #{request.path.start_with?('/decks') ? 'bg-primary/10 text-primary' : 'text-on-surface hover:bg-surface-container-low'}" do %>
+                  class: "flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors #{request.path.start_with?('/decks') || request.path == '/' ? 'bg-primary/10 text-primary' : 'text-on-surface hover:bg-surface-container-low'}" do %>
               <span class="material-symbols-outlined text-[20px]">dashboard</span>
               Decks
             <% end %>
@@ -75,6 +78,14 @@
                   class: "flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors #{request.path.start_with?('/songs') ? 'bg-primary/10 text-primary' : 'text-on-surface hover:bg-surface-container-low'}" do %>
               <span class="material-symbols-outlined text-[20px]">library_music</span>
               Songs
+            <% end %>
+            <% if current_user.admin? %>
+              <%= link_to admin_path,
+                    data: { action: "click->mobile-menu#close" },
+                    class: "flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors #{request.path == '/admin' ? 'bg-primary/10 text-primary' : 'text-on-surface hover:bg-surface-container-low'}" do %>
+                <span class="material-symbols-outlined text-[20px]">analytics</span>
+                Admin
+              <% end %>
             <% end %>
           </nav>
           
