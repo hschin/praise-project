@@ -135,7 +135,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-6">
       <%# Step 1 — Import %>
       <div class="bg-surface-container-lowest rounded-2xl shadow-ambient border border-outline-variant/20 hover:-translate-y-1 transition-transform duration-200 overflow-hidden">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-col">
           <div class="p-8">
             <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
               <span class="material-symbols-outlined text-primary text-[24px]">auto_awesome</span>
@@ -145,7 +145,7 @@
               Type a song title or paste lyrics. AI searches the web, fetches the full lyrics, and structures them into labelled sections — complete with tone-marked pinyin.
             </p>
           </div>
-          <div class="bg-surface-container p-8 flex items-center">
+          <div class="bg-surface-container p-8 flex items-center lg:flex-1">
             <div class="w-full bg-surface-container-lowest rounded-xl p-4 text-sm font-mono space-y-2">
               <div class="flex items-center gap-3">
                 <span class="material-symbols-outlined text-[16px] text-on-surface-variant">search</span>
@@ -172,7 +172,7 @@
 
       <%# Step 2 — Build deck %>
       <div class="bg-surface-container-lowest rounded-2xl shadow-ambient border border-outline-variant/20 hover:-translate-y-1 transition-transform duration-200 overflow-hidden">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-col">
           <div class="p-8">
             <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
               <span class="material-symbols-outlined text-primary text-[24px]">dashboard_customize</span>
@@ -182,7 +182,7 @@
               Add songs to a service deck, drag to reorder, repeat a chorus, skip an intro. Pick an AI-suggested theme or choose your own colours and background photo.
             </p>
           </div>
-          <div class="bg-surface-container p-8 flex items-center">
+          <div class="bg-surface-container p-8 flex items-center lg:flex-1">
             <div class="w-full space-y-2">
               <% [["奇异恩典", "C", 1], ["主祢是我力量", "G", 2], ["哈利路亚颂", "D", 3]].each do |title, key, pos| %>
                 <div class="flex items-center gap-3 bg-surface-container-lowest rounded-lg px-3 py-2">
@@ -199,7 +199,7 @@
 
       <%# Step 3 — Export %>
       <div class="bg-surface-container-lowest rounded-2xl shadow-ambient border border-outline-variant/20 hover:-translate-y-1 transition-transform duration-200 overflow-hidden">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-col">
           <div class="p-8">
             <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
               <span class="material-symbols-outlined text-primary text-[24px]">slideshow</span>
@@ -209,7 +209,7 @@
               One click generates a widescreen 16:9 PPTX with embedded Chinese fonts — so it renders perfectly on any Windows projector, no font installation needed.
             </p>
           </div>
-          <div class="bg-[#1a1a2e] p-8 flex items-center justify-center">
+          <div class="bg-[#1a1a2e] p-8 flex items-center justify-center lg:flex-1">
             <div class="text-center space-y-1.5">
               <ruby class="text-white text-xl font-medium leading-loose">
                 奇<rt class="text-white/40 text-[8px]">qí</rt>
