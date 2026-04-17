@@ -74,15 +74,32 @@
              data-title="<%= song.title %>">
           <%= link_to song_path(song), class: "flex flex-col flex-1 min-w-0 focus:outline-none" do %>
             <h3 class="font-headline text-xl text-on-surface group-hover:text-primary transition-colors"><%= song.title %></h3>
-            <p class="text-xs text-on-surface-variant font-body mt-0.5">
-              <%= song.artist.presence || "Unknown artist" %>
-              <% if song.default_key.present? %>
-                <span class="mx-1 opacity-40">·</span>Key: <%= song.default_key %>
+            <% if song.english_title.present? %>
+              <p class="text-sm text-on-surface-variant/70 font-body"><%= song.english_title %></p>
+            <% end %>
+            <div class="flex flex-wrap items-center gap-3 mt-1">
+              <% if song.artist.present? %>
+                <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
+                  <span class="material-symbols-outlined text-[14px] text-outline">person</span>
+                  <%= song.artist %>
+                </span>
               <% end %>
-            </p>
+              <% if song.default_key.present? %>
+                <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
+                  <span class="material-symbols-outlined text-[14px] text-outline">music_note</span>
+                  Key of <%= song.default_key %>
+                </span>
+              <% end %>
+              <% if song.ccli_number.present? %>
+                <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
+                  <span class="material-symbols-outlined text-[14px] text-outline">tag</span>
+                  CCLI <%= song.ccli_number %>
+                </span>
+              <% end %>
+            </div>
             <% first_lyric = song.lyrics.order(:position).first %>
             <% if first_lyric %>
-              <p class="text-sm text-on-surface-variant font-body italic truncate mt-0.5"><%= first_lyric.content.to_s.split("\n").first %></p>
+              <p class="text-sm text-on-surface-variant font-body italic truncate mt-1"><%= first_lyric.content.to_s.split("\n").first %></p>
             <% end %>
           <% end %>
           <div class="flex items-center gap-4 flex-shrink-0 ml-4">
