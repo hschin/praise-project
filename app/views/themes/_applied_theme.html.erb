@@ -1,33 +1,42 @@
 <%# locals: (theme:, deck:) %>
-<div class="rounded-xl overflow-hidden border border-outline-variant/20 shadow-sm">
-  <% if theme.background_image.attached? %>
-    <div class="h-20 overflow-hidden">
-      <img src="<%= url_for(theme.background_image) %>"
-           alt="Theme background"
-           class="w-full h-full object-cover">
-    </div>
-  <% elsif theme.unsplash_url.present? %>
-    <div class="h-20 overflow-hidden">
-      <img src="<%= theme.unsplash_url %>"
-           alt="<%= theme.name %> background"
-           class="w-full h-full object-cover"
-           loading="lazy">
-    </div>
-  <% else %>
-    <div class="h-20" style="background-color: <%= theme.background_color %>;"></div>
-  <% end %>
+<details class="group/theme rounded-xl overflow-hidden border border-outline-variant/20 shadow-sm hover:border-primary/40 transition-colors">
 
-  <div class="px-3 py-2 bg-surface-container-lowest flex items-center gap-3">
-    <div class="flex items-center gap-1.5 shrink-0">
-      <div class="w-4 h-4 rounded-full border border-outline-variant/30"
-           style="background-color: <%= theme.background_color %>;" title="Background"></div>
-      <div class="w-4 h-4 rounded-full border border-outline-variant/30"
-           style="background-color: <%= theme.text_color %>;" title="Text"></div>
+  <summary class="list-none cursor-pointer">
+    <% if theme.background_image.attached? %>
+      <div class="h-20 overflow-hidden">
+        <img src="<%= url_for(theme.background_image) %>"
+             alt="Theme background"
+             class="w-full h-full object-cover">
+      </div>
+    <% elsif theme.unsplash_url.present? %>
+      <div class="h-20 overflow-hidden">
+        <img src="<%= theme.unsplash_url %>"
+             alt="<%= theme.name %> background"
+             class="w-full h-full object-cover"
+             loading="lazy">
+      </div>
+    <% else %>
+      <div class="h-20" style="background-color: <%= theme.background_color %>;"></div>
+    <% end %>
+
+    <div class="px-3 py-2 bg-surface-container-lowest flex items-center gap-3">
+      <div class="flex items-center gap-1.5 shrink-0">
+        <div class="w-4 h-4 rounded-full border border-outline-variant/30"
+             style="background-color: <%= theme.background_color %>;" title="Background"></div>
+        <div class="w-4 h-4 rounded-full border border-outline-variant/30"
+             style="background-color: <%= theme.text_color %>;" title="Text"></div>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-medium text-on-surface truncate font-body"><%= theme.name %></p>
+        <p class="text-xs text-on-surface-variant font-body"><%= theme.source.capitalize %> · Font: <%= theme.font_size %></p>
+      </div>
+      <span class="text-xs text-primary font-label shrink-0 group-open/theme:hidden">Change</span>
+      <span class="text-xs text-on-surface-variant font-label shrink-0 hidden group-open/theme:inline">Done</span>
     </div>
-    <div class="flex-1 min-w-0">
-      <p class="text-sm font-medium text-on-surface truncate font-body"><%= theme.name %></p>
-      <p class="text-xs text-on-surface-variant font-body"><%= theme.source.capitalize %> · Font: <%= theme.font_size %></p>
-    </div>
-    <p class="text-xs text-on-surface-variant/60 italic font-body shrink-0">Applied</p>
+  </summary>
+
+  <div class="border-t border-outline-variant/20 p-4 bg-surface-container-lowest">
+    <%= render "themes/form", deck: deck %>
   </div>
-</div>
+
+</details>
