@@ -76,7 +76,7 @@
             <%= link_to song_path(song), class: "flex-1 min-w-0 focus:outline-none" do %>
               <h3 class="font-headline text-xl text-on-surface group-hover:text-primary transition-colors leading-tight truncate"><%= song.title %></h3>
               <p class="text-sm text-on-surface-variant/70 font-body mt-0.5 truncate min-h-[1.25rem]"><%= song.english_title %></p>
-              <div class="flex items-center gap-2 mt-1.5 overflow-hidden">
+              <div class="flex items-center gap-2 mt-1.5 overflow-hidden min-w-0">
                 <% meta = [
                      { icon: "person",     label: song.artist.presence,       placeholder: "—" },
                      { icon: "music_note", label: song.default_key.presence,  placeholder: "—" },
@@ -86,8 +86,8 @@
                   <% unless i == 0 %>
                     <span class="text-outline/30 text-xs flex-shrink-0">·</span>
                   <% end %>
-                  <span class="inline-flex items-center gap-0.5 text-xs font-body flex-shrink-0 <%= m[:label] ? 'text-on-surface-variant' : 'text-outline/50' %>">
-                    <span class="material-symbols-outlined text-outline/60" style="font-size:14px;line-height:1"><%= m[:icon] %></span>
+                  <span class="inline-flex items-center gap-0.5 text-xs font-body <%= i == 0 ? 'min-w-0 shrink' : 'flex-shrink-0' %> <%= m[:label] ? 'text-on-surface-variant' : 'text-outline/50' %>">
+                    <span class="material-symbols-outlined text-outline/60 flex-shrink-0" style="font-size:14px;line-height:1"><%= m[:icon] %></span>
                     <span class="truncate"><%= m[:label] || m[:placeholder] %></span>
                   </span>
                 <% end %>
