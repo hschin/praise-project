@@ -69,10 +69,10 @@
       <% end %>
 
       <%# Add song — 2 cards stacked in 1 cell %>
-      <div class="flex flex-col gap-4">
-        <%= form_with url: import_songs_path, method: :post, data: { turbo: false } do |f| %>
+      <div class="flex flex-col gap-4 h-full">
+        <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex grow" do |f| %>
           <%= f.hidden_field :title, data: { "song-search-target": "importTitle" } %>
-          <button type="submit" class="w-full text-left rounded-xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container hover:shadow-md active:scale-[0.98] transition-all p-4 flex items-center gap-4 group shadow-sm cursor-pointer flex-1">
+          <button type="submit" class="w-full text-left rounded-xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container hover:shadow-md active:scale-[0.98] transition-all p-4 flex items-center gap-4 group shadow-sm cursor-pointer grow">
             <div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-tertiary/20 transition-colors">
               <span class="material-symbols-outlined text-tertiary text-[20px]">language</span>
             </div>
@@ -84,7 +84,7 @@
           </button>
         <% end %>
         <%= link_to new_song_path, data: { "song-search-target": "pastePath" },
-              class: "rounded-xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container hover:shadow-md active:scale-[0.98] transition-all p-4 flex items-center gap-4 group shadow-sm flex-1" do %>
+              class: "rounded-xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container hover:shadow-md active:scale-[0.98] transition-all p-4 flex items-center gap-4 group shadow-sm grow" do %>
           <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
             <span class="material-symbols-outlined text-primary text-[20px]">content_paste</span>
           </div>
@@ -100,10 +100,10 @@
   <% else %>
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
       <%# Add song — 2 cards stacked in 1 cell %>
-      <div class="flex flex-col gap-4">
-        <%= form_with url: import_songs_path, method: :post, data: { turbo: false } do |f| %>
+      <div class="flex flex-col gap-4 h-full">
+        <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex grow" do |f| %>
           <%= f.hidden_field :title, data: { "song-search-target": "importTitle" } %>
-          <button type="submit" class="w-full text-left rounded-xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container hover:shadow-md active:scale-[0.98] transition-all p-4 flex items-center gap-4 group shadow-sm cursor-pointer flex-1">
+          <button type="submit" class="w-full text-left rounded-xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container hover:shadow-md active:scale-[0.98] transition-all p-4 flex items-center gap-4 group shadow-sm cursor-pointer grow">
             <div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-tertiary/20 transition-colors">
               <span class="material-symbols-outlined text-tertiary text-[20px]">language</span>
             </div>
@@ -115,7 +115,7 @@
           </button>
         <% end %>
         <%= link_to new_song_path, data: { "song-search-target": "pastePath" },
-              class: "rounded-xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container hover:shadow-md active:scale-[0.98] transition-all p-4 flex items-center gap-4 group shadow-sm flex-1" do %>
+              class: "rounded-xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container hover:shadow-md active:scale-[0.98] transition-all p-4 flex items-center gap-4 group shadow-sm grow" do %>
           <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
             <span class="material-symbols-outlined text-primary text-[20px]">content_paste</span>
           </div>
