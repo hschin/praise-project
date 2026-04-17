@@ -12,16 +12,20 @@
         </p>
       </div>
     </div>
-    <div class="flex items-center gap-3">
-      <%= link_to "Edit lyrics →",
-          edit_song_path(deck_song.song),
+    <div class="flex items-center gap-1">
+      <%= link_to edit_song_path(deck_song.song),
           target: "_blank",
-          class: "text-xs text-primary hover:underline decoration-outline-variant font-label" %>
-      <%= button_to "Remove song",
-          deck_deck_song_path(deck, deck_song),
+          title: "Edit lyrics",
+          class: "p-1.5 rounded-lg text-outline hover:text-primary hover:bg-surface-container transition-colors" do %>
+        <span class="material-symbols-outlined text-[18px]">edit</span>
+      <% end %>
+      <%= button_to deck_deck_song_path(deck, deck_song),
           method: :delete,
+          title: "Remove from deck",
           data: { turbo_confirm: "Remove #{deck_song.song.title} from this deck?" },
-          class: "text-xs text-on-surface-variant hover:text-error bg-transparent border-0 cursor-pointer font-label" %>
+          class: "p-1.5 rounded-lg text-outline hover:text-error hover:bg-surface-container transition-colors bg-transparent border-0 cursor-pointer" do %>
+        <span class="material-symbols-outlined text-[18px]">remove_circle</span>
+      <% end %>
     </div>
   </div>
 
