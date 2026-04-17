@@ -11,13 +11,13 @@ Rails.application.routes.draw do
       post :export
       get :download_export
     end
-    resources :deck_songs, only: [:create, :update, :destroy] do
+    resources :deck_songs, only: [ :create, :update, :destroy ] do
       member do
         patch :reorder
         patch :update_arrangement
       end
     end
-    resources :themes, only: [:create] do
+    resources :themes, only: [ :create ] do
       collection do
         post :suggest
       end

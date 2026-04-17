@@ -40,7 +40,7 @@ class DeckSongTest < ActiveSupport::TestCase
   test "safe_lyrics skips stale lyric IDs without raising" do
     ds = deck_songs(:one)
     stale_id = 999999
-    ds.update_column(:arrangement, [stale_id] + ds.arrangement)
+    ds.update_column(:arrangement, [ stale_id ] + ds.arrangement)
     result = ds.safe_lyrics
     assert_not_includes result.map(&:id), stale_id
     assert_equal ds.arrangement.length - 1, result.length

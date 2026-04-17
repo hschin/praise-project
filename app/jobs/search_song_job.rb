@@ -6,11 +6,11 @@ class SearchSongJob < ApplicationJob
 
     # If raw lyrics provided, skip search - go straight to single candidate
     if raw_lyrics.present?
-      candidates = [{
+      candidates = [ {
         "title" => title,
         "artist" => artist || "Unknown",
         "snippet" => raw_lyrics.lines.first(2).join.strip
-      }]
+      } ]
       broadcast_candidates(stream_key, candidates, raw_lyrics, metadata)
       return
     end

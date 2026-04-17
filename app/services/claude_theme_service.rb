@@ -15,7 +15,7 @@ class ClaudeThemeService
     response = @client.messages.create(
       model: MODEL,
       max_tokens: 1024,
-      messages: [{ role: "user", content: prompt }]
+      messages: [ { role: "user", content: prompt } ]
     )
     raw_json = response.content.first.text
     JSON.parse(raw_json.match(/\[.*\]/m)&.to_s || "[]")
@@ -48,7 +48,7 @@ class ClaudeThemeService
     return "No songs added yet." if songs.empty?
 
     songs.map do |song|
-      lines = ["- #{song.title}#{song.artist.present? ? " (#{song.artist})" : ""}"]
+      lines = [ "- #{song.title}#{song.artist.present? ? " (#{song.artist})" : ""}" ]
       # Include first line of up to 2 sections to give Claude lyrical flavour
       song.lyrics.order(:position).first(2).each do |lyric|
         first_line = lyric.content.to_s.lines.first&.strip

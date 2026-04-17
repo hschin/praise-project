@@ -1,6 +1,6 @@
 class DecksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_deck, only: [:show, :edit, :update, :destroy, :export, :download_export]
+  before_action :set_deck, only: [ :show, :edit, :update, :destroy, :export, :download_export ]
 
   def index
     @decks = current_user.decks.order(date: :desc)
@@ -76,14 +76,17 @@ class DecksController < ApplicationController
     token = params[:token].to_s.gsub(/[^a-zA-Z0-9_\-]/, "")
     path = Rails.cache.read("pptx_export_#{token}")
 
-    if path.nil? || !File.exist?(path.to_s)
+    safe_path = Pathname.new(path.to_s).expand_path
+    allowed_dir = Pathname.new(Dir.tmpdir).expand_path
+
+    if path.nil? || !safe_path.to_s.start_with?(allowed_dir.to_s) || !safe_path.exist?
       redirect_to @deck, alert: "Download link expired. Please re-export."
       return
     end
 
     Export.create!(deck: @deck, user: current_user, event: :downloaded)
     filename = "#{@deck.title.parameterize}-export.pptx"
-    send_file path,
+    send_file safe_path,
       filename: filename,
       type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
       disposition: "attachment"
