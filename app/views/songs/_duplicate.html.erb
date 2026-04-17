@@ -1,0 +1,15 @@
+<div class="bg-surface-container border border-outline-variant/30 rounded-xl p-6">
+  <div class="flex items-start gap-3">
+    <span class="material-symbols-outlined text-xl flex-shrink-0 mt-0.5 text-primary">library_music</span>
+    <div class="flex-1">
+      <h3 class="text-sm font-semibold text-on-surface">"<%= title %>" is already in your library.</h3>
+      <p class="text-sm text-on-surface-variant mt-1">By <%= artist %>.</p>
+      <div class="mt-4 flex gap-3">
+        <%= link_to "View song", song_path(song),
+              class: "bg-primary text-on-primary text-sm px-4 py-2 rounded-lg font-medium hover:opacity-95 active:scale-[0.98] transition-all" %>
+        <%= link_to "Back to library", songs_path,
+              class: "text-sm px-4 py-2 rounded-lg font-medium text-on-surface-variant hover:bg-surface-container-high transition-all" %>
+      </div>
+    </div>
+  </div>
+</div>

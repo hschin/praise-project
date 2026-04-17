@@ -15,6 +15,19 @@ class ImportSongJob < ApplicationJob
       return
     end
 
+    incoming_text = normalize_text(title + result["sections"].flat_map { |s|
+      s["lines"].map { |l| l["chars"].join }
+    }.join)
+    existing = Song.where(import_status: "done").includes(:lyrics).find do |candidate|
+      candidate_text = normalize_text(candidate.title + candidate.lyrics.map(&:content).join)
+      jaccard(incoming_text, candidate_text) >= 0.82
+    end
+
+    if existing
+      broadcast_duplicate(stream_key, existing)
+      return
+    end
+
     song_attrs = { title: title, artist: artist, import_status: "done" }
       .merge(metadata.slice("english_title", "default_key", "ccli_number").transform_keys(&:to_sym))
     song = Song.create!(song_attrs)
@@ -67,6 +80,15 @@ class ImportSongJob < ApplicationJob
     )
   end
 
+  def broadcast_duplicate(stream_key, song)
+    Turbo::StreamsChannel.broadcast_update_to(
+      stream_key,
+      target: "import_status",
+      partial: "songs/duplicate",
+      locals: { song: song, title: song.title, artist: song.artist }
+    )
+  end
+
   def broadcast_failed(stream_key, title)
     Turbo::StreamsChannel.broadcast_update_to(
       stream_key,
@@ -74,6 +96,15 @@ class ImportSongJob < ApplicationJob
       partial: "songs/failed",
       locals: { title: title }
     )
+  end
+
+  def normalize_text(text)
+    text.downcase.gsub(/[[:space:][:punct:]]/, "").chars.to_set
+  end
+
+  def jaccard(set_a, set_b)
+    return 0.0 if set_a.empty? && set_b.empty?
+    (set_a & set_b).size.to_f / (set_a | set_b).size
   end
 
   def save_lyrics!(song, sections)
