@@ -1,9 +1,9 @@
 zh-CN:
   nav:
-    decks: 诗歌组
+    decks: 幻灯片
     songs: 诗歌库
     admin: 管理
-    new_deck: 新建诗歌组
+    new_deck: 新建幻灯片
     logout: 退出
 
   songs:
@@ -19,9 +19,9 @@ zh-CN:
     add_title: 添加诗歌
     add_subtitle: 粘贴原始歌词，Claude 将为其添加拼音。
     back_to_library: 诗歌库
-    back_to_deck: 返回诗歌组
+    back_to_deck: 返回幻灯片
     back_to_song: 返回诗歌
-    add_to_deck: 添加到诗歌组
+    add_to_deck: 添加到幻灯片
     key_of: "调：%{key}"
     ccli: "CCLI %{number}"
     edit_title: 编辑诗歌
@@ -60,24 +60,77 @@ zh-CN:
       delete_confirm: '删除"%{title}"？'
 
   decks:
-    title: 我的诗歌组
+    title: 我的幻灯片
     subtitle: 为即将到来的礼拜精心准备。
-    pick_title: 选择一个诗歌组
-    pick_subtitle: 选择要添加此首诗歌的诗歌组。
-    adding_label: 添加到诗歌组
+    pick_title: 选择一个幻灯片
+    pick_subtitle: 选择要添加此首诗歌的幻灯片。
+    adding_label: 添加到幻灯片
     cancel: 取消
     add_here: 添加到这里
     songs_count:
       one: "1 首"
       other: "%{count} 首"
-    create_new: 新建诗歌组
+    create_new: 新建幻灯片
     empty_title: 开始您的创意之旅
     empty_step1_title: 搜索诗歌
     empty_step1_desc: 探索并建立您的诗歌库。
-    empty_step2_title: 建立诗歌组
+    empty_step2_title: 建立幻灯片
     empty_step2_desc: 将歌词编排成敬拜顺序。
     empty_step3_title: 下载为PPTX
     empty_step3_desc: 导出格式完美的幻灯片。
+
+  landing:
+    nav_sign_in: 登录
+    nav_get_started: 开始使用
+    hero_badge: AI 驱动的敬拜工具
+    hero_headline_1: 敬拜幻灯片，
+    hero_headline_2: 几分钟内准备就绪。
+    hero_body: 用 AI 导入中文敬拜诗歌，编排礼拜顺序，一键导出带拼音的投影用 PowerPoint。
+    hero_cta_primary: 免费开始
+    hero_cta_secondary: 登录
+    hero_mockup_songs: 礼拜诗歌
+    hero_mockup_add: 添加诗歌
+    hero_mockup_theme: 主题
+    hero_mockup_export: 下载 .pptx
+    how_it_works_label: 使用流程
+    how_it_works_title: 三步，轻松备好主日。
+    step1_title: 导入任意诗歌
+    step1_body: 输入歌名或粘贴歌词。AI 自动从网络获取完整歌词，整理成标注段落的结构，并为每个汉字添加带声调拼音。
+    step2_title: 建立幻灯片
+    step2_body: 将诗歌添加到礼拜幻灯片，拖动排序，重复副歌，跳过前奏。选择 AI 推荐主题，或自定义颜色和背景图片。
+    step3_title: 导出为 PowerPoint
+    step3_body: 一键生成 16:9 宽屏 PPTX，内嵌中文字体，在任何 Windows 投影仪上完美显示，无需安装字体。
+    import_label: AI 诗歌导入
+    import_title: 搜索即可导入完整诗歌库。
+    import_body: 用中文或英文按歌名或艺术家搜索。AI 从网络获取歌词，自动繁转简，并为每个汉字生成带声调拼音。也可直接粘贴歌词，AI 同样自动整理。
+    import_feature1: AI 自动获取并整理歌词
+    import_feature2: 繁体自动转简体中文
+    import_feature3: 带声调拼音（shèng líng，而非 sheng4 ling2）
+    import_feature4: 粘贴原始歌词，跳过搜索步骤
+    import_mockup_title: 导入诗歌
+    import_mockup_found: 找到 3 个匹配结果
+    import_mockup_status: 正在生成歌词和拼音……
+    deck_label: 幻灯片编辑器
+    deck_title: 几秒钟内编排好礼拜顺序。
+    deck_body: 拖动诗歌排序，为每首设置移调，自定义段落顺序——重复副歌、跳过桥段、增加诗节。每次修改实时更新幻灯片预览。
+    deck_feature1: 拖动排序诗歌
+    deck_feature2: 每首诗歌独立移调
+    deck_feature3: 自定义段落排列（重复、跳过、重排）
+    deck_feature4: 实时幻灯片预览
+    export_label: PowerPoint 导出
+    export_title: 每个主日，投影就绪。
+    export_body: 一键生成 16:9 宽屏 PPTX，内嵌中文字体，无需在投影电脑上安装字体。每首诗歌自动生成标题幻灯片，每段一张内容页，汉字上方显示拼音。
+    export_feature1: 16:9 宽屏 PowerPoint 格式
+    export_feature2: 内嵌 Noto Sans SC 字体，适用于任何 Windows 电脑
+    export_feature3: 自定义主题、颜色和背景图片
+    export_feature4: 每个汉字上方显示拼音，方便会众跟唱
+    export_slide_counter: 第 4 张，共 18 张
+    cta_title: 准备好迎接主日了吗？
+    cta_body: 立即注册，今天就建立您的第一个幻灯片。免费使用。
+    cta_button: 免费开始
+    footer_tagline: 为颂扬祂而建。
+    footer_sign_in: 登录
+    footer_create_account: 创建账户
 
   section_types:
     verse: 主歌
