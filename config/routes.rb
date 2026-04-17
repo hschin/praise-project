@@ -33,5 +33,9 @@ Rails.application.routes.draw do
     end
   end
 
+  get  "admin"           => "admin#index",  as: :admin
+  get  "admin/decks"     => "admin#decks",  as: :admin_decks
+  get  "admin/decks/:id" => "admin#deck",   as: :admin_deck
+
   get "up" => "rails/health#show", as: :rails_health_check
 end

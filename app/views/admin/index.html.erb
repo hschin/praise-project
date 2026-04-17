@@ -1,0 +1,121 @@
+<div class="space-y-8">
+  <div class="mb-12">
+    <h1 class="font-headline text-4xl md:text-5xl text-on-surface mb-2 tracking-tight">Admin</h1>
+    <p class="text-on-surface-variant font-body">Platform usage and activity.</p>
+  </div>
+
+  <%# Stat row %>
+  <div class="flex flex-wrap gap-3">
+    <%= render "admin/stat_card", label: "Decks",          value: @total_decks %>
+    <%= render "admin/stat_card", label: "Exports",        value: @total_generated %>
+    <%= render "admin/stat_card", label: "Downloads",      value: @total_downloaded %>
+    <%= render "admin/stat_card", label: "Songs imported", value: @total_songs %>
+    <%= render "admin/stat_card", label: "Import success", value: "#{@import_success_rate}%" %>
+    <%= render "admin/stat_card", label: "Users",          value: @total_users %>
+  </div>
+
+  <%# Recent decks %>
+  <div class="bg-surface-container rounded-xl p-5 space-y-3">
+    <div class="flex items-center justify-between">
+      <h2 class="text-sm font-semibold text-on-surface">Recent decks</h2>
+      <%= link_to "View all", admin_decks_path, class: "text-xs text-primary hover:underline" %>
+    </div>
+    <% if @recent_decks.any? %>
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-left text-xs text-on-surface-variant border-b border-outline-variant/30">
+            <th class="pb-2 font-medium">Deck</th>
+            <th class="pb-2 font-medium">User</th>
+            <th class="pb-2 font-medium text-center">Songs</th>
+            <th class="pb-2 font-medium text-center">Exports</th>
+            <th class="pb-2 font-medium text-right">Created</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-outline-variant/20">
+          <% @recent_decks.each do |deck| %>
+            <tr>
+              <td class="py-2.5 font-medium"><%= link_to deck.title, admin_deck_path(deck), class: "text-on-surface hover:underline" %></td>
+              <td class="py-2.5 text-on-surface-variant text-xs"><%= deck.user.email %></td>
+              <td class="py-2.5 text-center text-on-surface-variant"><%= deck.deck_songs.size %></td>
+              <td class="py-2.5 text-center text-on-surface-variant"><%= deck.exports.size %></td>
+              <td class="py-2.5 text-right text-on-surface-variant text-xs"><%= deck.created_at.strftime("%d %b %Y") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="text-sm text-on-surface-variant">No decks yet.</p>
+    <% end %>
+  </div>
+
+  <%# Two-column: songs %>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+    <div class="bg-surface-container rounded-xl p-5 space-y-3">
+      <h2 class="text-sm font-semibold text-on-surface">Most used songs</h2>
+      <% if @top_songs.any? %>
+        <ul class="divide-y divide-outline-variant/20">
+          <% @top_songs.each do |title, artist, count| %>
+            <li class="flex items-center justify-between py-2.5 gap-3">
+              <div class="min-w-0">
+                <p class="text-sm text-on-surface truncate"><%= title %></p>
+                <p class="text-xs text-on-surface-variant truncate"><%= artist %></p>
+              </div>
+              <span class="text-xs font-medium text-primary bg-primary/10 rounded-full px-2.5 py-0.5 shrink-0"><%= count %> decks</span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-sm text-on-surface-variant">No songs used in decks yet.</p>
+      <% end %>
+    </div>
+
+    <div class="bg-surface-container rounded-xl p-5 space-y-3">
+      <h2 class="text-sm font-semibold text-on-surface">Recently imported</h2>
+      <% if @recent_songs.any? %>
+        <ul class="divide-y divide-outline-variant/20">
+          <% @recent_songs.each do |song| %>
+            <li class="flex items-center justify-between py-2.5 gap-3">
+              <div class="min-w-0">
+                <p class="text-sm text-on-surface truncate"><%= link_to song.title, song_path(song), class: "hover:underline" %></p>
+                <p class="text-xs text-on-surface-variant truncate"><%= song.artist %></p>
+              </div>
+              <span class="text-xs text-on-surface-variant shrink-0"><%= song.created_at.strftime("%d %b") %></span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-sm text-on-surface-variant">No songs imported yet.</p>
+      <% end %>
+    </div>
+
+  </div>
+
+  <%# Users %>
+  <div class="bg-surface-container rounded-xl p-5 space-y-3">
+    <h2 class="text-sm font-semibold text-on-surface">Users</h2>
+    <% if @users.any? %>
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-left text-xs text-on-surface-variant border-b border-outline-variant/30">
+            <th class="pb-2 font-medium">Email</th>
+            <th class="pb-2 font-medium text-center">Decks</th>
+            <th class="pb-2 font-medium text-right">Joined</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-outline-variant/20">
+          <% @users.each do |user| %>
+            <tr>
+              <td class="py-2.5 text-on-surface"><%= user.email %></td>
+              <td class="py-2.5 text-center text-on-surface-variant"><%= user.decks.count %></td>
+              <td class="py-2.5 text-right text-on-surface-variant text-xs"><%= user.created_at.strftime("%d %b %Y") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="text-sm text-on-surface-variant">No users yet.</p>
+    <% end %>
+  </div>
+
+</div>

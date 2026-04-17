@@ -3,6 +3,7 @@ class Deck < ApplicationRecord
   belongs_to :theme, optional: true
   has_many :deck_songs, -> { order(position: :asc) }, dependent: :destroy
   has_many :songs, through: :deck_songs
+  has_many :exports, dependent: :destroy
 
   validates :title, presence: true
   validates :date, presence: true
