@@ -8,7 +8,9 @@ export default class extends Controller {
     let visible = 0
 
     this.itemTargets.forEach(item => {
-      const match = query === "" || item.dataset.title.toLowerCase().includes(query)
+      const match = query === "" ||
+        item.dataset.title.toLowerCase().includes(query) ||
+        (item.dataset.englishTitle || "").toLowerCase().includes(query)
       item.hidden = !match
       if (match) visible++
     })
