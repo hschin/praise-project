@@ -81,7 +81,7 @@
       <% end %>
 
       <%# Paste lyrics card %>
-      <%= link_to paste_songs_path, data: { "song-search-target": "pastePath" },
+      <%= link_to new_song_path, data: { "song-search-target": "pastePath" },
             class: "rounded-xl border border-dashed border-outline-variant/40 bg-surface-container-low/20 hover:bg-surface-container-low hover:border-outline-variant/60 transition-all p-5 flex flex-col gap-2 group" do %>
         <div class="flex items-center gap-2">
           <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">content_paste</span>
@@ -106,7 +106,7 @@
       <% end %>
 
       <%# Paste lyrics card %>
-      <%= link_to paste_songs_path,
+      <%= link_to new_song_path,
             class: "rounded-xl border border-dashed border-outline-variant/40 bg-surface-container-low/20 hover:bg-surface-container-low hover:border-outline-variant/60 transition-all p-5 flex flex-col gap-2 group" do %>
         <div class="flex items-center gap-2">
           <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">content_paste</span>

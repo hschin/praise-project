@@ -25,7 +25,8 @@ class SongsController < ApplicationController
     # Parse "Title - Artist" format
     title, artist = parse_title_artist(input)
 
-    SearchSongJob.perform_later(title, artist: artist, raw_lyrics: raw_lyrics, deck_id: deck_id)
+    metadata = params[:song].presence&.permit(:english_title, :default_key, :ccli_number)&.to_h || {}
+    SearchSongJob.perform_later(title, artist: artist, raw_lyrics: raw_lyrics, deck_id: deck_id, metadata: metadata)
     redirect_to select_songs_path(title: title, artist: artist, deck_id: deck_id)
   end
 
@@ -47,11 +48,9 @@ class SongsController < ApplicationController
       return
     end
 
-    ImportSongJob.perform_later(title, artist: artist, raw_lyrics: raw_lyrics, deck_id: deck_id)
+    metadata = params[:song].presence&.permit(:english_title, :default_key, :ccli_number)&.to_h || {}
+    ImportSongJob.perform_later(title, artist: artist, raw_lyrics: raw_lyrics, deck_id: deck_id, metadata: metadata)
     redirect_to processing_songs_path(title: title, deck_id: deck_id)
-  end
-
-  def paste
   end
 
   def processing

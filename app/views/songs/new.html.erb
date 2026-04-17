@@ -1,4 +1,52 @@
-<div class="max-w-lg">
-  <h1 class="text-2xl font-bold mb-6">Add Song</h1>
-  <%= render "form", song: @song %>
+<div class="max-w-xl mx-auto px-4 py-8">
+  <div class="mb-8">
+    <h1 class="font-headline text-3xl text-on-surface">Add Song</h1>
+    <p class="text-on-surface-variant font-body mt-1">Paste raw lyrics and Claude will structure them with pinyin.</p>
+  </div>
+
+  <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "space-y-4" do |f| %>
+    <div>
+      <%= label_tag :title, "Title", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
+      <%= text_field_tag :title, params[:title],
+            placeholder: "e.g. 奇异恩典",
+            class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
+    </div>
+    <div>
+      <%= label_tag "song[english_title]", "English Title", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
+      <%= text_field_tag "song[english_title]", nil,
+            placeholder: "English name or alias",
+            class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <%= label_tag "song[artist]", "Artist", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
+        <%= text_field_tag "song[artist]", nil,
+              class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
+      </div>
+      <div>
+        <%= label_tag "song[default_key]", "Key", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
+        <%= select_tag "song[default_key]",
+              options_for_select(["", "C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]),
+              class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
+      </div>
+    </div>
+    <div>
+      <%= label_tag "song[ccli_number]", "CCLI Number", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
+      <%= text_field_tag "song[ccli_number]", nil,
+            placeholder: "e.g. 1234567",
+            class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
+    </div>
+    <div>
+      <%= label_tag :raw_lyrics, "Lyrics", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
+      <%= text_area_tag :raw_lyrics, nil,
+            placeholder: "Paste raw lyrics here — any format accepted",
+            rows: 10,
+            class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body resize-none" %>
+    </div>
+    <div class="flex gap-3 pt-2">
+      <%= f.submit "Import Pasted Lyrics",
+            class: "bg-gradient-to-r from-primary to-primary-container text-on-primary text-sm px-5 py-2 rounded-lg font-medium hover:opacity-95 active:scale-[0.98] transition-all cursor-pointer" %>
+      <%= link_to "Cancel", songs_path, class: "text-sm text-on-surface-variant hover:text-primary transition-colors self-center font-body" %>
+    </div>
+  <% end %>
 </div>

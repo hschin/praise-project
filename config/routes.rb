@@ -30,7 +30,6 @@ Rails.application.routes.draw do
       get :select
       post :confirm_import
       get :processing
-      get :paste
     end
   end
 

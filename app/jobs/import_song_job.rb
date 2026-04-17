@@ -4,7 +4,7 @@ class ImportSongJob < ApplicationJob
   STEP_SEARCH = "searching"
   STEP_CLAUDE = "generating"
 
-  def perform(title, artist: nil, raw_lyrics: nil, deck_id: nil)
+  def perform(title, artist: nil, raw_lyrics: nil, deck_id: nil, metadata: {})
     stream_key = stream_for(title)
     broadcast_step(stream_key, STEP_CLAUDE)
 
@@ -15,7 +15,9 @@ class ImportSongJob < ApplicationJob
       return
     end
 
-    song = Song.create!(title: title, artist: artist, import_status: "done")
+    song_attrs = { title: title, artist: artist, import_status: "done" }
+      .merge(metadata.slice("english_title", "default_key", "ccli_number").transform_keys(&:to_sym))
+    song = Song.create!(song_attrs)
     save_lyrics!(song, result["sections"])
 
     if deck_id.present? && (deck = Deck.find_by(id: deck_id))
