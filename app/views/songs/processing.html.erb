@@ -10,9 +10,15 @@
 
   <div class="mt-10">
     <% if @deck_id.present? %>
-      <%= link_to "← Back to deck", deck_path(@deck_id), class: "text-sm text-on-surface-variant hover:text-primary transition-colors font-body" %>
+      <%= link_to deck_path(@deck_id), class: "inline-flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors font-body" do %>
+        <span class="material-symbols-outlined text-[14px]">arrow_back</span>
+        Back to deck
+      <% end %>
     <% else %>
-      <%= link_to "← Back to library", songs_path, class: "text-sm text-on-surface-variant hover:text-primary transition-colors font-body" %>
+      <%= link_to songs_path, class: "inline-flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors font-body" do %>
+        <span class="material-symbols-outlined text-[14px]">arrow_back</span>
+        Song Library
+      <% end %>
     <% end %>
   </div>
 </div>

@@ -1,11 +1,17 @@
 <div data-controller="pinyin-toggle">
   <div class="flex items-center justify-between mb-4">
-    <div class="flex items-center gap-4">
-      <%= link_to "Edit", edit_song_path(song), class: "text-sm text-primary hover:underline decoration-outline-variant font-body" %>
-      <%= button_to "Delete", song_path(song), method: :delete,
+    <div class="flex items-center gap-2">
+      <%= link_to edit_song_path(song), class: "inline-flex items-center gap-1 text-xs bg-surface-container hover:bg-surface-container-high px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-primary font-body transition-colors" do %>
+        <span class="material-symbols-outlined text-[14px]">edit</span>
+        Edit
+      <% end %>
+      <%= button_to song_path(song), method: :delete,
             data: { turbo_confirm: "Delete \"#{song.title}\"?" },
             form_class: "flex items-center",
-            class: "text-sm text-primary hover:underline decoration-outline-variant font-body bg-transparent border-0 cursor-pointer p-0 leading-none" %>
+            class: "inline-flex items-center gap-1 text-xs bg-surface-container hover:bg-error-container px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-error-container font-body transition-colors cursor-pointer border-0" do %>
+        <span class="material-symbols-outlined text-[14px]">delete</span>
+        Delete
+      <% end %>
     </div>
     <button data-pinyin-toggle-target="button"
             data-action="click->pinyin-toggle#toggle"

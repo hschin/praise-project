@@ -1,39 +1,44 @@
 <%= turbo_stream_from @song %>
 
 <div class="max-w-2xl mx-auto px-4 py-8">
-  <div class="flex items-center justify-between mb-6">
-    <div>
-      <h1 class="font-headline text-3xl text-on-surface"><%= @song.title %></h1>
-      <% if @song.english_title.present? %>
-        <p class="text-base text-on-surface-variant font-body mt-0.5"><%= @song.english_title %></p>
+  <div class="flex items-center justify-between mb-4">
+    <%= link_to songs_path, class: "inline-flex items-center gap-1 text-xs text-on-surface-variant hover:text-primary transition-colors font-body" do %>
+      <span class="material-symbols-outlined text-[14px]">arrow_back</span>
+      Song Library
+    <% end %>
+    <% if @song.done? %>
+      <%= link_to decks_path(song_id: @song.id), class: "inline-flex items-center gap-1.5 text-sm bg-gradient-to-r from-primary to-primary-container text-on-primary px-4 py-2 rounded-lg font-medium hover:opacity-95 active:scale-[0.98] transition-all" do %>
+        <span class="material-symbols-outlined text-[16px]">add</span>
+        Add to deck
       <% end %>
-      <div class="flex flex-wrap items-center gap-3 mt-2">
-        <% if @song.artist.present? %>
-          <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
-            <span class="material-symbols-outlined text-[14px] text-outline">person</span>
-            <%= @song.artist %>
-          </span>
-        <% end %>
-        <% if @song.default_key.present? %>
-          <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
-            <span class="material-symbols-outlined text-[14px] text-outline">music_note</span>
-            Key of <%= @song.default_key %>
-          </span>
-        <% end %>
-        <% if @song.ccli_number.present? %>
-          <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
-            <span class="material-symbols-outlined text-[14px] text-outline">tag</span>
-            CCLI <%= @song.ccli_number %>
-          </span>
-        <% end %>
-      </div>
-      <% if @song.done? %>
-        <p class="text-sm text-on-surface-variant mt-1 font-body">
-          <%= link_to "Add this song to a deck →", decks_path, class: "text-primary hover:underline decoration-outline-variant" %>
-        </p>
+    <% end %>
+  </div>
+
+  <div class="mb-6">
+    <h1 class="font-headline text-3xl text-on-surface"><%= @song.title %></h1>
+    <% if @song.english_title.present? %>
+      <p class="text-base text-on-surface-variant font-body mt-0.5"><%= @song.english_title %></p>
+    <% end %>
+    <div class="flex flex-wrap items-center gap-3 mt-2">
+      <% if @song.artist.present? %>
+        <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
+          <span class="material-symbols-outlined text-[14px] text-outline">person</span>
+          <%= @song.artist %>
+        </span>
+      <% end %>
+      <% if @song.default_key.present? %>
+        <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
+          <span class="material-symbols-outlined text-[14px] text-outline">music_note</span>
+          Key of <%= @song.default_key %>
+        </span>
+      <% end %>
+      <% if @song.ccli_number.present? %>
+        <span class="inline-flex items-center gap-1 text-xs text-on-surface-variant font-body">
+          <span class="material-symbols-outlined text-[14px] text-outline">tag</span>
+          CCLI <%= @song.ccli_number %>
+        </span>
       <% end %>
     </div>
-    <%= link_to "Back to Library", songs_path, class: "text-sm text-primary hover:underline decoration-outline-variant font-body" %>
   </div>
 
   <div id="song_status_<%= @song.id %>">
