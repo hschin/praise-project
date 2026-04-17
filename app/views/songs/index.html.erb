@@ -69,10 +69,10 @@
       <% end %>
 
       <%# Add song card %>
-      <div class="rounded-xl bg-surface-container-low border border-outline-variant/20 shadow-sm overflow-hidden flex flex-col">
+      <div class="rounded-xl bg-surface-container-low border border-outline-variant/20 shadow-sm p-3 flex flex-col gap-2">
         <%= form_with url: import_songs_path, method: :post, data: { turbo: false } do |f| %>
           <%= f.hidden_field :title, data: { "song-search-target": "importTitle" } %>
-          <button type="submit" class="w-full text-left p-4 flex items-center gap-3 group hover:bg-surface-container transition-colors cursor-pointer">
+          <button type="submit" class="w-full text-left rounded-lg p-3 flex items-center gap-3 group bg-surface-container-lowest hover:bg-surface-container border border-outline-variant/20 hover:border-outline-variant/40 transition-all cursor-pointer">
             <div class="w-8 h-8 rounded-full bg-tertiary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-tertiary/20 transition-colors">
               <span class="material-symbols-outlined text-tertiary text-[18px]">language</span>
             </div>
@@ -83,9 +83,8 @@
             <span class="material-symbols-outlined text-outline/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all text-[18px]">arrow_forward</span>
           </button>
         <% end %>
-        <div class="border-t border-outline-variant/10"></div>
         <%= link_to new_song_path, data: { "song-search-target": "pastePath" },
-              class: "p-4 flex items-center gap-3 group hover:bg-surface-container transition-colors" do %>
+              class: "rounded-lg p-3 flex items-center gap-3 group bg-surface-container-lowest hover:bg-surface-container border border-outline-variant/20 hover:border-outline-variant/40 transition-all" do %>
           <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
             <span class="material-symbols-outlined text-primary text-[18px]">content_paste</span>
           </div>
@@ -101,10 +100,10 @@
   <% else %>
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
       <%# Add song card %>
-      <div class="rounded-xl bg-surface-container-low border border-outline-variant/20 shadow-sm overflow-hidden flex flex-col">
+      <div class="rounded-xl bg-surface-container-low border border-outline-variant/20 shadow-sm p-3 flex flex-col gap-2">
         <%= form_with url: import_songs_path, method: :post, data: { turbo: false } do |f| %>
           <%= f.hidden_field :title, data: { "song-search-target": "importTitle" } %>
-          <button type="submit" class="w-full text-left p-4 flex items-center gap-3 group hover:bg-surface-container transition-colors cursor-pointer">
+          <button type="submit" class="w-full text-left rounded-lg p-3 flex items-center gap-3 group bg-surface-container-lowest hover:bg-surface-container border border-outline-variant/20 hover:border-outline-variant/40 transition-all cursor-pointer">
             <div class="w-8 h-8 rounded-full bg-tertiary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-tertiary/20 transition-colors">
               <span class="material-symbols-outlined text-tertiary text-[18px]">language</span>
             </div>
@@ -115,9 +114,8 @@
             <span class="material-symbols-outlined text-outline/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all text-[18px]">arrow_forward</span>
           </button>
         <% end %>
-        <div class="border-t border-outline-variant/10"></div>
         <%= link_to new_song_path, data: { "song-search-target": "pastePath" },
-              class: "p-4 flex items-center gap-3 group hover:bg-surface-container transition-colors" do %>
+              class: "rounded-lg p-3 flex items-center gap-3 group bg-surface-container-lowest hover:bg-surface-container border border-outline-variant/20 hover:border-outline-variant/40 transition-all" do %>
           <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
             <span class="material-symbols-outlined text-primary text-[18px]">content_paste</span>
           </div>
