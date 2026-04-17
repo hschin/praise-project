@@ -10,6 +10,9 @@
       <input type="hidden" name="artist" value="<%= candidate["artist"] %>">
       <input type="hidden" name="raw_lyrics" value="<%= raw_lyrics %>">
       <input type="hidden" name="deck_id" value="<%= params[:deck_id] %>">
+      <% (metadata || {}).each do |key, value| %>
+        <input type="hidden" name="song[<%= key %>]" value="<%= value %>">
+      <% end %>
       
       <button type="submit" class="w-full text-left p-6 bg-surface-container-low hover:bg-surface-container rounded-xl transition-all border-2 border-transparent hover:border-primary group cursor-pointer">
         <div class="flex items-start gap-4">

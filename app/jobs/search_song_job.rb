@@ -1,7 +1,7 @@
 class SearchSongJob < ApplicationJob
   queue_as :default
 
-  def perform(title, artist: nil, raw_lyrics: nil, deck_id: nil)
+  def perform(title, artist: nil, raw_lyrics: nil, deck_id: nil, metadata: {})
     stream_key = stream_for(title, artist)
 
     # If raw lyrics provided, skip search - go straight to single candidate
@@ -11,7 +11,7 @@ class SearchSongJob < ApplicationJob
         "artist" => artist || "Unknown",
         "snippet" => raw_lyrics.lines.first(2).join.strip
       }]
-      broadcast_candidates(stream_key, candidates, raw_lyrics)
+      broadcast_candidates(stream_key, candidates, raw_lyrics, metadata)
       return
     end
 
@@ -24,7 +24,7 @@ class SearchSongJob < ApplicationJob
       return
     end
 
-    broadcast_candidates(stream_key, candidates, raw_lyrics)
+    broadcast_candidates(stream_key, candidates, raw_lyrics, metadata)
   rescue => e
     Rails.logger.error("[SearchSongJob] title=#{title} #{e.class}: #{e.message}")
     broadcast_failed(stream_for(title, artist), title)
@@ -37,15 +37,16 @@ class SearchSongJob < ApplicationJob
     "song_search_#{key.parameterize}"
   end
 
-  def broadcast_candidates(stream_key, candidates, raw_lyrics)
+  def broadcast_candidates(stream_key, candidates, raw_lyrics, metadata = {})
     Turbo::StreamsChannel.broadcast_update_to(
       stream_key,
       target: "search_results",
       partial: "songs/candidates",
-      locals: { 
-        candidates: candidates, 
+      locals: {
+        candidates: candidates,
         raw_lyrics: raw_lyrics,
-        authenticity_token: nil  # Background job has no session - we'll handle this differently
+        metadata: metadata,
+        authenticity_token: nil
       }
     )
   end
