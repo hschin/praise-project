@@ -3,20 +3,22 @@
     <div class="flex items-center gap-2">
       <%= link_to edit_song_path(song), class: "inline-flex items-center gap-1 text-xs bg-surface-container hover:bg-surface-container-high px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-primary font-body transition-colors" do %>
         <span class="material-symbols-outlined text-[14px]">edit</span>
-        Edit
+        <%= t("songs.lyrics.edit") %>
       <% end %>
       <%= button_to song_path(song), method: :delete,
-            data: { turbo_confirm: "Delete \"#{song.title}\"?" },
+            data: { turbo_confirm: t("songs.lyrics.delete_confirm", title: song.title) },
             form_class: "flex items-center",
             class: "inline-flex items-center gap-1 text-xs bg-surface-container hover:bg-error-container px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-error-container font-body transition-colors cursor-pointer border-0" do %>
         <span class="material-symbols-outlined text-[14px]">delete</span>
-        Delete
+        <%= t("songs.lyrics.delete") %>
       <% end %>
     </div>
     <button data-pinyin-toggle-target="button"
             data-action="click->pinyin-toggle#toggle"
+            data-hide-text="<%= t("songs.lyrics.hide_pinyin") %>"
+            data-show-text="<%= t("songs.lyrics.show_pinyin") %>"
             class="text-sm bg-surface-container hover:bg-surface-container-high px-3 py-1 rounded-lg text-on-surface-variant font-body transition-colors">
-      Hide Pinyin
+      <%= t("songs.lyrics.hide_pinyin") %>
     </button>
   </div>
 
