@@ -31,8 +31,8 @@
     </div>
   </div>
 
-  <%# Hero mockup — a stylised slide preview %>
-  <div class="max-w-4xl mx-auto mt-20">
+  <%# Hero mockup — fixed-width, scrolls on mobile %>
+  <div class="max-w-4xl mx-auto mt-20 overflow-x-auto">
     <div class="rounded-2xl overflow-hidden shadow-[0_24px_80px_rgba(31,27,23,0.12)] border border-outline-variant/20">
       <%# Fake browser chrome %>
       <div class="bg-surface-container-highest flex items-center gap-2 px-4 py-3">
@@ -43,10 +43,10 @@
           <span class="text-xs text-on-surface-variant/50 font-mono">praiseproject.app/decks/sunday-service</span>
         </div>
       </div>
-      <%# App content mockup %>
-      <div class="bg-surface grid grid-cols-12 min-h-[360px]">
+      <%# App content mockup — fixed layout, never collapses %>
+      <div class="bg-surface grid grid-cols-12 min-h-[360px] min-w-[640px]">
         <%# Left: song list %>
-        <div class="col-span-3 border-r border-outline-variant/20 p-4 space-y-2 hidden md:block">
+        <div class="col-span-3 border-r border-outline-variant/20 p-4 space-y-2">
           <p class="text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-3">Service Songs</p>
           <% [["奇异恩典", "Amazing Grace"], ["主祢是我力量", "You Are My Strength"], ["哈利路亚颂", "Hallelujah Chorus"]].each_with_index do |(cn, en), i| %>
             <div class="flex items-center gap-2 px-3 py-2 rounded-lg <%= i == 1 ? 'bg-primary/10' : 'hover:bg-surface-container-low' %>">
@@ -63,7 +63,7 @@
           </div>
         </div>
         <%# Center: slide preview %>
-        <div class="col-span-12 md:col-span-6 p-6 flex flex-col items-center justify-center">
+        <div class="col-span-6 p-6 flex flex-col items-center justify-center">
           <div class="w-full aspect-video bg-[#1a1a2e] rounded-xl flex flex-col items-center justify-center p-6 shadow-[0_8px_32px_rgba(31,27,23,0.16)]">
             <p class="text-[10px] text-white/40 uppercase tracking-widest mb-3">第二節 Verse 2</p>
             <div class="space-y-3 text-center">
@@ -104,7 +104,7 @@
           </div>
         </div>
         <%# Right: theme panel %>
-        <div class="col-span-3 border-l border-outline-variant/20 p-4 hidden md:block">
+        <div class="col-span-3 border-l border-outline-variant/20 p-4">
           <p class="text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-3">Theme</p>
           <div class="grid grid-cols-2 gap-2 mb-4">
             <% [["#1a1a2e", "#ffffff"], ["#2d1b0e", "#f5e6d3"], ["#0a2744", "#e8f4ff"], ["#1a2e1a", "#e6f5e6"]].each_with_index do |(bg, _), i| %>
@@ -115,7 +115,7 @@
           </div>
           <div class="mt-4 pt-4 border-t border-outline-variant/20">
             <p class="text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-2">Export</p>
-            <div class="flex items-center gap-2 bg-gradient-to-r from-primary to-primary-container text-on-primary px-3 py-2 rounded-lg text-xs font-medium cursor-pointer hover:opacity-90 transition-opacity">
+            <div class="flex items-center gap-2 bg-gradient-to-r from-primary to-primary-container text-on-primary px-3 py-2 rounded-lg text-xs font-medium pointer-events-none select-none">
               <span class="material-symbols-outlined text-[14px]">download</span>
               Download .pptx
             </div>
@@ -142,7 +142,7 @@
         </div>
         <h3 class="font-headline text-2xl text-on-surface mb-3">Import any song</h3>
         <p class="text-on-surface-variant leading-relaxed mb-6">
-          Type a song title or paste lyrics. Claude searches the web, fetches the full lyrics, and structures them into labelled sections — complete with tone-marked pinyin.
+          Type a song title or paste lyrics. AI searches the web, fetches the full lyrics, and structures them into labelled sections — complete with tone-marked pinyin.
         </p>
         <div class="bg-surface-container rounded-xl p-4 text-sm font-mono space-y-2">
           <div class="flex items-center gap-3">
@@ -222,13 +222,13 @@
         <p class="text-xs font-medium text-primary uppercase tracking-widest mb-3">AI Song Import</p>
         <h2 class="font-headline text-4xl text-on-surface mb-5">Your entire song library, imported with a search.</h2>
         <p class="text-on-surface-variant leading-relaxed mb-6">
-          Search by title or artist in English or Chinese. Claude fetches lyrics from the web, converts Traditional to Simplified automatically, and generates tone-marked pinyin for every character. Or paste in your own lyrics — it structures those too.
+          Search by title or artist in English or Chinese. AI fetches lyrics from the web, converts Traditional to Simplified automatically, and generates tone-marked pinyin for every character. Or paste in your own lyrics — it structures those too.
         </p>
         <ul class="space-y-3">
           <% [
-            ["auto_awesome", "Claude fetches & structures lyrics automatically"],
+            ["auto_awesome", "AI fetches & structures lyrics automatically"],
             ["translate", "Traditional → Simplified Chinese conversion"],
-            ["record_voice_over", "Tone-marked pinyin (nǐ hǎo, not ni3 hao3)"],
+            ["record_voice_over", "Tone-marked pinyin (shèng líng, not sheng4 ling2)"],
             ["content_copy", "Paste raw lyrics and skip the search entirely"],
           ].each do |icon, text| %>
             <li class="flex items-start gap-3">
@@ -381,7 +381,7 @@
         </div>
         <div class="flex items-center justify-between px-1">
           <span class="text-xs text-on-surface-variant">Slide 4 of 18</span>
-          <div class="flex items-center gap-2 bg-gradient-to-r from-primary to-primary-container text-on-primary text-xs font-medium px-4 py-2 rounded-lg cursor-pointer hover:opacity-90 transition-opacity">
+          <div class="flex items-center gap-2 bg-gradient-to-r from-primary to-primary-container text-on-primary text-xs font-medium px-4 py-2 rounded-lg pointer-events-none select-none">
             <span class="material-symbols-outlined text-[14px]">download</span>
             Download .pptx
           </div>
