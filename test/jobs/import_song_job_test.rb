@@ -3,8 +3,8 @@ require "test_helper"
 class ImportSongJobTest < ActiveJob::TestCase
   FAKE_SECTIONS = [
     { "section_type" => "verse", "lines" => [
-      { "chars" => ["宇","宙"], "pinyin" => ["yǔ","zhòu"] }
-    ]}
+      { "chars" => [ "宇", "宙" ], "pinyin" => [ "yǔ", "zhòu" ] }
+    ] }
   ].freeze
 
   # SONG-01: search path creates song with lyrics

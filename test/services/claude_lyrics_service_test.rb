@@ -8,7 +8,7 @@ class ClaudeLyricsServiceTest < ActiveSupport::TestCase
         {
           "section_type" => "verse",
           "lines" => [
-            { "chars" => ["宇","宙"], "pinyin" => ["yǔ","zhòu"] }
+            { "chars" => [ "宇", "宙" ], "pinyin" => [ "yǔ", "zhòu" ] }
           ]
         }
       ]
@@ -21,8 +21,8 @@ class ClaudeLyricsServiceTest < ActiveSupport::TestCase
 
     mock_content.expect(:type, :text)
     mock_content.expect(:text, JSON.generate(fake_response)[1..])
-    mock_response.expect(:content, [mock_content])
-    mock_messages.expect(:create, mock_response, [Hash])
+    mock_response.expect(:content, [ mock_content ])
+    mock_messages.expect(:create, mock_response, [ Hash ])
     mock_client.expect(:messages, mock_messages)
 
     Anthropic::Client.stub(:new, mock_client) do
@@ -42,8 +42,8 @@ class ClaudeLyricsServiceTest < ActiveSupport::TestCase
 
     mock_content.expect(:type, :text)
     mock_content.expect(:text, JSON.generate(fake_response)[1..])
-    mock_response.expect(:content, [mock_content])
-    mock_messages.expect(:create, mock_response, [Hash])
+    mock_response.expect(:content, [ mock_content ])
+    mock_messages.expect(:create, mock_response, [ Hash ])
     mock_client.expect(:messages, mock_messages)
 
     Anthropic::Client.stub(:new, mock_client) do

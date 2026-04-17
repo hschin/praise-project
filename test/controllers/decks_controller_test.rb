@@ -41,7 +41,7 @@ class DecksControllerTest < ActionDispatch::IntegrationTest
 
   test "deck show page renders without error when arrangement contains stale lyric ID" do
     ds = deck_songs(:one)
-    ds.update_column(:arrangement, [999999])
+    ds.update_column(:arrangement, [ 999999 ])
     get deck_url(decks(:one))
     assert_response :success
   end

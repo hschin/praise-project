@@ -75,7 +75,7 @@ class DeckSongsControllerTest < ActionDispatch::IntegrationTest
   test "PATCH update_arrangement with duplicate appends repeat" do
     ds = deck_songs(:one)
     chorus_id = ds.arrangement.first
-    new_arr = ds.arrangement + [chorus_id]
+    new_arr = ds.arrangement + [ chorus_id ]
     patch update_arrangement_deck_deck_song_path(@deck, ds),
           params: { arrangement: new_arr }, as: :json
     assert_response :success

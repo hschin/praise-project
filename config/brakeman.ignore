@@ -1,0 +1,8 @@
+{
+  "ignored_warnings": [
+    {
+      "fingerprint": "195fb9cd567a30ae9dc2c5c6b76bc4972a91247223252b632d4fa8e25706aa85",
+      "note": "False positive: path is read from server-side cache, not from user input. Token is sanitized and path is validated against Dir.tmpdir before use."
+    }
+  ]
+}

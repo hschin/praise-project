@@ -1,6 +1,6 @@
 class SongsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_song, only: [:show, :edit, :update, :destroy]
+  before_action :set_song, only: [ :show, :edit, :update, :destroy ]
 
   def index
     scope = Song.where(import_status: "done")
@@ -101,16 +101,16 @@ class SongsController < ApplicationController
 
   def song_params
     params.require(:song).permit(:title, :english_title, :artist, :default_key, :ccli_number,
-                                 lyrics_attributes: [:id, :section_type, :content, :pinyin, :position])
+                                 lyrics_attributes: [ :id, :section_type, :content, :pinyin, :position ])
   end
 
   def parse_title_artist(input)
     # Split on " - " or " — " (em dash)
     parts = input.split(/\s+[-—]\s+/, 2)
     if parts.length == 2
-      [parts[0].strip, parts[1].strip]
+      [ parts[0].strip, parts[1].strip ]
     else
-      [input, nil]
+      [ input, nil ]
     end
   end
 end
