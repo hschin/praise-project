@@ -10,7 +10,8 @@ export default class extends Controller {
     this.itemTargets.forEach(item => {
       const match = query === "" ||
         item.dataset.title.toLowerCase().includes(query) ||
-        (item.dataset.englishTitle || "").toLowerCase().includes(query)
+        (item.dataset.englishTitle || "").toLowerCase().includes(query) ||
+        (item.dataset.artist || "").toLowerCase().includes(query)
       item.hidden = !match
       if (match) visible++
     })

@@ -6,7 +6,7 @@ class SongsController < ApplicationController
     scope = Song.where(import_status: "done")
     @songs = if params[:q].present?
       q = "%#{Song.sanitize_sql_like(params[:q])}%"
-      scope.where("title ILIKE ? OR english_title ILIKE ?", q, q).order(:title)
+      scope.where("title ILIKE ? OR english_title ILIKE ? OR artist ILIKE ?", q, q, q).order(:title)
     else
       scope.order(:title)
     end
