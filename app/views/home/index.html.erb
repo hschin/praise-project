@@ -9,24 +9,24 @@
   <div class="max-w-6xl mx-auto text-center">
     <div class="inline-flex items-center gap-2 bg-surface-container-low border border-outline-variant/30 text-on-surface-variant text-xs font-medium px-3 py-1.5 rounded-full mb-8 tracking-wide uppercase">
       <span class="material-symbols-outlined text-[14px] text-primary">auto_awesome</span>
-      AI-powered worship tools
+      <%= t("landing.hero_badge") %>
     </div>
 
     <h1 class="font-headline text-5xl md:text-7xl text-on-surface leading-tight mb-6">
-      Worship slides,<br>
-      <span class="italic text-primary">ready in minutes.</span>
+      <%= t("landing.hero_headline_1") %><br>
+      <span class="italic text-primary"><%= t("landing.hero_headline_2") %></span>
     </h1>
 
     <p class="text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-      Import Chinese worship songs with AI, arrange your service deck, and export a projection-ready PowerPoint — complete with pinyin — in one click.
+      <%= t("landing.hero_body") %>
     </p>
 
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <%= link_to new_user_registration_path, class: "bg-gradient-to-r from-primary to-primary-container text-on-primary px-8 py-3.5 rounded-xl font-medium text-base hover:opacity-90 transition-all active:scale-95 duration-150" do %>
-        Get started free
+        <%= t("landing.hero_cta_primary") %>
       <% end %>
       <%= link_to new_user_session_path, class: "bg-surface-container-low border border-outline-variant/40 text-on-surface px-8 py-3.5 rounded-xl font-medium text-base hover:bg-surface-container transition-colors duration-150" do %>
-        Sign in
+        <%= t("landing.hero_cta_secondary") %>
       <% end %>
     </div>
   </div>
@@ -45,7 +45,7 @@
       <div class="bg-surface grid grid-cols-12 min-h-[360px] min-w-[640px]">
         <%# Left: song list %>
         <div class="col-span-3 border-r border-outline-variant/20 p-4 space-y-2">
-          <p class="text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-3">Service Songs</p>
+          <p class="text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-3"><%= t("landing.hero_mockup_songs") %></p>
           <% [["奇异恩典", "Amazing Grace"], ["主祢是我力量", "You Are My Strength"], ["哈利路亚颂", "Hallelujah Chorus"]].each_with_index do |(cn, en), i| %>
             <div class="flex items-center gap-2 px-3 py-2 rounded-lg <%= i == 1 ? 'bg-primary/10' : 'hover:bg-surface-container-low' %>">
               <span class="material-symbols-outlined text-[16px] <%= i == 1 ? 'text-primary' : 'text-on-surface-variant' %>">music_note</span>
@@ -57,7 +57,7 @@
           <% end %>
           <div class="flex items-center gap-2 px-3 py-2 rounded-lg border border-dashed border-outline-variant/40 text-on-surface-variant/60 mt-4 cursor-pointer hover:border-primary/40 hover:text-primary transition-colors">
             <span class="material-symbols-outlined text-[16px]">add</span>
-            <span class="text-xs">Add song</span>
+            <span class="text-xs"><%= t("landing.hero_mockup_add") %></span>
           </div>
         </div>
         <%# Center: slide preview %>
@@ -103,7 +103,7 @@
         </div>
         <%# Right: theme panel %>
         <div class="col-span-3 border-l border-outline-variant/20 p-4">
-          <p class="text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-3">Theme</p>
+          <p class="text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-3"><%= t("landing.hero_mockup_theme") %></p>
           <div class="grid grid-cols-2 gap-2 mb-4">
             <% [["#1a1a2e", "#ffffff"], ["#2d1b0e", "#f5e6d3"], ["#0a2744", "#e8f4ff"], ["#1a2e1a", "#e6f5e6"]].each_with_index do |(bg, _), i| %>
               <div class="aspect-video rounded-lg border-2 <%= i == 0 ? 'border-primary' : 'border-transparent' %> cursor-pointer overflow-hidden"
@@ -115,7 +115,7 @@
             <p class="text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-2">Export</p>
             <div class="flex items-center gap-2 bg-gradient-to-r from-primary to-primary-container text-on-primary px-3 py-2 rounded-lg text-xs font-medium pointer-events-none select-none">
               <span class="material-symbols-outlined text-[14px]">download</span>
-              Download .pptx
+              <%= t("landing.hero_mockup_export") %>
             </div>
           </div>
         </div>
@@ -128,8 +128,8 @@
 <section class="px-6 md:px-12 py-24 bg-surface-container-low/50">
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-16">
-      <p class="text-xs font-medium text-primary uppercase tracking-widest mb-3">How it works</p>
-      <h2 class="font-headline text-4xl md:text-5xl text-on-surface">Three steps to Sunday ready.</h2>
+      <p class="text-xs font-medium text-primary uppercase tracking-widest mb-3"><%= t("landing.how_it_works_label") %></p>
+      <h2 class="font-headline text-4xl md:text-5xl text-on-surface"><%= t("landing.how_it_works_title") %></h2>
     </div>
 
     <%# Original 3-col layout — shown on mobile and wide (lg+), hidden at md %>
@@ -139,10 +139,8 @@
         <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
           <span class="material-symbols-outlined text-primary text-[24px]">auto_awesome</span>
         </div>
-        <h3 class="font-headline text-2xl text-on-surface mb-3">Import any song</h3>
-        <p class="text-on-surface-variant leading-relaxed mb-6 grow">
-          Type a song title or paste lyrics. AI searches the web, fetches the full lyrics, and structures them into labelled sections — complete with tone-marked pinyin.
-        </p>
+        <h3 class="font-headline text-2xl text-on-surface mb-3"><%= t("landing.step1_title") %></h3>
+        <p class="text-on-surface-variant leading-relaxed mb-6 grow"><%= t("landing.step1_body") %></p>
         <div class="bg-surface-container rounded-xl p-4 text-sm font-mono space-y-2">
           <div class="flex items-center gap-3">
             <span class="material-symbols-outlined text-[16px] text-on-surface-variant">search</span>
@@ -151,19 +149,19 @@
           <div class="border-t border-outline-variant/20 pt-2 space-y-2">
             <div class="flex justify-between text-xs">
               <span class="text-on-surface">主祢是我力量</span>
-              <span class="text-on-surface-variant/60">Verse 1</span>
+              <span class="text-on-surface-variant/60"><%= t("section_types.verse") %> 1</span>
             </div>
             <div class="flex justify-between text-xs">
               <span class="text-on-surface">哈利路亚颂</span>
-              <span class="text-on-surface-variant/60">Chorus</span>
+              <span class="text-on-surface-variant/60"><%= t("section_types.chorus") %></span>
             </div>
             <div class="flex justify-between text-xs">
               <span class="text-on-surface">主祢是我力量</span>
-              <span class="text-on-surface-variant/60">Verse 2</span>
+              <span class="text-on-surface-variant/60"><%= t("section_types.verse") %> 2</span>
             </div>
             <div class="flex justify-between text-xs">
               <span class="text-on-surface">奇异恩典</span>
-              <span class="text-on-surface-variant/60">Bridge</span>
+              <span class="text-on-surface-variant/60"><%= t("section_types.bridge") %></span>
             </div>
           </div>
         </div>
@@ -173,10 +171,8 @@
         <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
           <span class="material-symbols-outlined text-primary text-[24px]">dashboard_customize</span>
         </div>
-        <h3 class="font-headline text-2xl text-on-surface mb-3">Build your deck</h3>
-        <p class="text-on-surface-variant leading-relaxed mb-6 grow">
-          Add songs to a service deck, drag to reorder, repeat a chorus, skip an intro. Pick an AI-suggested theme or choose your own colours and background photo.
-        </p>
+        <h3 class="font-headline text-2xl text-on-surface mb-3"><%= t("landing.step2_title") %></h3>
+        <p class="text-on-surface-variant leading-relaxed mb-6 grow"><%= t("landing.step2_body") %></p>
         <div class="bg-surface-container rounded-xl p-4 space-y-2">
           <% [["奇异恩典", "C", 1], ["主祢是我力量", "G", 2], ["哈利路亚颂", "D", 3]].each do |title, key, pos| %>
             <div class="flex items-center gap-3 bg-surface-container-lowest rounded-lg px-3 py-2">
@@ -193,10 +189,8 @@
         <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
           <span class="material-symbols-outlined text-primary text-[24px]">slideshow</span>
         </div>
-        <h3 class="font-headline text-2xl text-on-surface mb-3">Export to PowerPoint</h3>
-        <p class="text-on-surface-variant leading-relaxed mb-6 grow">
-          One click generates a widescreen 16:9 PPTX with embedded Chinese fonts — so it renders perfectly on any Windows projector, no font installation needed.
-        </p>
+        <h3 class="font-headline text-2xl text-on-surface mb-3"><%= t("landing.step3_title") %></h3>
+        <p class="text-on-surface-variant leading-relaxed mb-6 grow"><%= t("landing.step3_body") %></p>
         <div class="bg-[#1a1a2e] rounded-xl p-5 flex flex-col items-center justify-center aspect-video">
           <div class="text-center space-y-1.5">
             <ruby class="text-white text-base font-medium leading-loose">
@@ -219,10 +213,8 @@
           <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
             <span class="material-symbols-outlined text-primary text-[24px]">auto_awesome</span>
           </div>
-          <h3 class="font-headline text-2xl text-on-surface mb-3">Import any song</h3>
-          <p class="text-on-surface-variant leading-relaxed">
-            Type a song title or paste lyrics. AI searches the web, fetches the full lyrics, and structures them into labelled sections — complete with tone-marked pinyin.
-          </p>
+          <h3 class="font-headline text-2xl text-on-surface mb-3"><%= t("landing.step1_title") %></h3>
+          <p class="text-on-surface-variant leading-relaxed"><%= t("landing.step1_body") %></p>
         </div>
         <div class="bg-surface-container p-8 w-1/2 flex items-center">
           <div class="w-full bg-surface-container-lowest rounded-xl p-4 text-sm font-mono space-y-2">
@@ -233,19 +225,19 @@
             <div class="border-t border-outline-variant/20 pt-2 space-y-2">
               <div class="flex justify-between text-xs">
                 <span class="text-on-surface">主祢是我力量</span>
-                <span class="text-on-surface-variant/60">Verse 1</span>
+                <span class="text-on-surface-variant/60"><%= t("section_types.verse") %> 1</span>
               </div>
               <div class="flex justify-between text-xs">
                 <span class="text-on-surface">哈利路亚颂</span>
-                <span class="text-on-surface-variant/60">Chorus</span>
+                <span class="text-on-surface-variant/60"><%= t("section_types.chorus") %></span>
               </div>
               <div class="flex justify-between text-xs">
                 <span class="text-on-surface">主祢是我力量</span>
-                <span class="text-on-surface-variant/60">Verse 2</span>
+                <span class="text-on-surface-variant/60"><%= t("section_types.verse") %> 2</span>
               </div>
               <div class="flex justify-between text-xs">
                 <span class="text-on-surface">奇异恩典</span>
-                <span class="text-on-surface-variant/60">Bridge</span>
+                <span class="text-on-surface-variant/60"><%= t("section_types.bridge") %></span>
               </div>
             </div>
           </div>
@@ -257,10 +249,8 @@
           <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
             <span class="material-symbols-outlined text-primary text-[24px]">dashboard_customize</span>
           </div>
-          <h3 class="font-headline text-2xl text-on-surface mb-3">Build your deck</h3>
-          <p class="text-on-surface-variant leading-relaxed">
-            Add songs to a service deck, drag to reorder, repeat a chorus, skip an intro. Pick an AI-suggested theme or choose your own colours and background photo.
-          </p>
+          <h3 class="font-headline text-2xl text-on-surface mb-3"><%= t("landing.step2_title") %></h3>
+          <p class="text-on-surface-variant leading-relaxed"><%= t("landing.step2_body") %></p>
         </div>
         <div class="bg-surface-container p-8 w-1/2 flex items-center">
           <div class="w-full space-y-2">
@@ -281,10 +271,8 @@
           <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
             <span class="material-symbols-outlined text-primary text-[24px]">slideshow</span>
           </div>
-          <h3 class="font-headline text-2xl text-on-surface mb-3">Export to PowerPoint</h3>
-          <p class="text-on-surface-variant leading-relaxed">
-            One click generates a widescreen 16:9 PPTX with embedded Chinese fonts — so it renders perfectly on any Windows projector, no font installation needed.
-          </p>
+          <h3 class="font-headline text-2xl text-on-surface mb-3"><%= t("landing.step3_title") %></h3>
+          <p class="text-on-surface-variant leading-relaxed"><%= t("landing.step3_body") %></p>
         </div>
         <div class="bg-[#1a1a2e] w-1/2 flex items-center justify-center">
           <div class="text-center space-y-1.5">
@@ -309,17 +297,15 @@
     <%# Song Import — detail row %>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
       <div>
-        <p class="text-xs font-medium text-primary uppercase tracking-widest mb-3">AI Song Import</p>
-        <h2 class="font-headline text-4xl text-on-surface mb-5">Your entire song library, imported with a search.</h2>
-        <p class="text-on-surface-variant leading-relaxed mb-6">
-          Search by title or artist in English or Chinese. AI fetches lyrics from the web, converts Traditional to Simplified automatically, and generates tone-marked pinyin for every character. Or paste in your own lyrics — it structures those too.
-        </p>
+        <p class="text-xs font-medium text-primary uppercase tracking-widest mb-3"><%= t("landing.import_label") %></p>
+        <h2 class="font-headline text-4xl text-on-surface mb-5"><%= t("landing.import_title") %></h2>
+        <p class="text-on-surface-variant leading-relaxed mb-6"><%= t("landing.import_body") %></p>
         <ul class="space-y-3">
           <% [
-            ["auto_awesome", "AI fetches & structures lyrics automatically"],
-            ["translate", "Traditional → Simplified Chinese conversion"],
-            ["record_voice_over", "Tone-marked pinyin (shèng líng, not sheng4 ling2)"],
-            ["content_copy", "Paste raw lyrics and skip the search entirely"],
+            ["auto_awesome",      t("landing.import_feature1")],
+            ["translate",         t("landing.import_feature2")],
+            ["record_voice_over", t("landing.import_feature3")],
+            ["content_copy",      t("landing.import_feature4")],
           ].each do |icon, text| %>
             <li class="flex items-start gap-3">
               <span class="material-symbols-outlined text-primary text-[20px] mt-0.5"><%= icon %></span>
@@ -331,7 +317,7 @@
       <div class="bg-surface-container-lowest rounded-2xl shadow-ambient border border-outline-variant/20 overflow-hidden">
         <div class="bg-surface-container-high px-5 py-3 flex items-center gap-3 border-b border-outline-variant/20">
           <span class="material-symbols-outlined text-primary text-[18px]">library_music</span>
-          <span class="text-sm font-medium text-on-surface">Import Song</span>
+          <span class="text-sm font-medium text-on-surface"><%= t("landing.import_mockup_title") %></span>
         </div>
         <div class="p-5 space-y-4">
           <div class="bg-surface-container rounded-lg px-4 py-3 flex items-center gap-3 border border-outline-variant/20">
@@ -339,7 +325,7 @@
             <span class="text-on-surface-variant text-sm">主祢是我力量</span>
           </div>
           <div class="space-y-2">
-            <p class="text-xs text-on-surface-variant uppercase tracking-widest font-medium">Found 3 matches</p>
+            <p class="text-xs text-on-surface-variant uppercase tracking-widest font-medium"><%= t("landing.import_mockup_found") %></p>
             <% [
               ["主祢是我力量", "Gateway Worship", true],
               ["You Are My Strength", "Hillsong", false],
@@ -356,7 +342,7 @@
           </div>
           <div class="flex items-center gap-2 text-xs text-on-surface-variant bg-surface-container rounded-lg px-3 py-2">
             <span class="material-symbols-outlined text-[14px] text-primary">check_circle</span>
-            Generating lyrics & pinyin…
+            <%= t("landing.import_mockup_status") %>
           </div>
         </div>
       </div>
@@ -393,17 +379,15 @@
         </div>
       </div>
       <div class="order-1 md:order-2">
-        <p class="text-xs font-medium text-primary uppercase tracking-widest mb-3">Deck Builder</p>
-        <h2 class="font-headline text-4xl text-on-surface mb-5">Arrange your service in seconds.</h2>
-        <p class="text-on-surface-variant leading-relaxed mb-6">
-          Drag songs into order, set the transposition key for each one, and customise the section arrangement — repeat the chorus, skip the bridge, add an extra verse. Every change streams live to a slide preview.
-        </p>
+        <p class="text-xs font-medium text-primary uppercase tracking-widest mb-3"><%= t("landing.deck_label") %></p>
+        <h2 class="font-headline text-4xl text-on-surface mb-5"><%= t("landing.deck_title") %></h2>
+        <p class="text-on-surface-variant leading-relaxed mb-6"><%= t("landing.deck_body") %></p>
         <ul class="space-y-3">
           <% [
-            ["drag_indicator", "Drag-to-reorder songs"],
-            ["music_note", "Per-song transposition key"],
-            ["repeat", "Custom section arrangement (repeat, skip, reorder)"],
-            ["visibility", "Live slide preview as you edit"],
+            ["drag_indicator", t("landing.deck_feature1")],
+            ["music_note",     t("landing.deck_feature2")],
+            ["repeat",         t("landing.deck_feature3")],
+            ["visibility",     t("landing.deck_feature4")],
           ].each do |icon, text| %>
             <li class="flex items-start gap-3">
               <span class="material-symbols-outlined text-primary text-[20px] mt-0.5"><%= icon %></span>
@@ -417,17 +401,15 @@
     <%# PowerPoint Export — detail row %>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
       <div>
-        <p class="text-xs font-medium text-primary uppercase tracking-widest mb-3">PowerPoint Export</p>
-        <h2 class="font-headline text-4xl text-on-surface mb-5">Projection-ready slides, every Sunday.</h2>
-        <p class="text-on-surface-variant leading-relaxed mb-6">
-          One click generates a widescreen 16:9 PPTX file with an embedded Chinese font — no font installation needed on the projection computer. Each song gets a title slide, then one content slide per section, with pinyin above the characters.
-        </p>
+        <p class="text-xs font-medium text-primary uppercase tracking-widest mb-3"><%= t("landing.export_label") %></p>
+        <h2 class="font-headline text-4xl text-on-surface mb-5"><%= t("landing.export_title") %></h2>
+        <p class="text-on-surface-variant leading-relaxed mb-6"><%= t("landing.export_body") %></p>
         <ul class="space-y-3">
           <% [
-            ["slideshow", "16:9 widescreen PowerPoint format"],
-            ["font_download", "Embedded Noto Sans SC font — works on any Windows PC"],
-            ["palette", "Your custom theme, colours, and background photo"],
-            ["auto_stories", "Pinyin above every character for congregation follow-along"],
+            ["slideshow",     t("landing.export_feature1")],
+            ["font_download", t("landing.export_feature2")],
+            ["palette",       t("landing.export_feature3")],
+            ["auto_stories",  t("landing.export_feature4")],
           ].each do |icon, text| %>
             <li class="flex items-start gap-3">
               <span class="material-symbols-outlined text-primary text-[20px] mt-0.5"><%= icon %></span>
@@ -442,7 +424,7 @@
           <div class="absolute inset-0 translate-x-3 translate-y-3 bg-surface-container-high rounded-2xl"></div>
           <div class="absolute inset-0 translate-x-1.5 translate-y-1.5 bg-surface-container rounded-2xl"></div>
           <div class="relative bg-[#1a1a2e] rounded-2xl aspect-video flex flex-col items-center justify-center p-8 shadow-[0_12px_48px_rgba(31,27,23,0.16)]">
-            <p class="text-white/30 text-[10px] uppercase tracking-widest mb-4">Chorus</p>
+            <p class="text-white/30 text-[10px] uppercase tracking-widest mb-4"><%= t("section_types.chorus") %></p>
             <div class="space-y-3 text-center">
               <div>
                 <ruby class="text-white text-xl md:text-2xl font-medium leading-loose">
@@ -470,10 +452,10 @@
           </div>
         </div>
         <div class="flex items-center justify-between px-1">
-          <span class="text-xs text-on-surface-variant">Slide 4 of 18</span>
+          <span class="text-xs text-on-surface-variant"><%= t("landing.export_slide_counter") %></span>
           <div class="flex items-center gap-2 bg-gradient-to-r from-primary to-primary-container text-on-primary text-xs font-medium px-4 py-2 rounded-lg pointer-events-none select-none">
             <span class="material-symbols-outlined text-[14px]">download</span>
-            Download .pptx
+            <%= t("landing.hero_mockup_export") %>
           </div>
         </div>
       </div>
@@ -490,12 +472,10 @@
         <div class="absolute -bottom-16 -left-16 w-64 h-64 rounded-full bg-white/5 blur-2xl"></div>
       </div>
       <div class="relative">
-        <h2 class="font-headline italic text-5xl md:text-6xl text-on-primary mb-5">Ready for Sunday?</h2>
-        <p class="text-on-primary/80 text-lg max-w-xl mx-auto mb-10">
-          Create an account and build your first deck today. Free to use.
-        </p>
+        <h2 class="font-headline italic text-5xl md:text-6xl text-on-primary mb-5"><%= t("landing.cta_title") %></h2>
+        <p class="text-on-primary/80 text-lg max-w-xl mx-auto mb-10"><%= t("landing.cta_body") %></p>
         <%= link_to new_user_registration_path, class: "inline-flex items-center gap-2 bg-on-primary text-primary px-8 py-3.5 rounded-xl font-semibold text-base hover:opacity-90 transition-all active:scale-95 duration-150" do %>
-          Get started free
+          <%= t("landing.cta_button") %>
           <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
         <% end %>
       </div>

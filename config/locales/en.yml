@@ -79,6 +79,59 @@ en:
     empty_step3_title: Download as PPTX
     empty_step3_desc: Export perfectly formatted slides.
 
+  landing:
+    nav_sign_in: Sign in
+    nav_get_started: Get started
+    hero_badge: AI-powered worship tools
+    hero_headline_1: Worship slides,
+    hero_headline_2: ready in minutes.
+    hero_body: Import Chinese worship songs with AI, arrange your service deck, and export a projection-ready PowerPoint — complete with pinyin — in one click.
+    hero_cta_primary: Get started free
+    hero_cta_secondary: Sign in
+    hero_mockup_songs: Service Songs
+    hero_mockup_add: Add song
+    hero_mockup_theme: Theme
+    hero_mockup_export: Download .pptx
+    how_it_works_label: How it works
+    how_it_works_title: Three steps to Sunday ready.
+    step1_title: Import any song
+    step1_body: Type a song title or paste lyrics. AI searches the web, fetches the full lyrics, and structures them into labelled sections — complete with tone-marked pinyin.
+    step2_title: Build your deck
+    step2_body: Add songs to a service deck, drag to reorder, repeat a chorus, skip an intro. Pick an AI-suggested theme or choose your own colours and background photo.
+    step3_title: Export to PowerPoint
+    step3_body: One click generates a widescreen 16:9 PPTX with embedded Chinese fonts — so it renders perfectly on any Windows projector, no font installation needed.
+    import_label: AI Song Import
+    import_title: Your entire song library, imported with a search.
+    import_body: Search by title or artist in English or Chinese. AI fetches lyrics from the web, converts Traditional to Simplified automatically, and generates tone-marked pinyin for every character. Or paste in your own lyrics — it structures those too.
+    import_feature1: AI fetches & structures lyrics automatically
+    import_feature2: "Traditional → Simplified Chinese conversion"
+    import_feature3: "Tone-marked pinyin (shèng líng, not sheng4 ling2)"
+    import_feature4: Paste raw lyrics and skip the search entirely
+    import_mockup_title: Import Song
+    import_mockup_found: Found 3 matches
+    import_mockup_status: Generating lyrics & pinyin…
+    deck_label: Deck Builder
+    deck_title: Arrange your service in seconds.
+    deck_body: Drag songs into order, set the transposition key for each one, and customise the section arrangement — repeat the chorus, skip the bridge, add an extra verse. Every change streams live to a slide preview.
+    deck_feature1: Drag-to-reorder songs
+    deck_feature2: Per-song transposition key
+    deck_feature3: "Custom section arrangement (repeat, skip, reorder)"
+    deck_feature4: Live slide preview as you edit
+    export_label: PowerPoint Export
+    export_title: Projection-ready slides, every Sunday.
+    export_body: One click generates a widescreen 16:9 PPTX file with an embedded Chinese font — no font installation needed on the projection computer. Each song gets a title slide, then one content slide per section, with pinyin above the characters.
+    export_feature1: 16:9 widescreen PowerPoint format
+    export_feature2: Embedded Noto Sans SC font — works on any Windows PC
+    export_feature3: Your custom theme, colours, and background photo
+    export_feature4: Pinyin above every character for congregation follow-along
+    export_slide_counter: "Slide 4 of 18"
+    cta_title: Ready for Sunday?
+    cta_body: Create an account and build your first deck today. Free to use.
+    cta_button: Get started free
+    footer_tagline: Built to project his praise.
+    footer_sign_in: Sign in
+    footer_create_account: Create account
+
   section_types:
     verse: Verse
     chorus: Chorus
