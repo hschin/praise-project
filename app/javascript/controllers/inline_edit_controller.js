@@ -20,7 +20,7 @@ export default class extends Controller {
     if (!value && !this.allowEmptyValue) { this.cancel(); return }
 
     const token = document.querySelector("meta[name='csrf-token']").content
-    await fetch(this.urlValue, {
+    const response = await fetch(this.urlValue, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -40,6 +40,17 @@ export default class extends Controller {
     }
     this.displayTarget.hidden = false
     this.inputTarget.hidden   = true
+
+    if (response.ok) this.#flashSaved()
+  }
+
+  #flashSaved() {
+    const el = document.createElement("span")
+    el.textContent = "Saved"
+    el.className = "text-xs text-emerald-600 font-body ml-2 transition-opacity duration-500"
+    this.displayTarget.after(el)
+    setTimeout(() => { el.style.opacity = "0" }, 1200)
+    setTimeout(() => { el.remove() }, 1700)
   }
 
   cancel() {
