@@ -33,14 +33,7 @@
         </p>
       <% end %>
     </div>
-    <div class="flex items-center gap-3">
-      <%= link_to "Back to Library", songs_path, class: "text-sm text-primary hover:underline decoration-outline-variant font-body" %>
-      <%= button_to song_path(@song), method: :delete,
-            data: { turbo_confirm: "Delete \"#{@song.title}\"?" },
-            class: "p-2 text-error hover:bg-error-container rounded-full transition-all cursor-pointer bg-transparent border-0" do %>
-        <span class="material-symbols-outlined text-[18px]">delete</span>
-      <% end %>
-    </div>
+    <%= link_to "Back to Library", songs_path, class: "text-sm text-primary hover:underline decoration-outline-variant font-body" %>
   </div>
 
   <div id="song_status_<%= @song.id %>">
