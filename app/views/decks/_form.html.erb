@@ -9,12 +9,18 @@
 
   <div>
     <%= f.label :title, "Title", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
-    <%= f.text_field :title, class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
+    <%= f.text_field :title, class: "w-full bg-surface-container-lowest border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body #{deck.errors[:title].any? ? 'border-primary focus:ring-primary' : 'border-outline-variant/30'}" %>
+    <% if deck.errors[:title].any? %>
+      <p class="mt-1 text-xs text-primary font-body"><%= deck.errors[:title].first %></p>
+    <% end %>
   </div>
 
   <div>
     <%= f.label :date, "Date", class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
-    <%= f.date_field :date, class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
+    <%= f.date_field :date, class: "w-full bg-surface-container-lowest border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body #{deck.errors[:date].any? ? 'border-primary focus:ring-primary' : 'border-outline-variant/30'}" %>
+    <% if deck.errors[:date].any? %>
+      <p class="mt-1 text-xs text-primary font-body"><%= deck.errors[:date].first %></p>
+    <% end %>
   </div>
 
   <div>

@@ -12,7 +12,10 @@
     <div>
       <%= f.label :title, class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>
       <%= f.text_field :title,
-            class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body" %>
+            class: "w-full bg-surface-container-lowest border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary text-on-surface font-body #{song.errors[:title].any? ? 'border-primary' : 'border-outline-variant/30'}" %>
+      <% if song.errors[:title].any? %>
+        <p class="mt-1 text-xs text-primary font-body"><%= song.errors[:title].first %></p>
+      <% end %>
     </div>
     <div>
       <%= f.label :artist, class: "block text-[0.75rem] font-semibold uppercase tracking-wider text-on-surface-variant font-label mb-1" %>

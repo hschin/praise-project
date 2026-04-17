@@ -120,16 +120,25 @@
         <% library_songs = Song.where(import_status: "done").order(:title) %>
         <% library_songs.each do |song| %>
           <div data-song-search-target="item" data-title="<%= song.title %>">
-            <%= form_with url: deck_deck_songs_path(@deck) do |f| %>
+            <%= form_with url: deck_deck_songs_path(@deck), data: { controller: "add-song" } do |f| %>
               <%= f.hidden_field :song_id, value: song.id %>
-              <button type="submit" class="w-full text-left px-3 py-2 rounded-lg hover:bg-surface-container-high transition-colors flex items-center justify-between group">
+              <button type="submit"
+                      data-add-song-target="button"
+                      data-action="click->add-song#loading"
+                      class="w-full text-left px-3 py-2 rounded-lg hover:bg-surface-container-high transition-colors flex items-center justify-between group">
                 <div>
                   <p class="text-sm font-medium text-on-surface font-body"><%= song.title %></p>
                   <% if song.artist.present? %>
                     <p class="text-[10px] text-outline font-body"><%= song.artist %></p>
                   <% end %>
                 </div>
-                <span class="text-xs bg-surface-container-lowest border border-outline-variant/40 px-3 py-1 rounded-full group-hover:bg-primary group-hover:text-on-primary group-hover:border-transparent transition-all font-label shrink-0 ml-2">+ Add</span>
+                <span data-add-song-target="label" class="text-xs bg-surface-container-lowest border border-outline-variant/40 px-3 py-1 rounded-full group-hover:bg-primary group-hover:text-on-primary group-hover:border-transparent transition-all font-label shrink-0 ml-2">+ Add</span>
+                <span data-add-song-target="spinner" hidden class="shrink-0 ml-2">
+                  <svg class="animate-spin h-4 w-4 text-primary" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                  </svg>
+                </span>
               </button>
             <% end %>
           </div>

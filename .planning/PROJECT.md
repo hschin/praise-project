@@ -60,7 +60,6 @@ Worship leaders can go from song title to a complete, formatted Chinese+pinyin P
 - [ ] Empty states guide new users on what to do next
 - [ ] Song can store English title as alias for bilingual search (META-01)
 - [ ] Song can store CCLI number, key, and artist/composer (META-02)
-- [ ] User can add Bible verse slides to a deck (SCRIP-01)
 
 ### Out of Scope
 
@@ -71,6 +70,7 @@ Worship leaders can go from song title to a complete, formatted Chinese+pinyin P
 | Live in-browser presentation mode | PPTX export achieves this via PowerPoint/Keynote |
 | Mobile app | Web-first; desktop use case |
 | Multi-church SaaS / multi-tenancy | Single church team for v1 |
+| Bible verse slides | Out of scope for this app |
 | Key transposition / chord charts | Musicians' tool, not a slides tool |
 | Import from ProPresenter / CCLI SongSelect | Brittle format parsing; manual search is sufficient |
 | Version history / edit audit trail | Small team tolerates last-write-wins |
