@@ -58,6 +58,7 @@ class DecksController < ApplicationController
   end
 
   def export
+    Export.create!(deck: @deck, user: current_user, event: :generated)
     GeneratePptxJob.perform_later(@deck.id)
     respond_to do |format|
       format.turbo_stream do
@@ -80,6 +81,7 @@ class DecksController < ApplicationController
       return
     end
 
+    Export.create!(deck: @deck, user: current_user, event: :downloaded)
     filename = "#{@deck.title.parameterize}-export.pptx"
     send_file path,
       filename: filename,
