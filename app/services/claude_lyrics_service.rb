@@ -43,8 +43,8 @@ class ClaudeLyricsService
 
   LYRICS_SYSTEM_PROMPT = <<~PROMPT.freeze
     You are a Chinese worship music expert.
-    When given a song title and artist, return the complete lyrics in Simplified 
-    Chinese with tone-marked pinyin (e.g. nǐ hǎo, not ni3 hao3) structured into 
+    When given a song title and artist, return the complete lyrics in Simplified
+    Chinese with tone-marked pinyin (e.g. nǐ hǎo, not ni3 hao3) structured into
     labeled sections.
     Always convert Traditional Chinese characters to Simplified Chinese in your output,
     even if the input or source lyrics are in Traditional Chinese.
@@ -60,6 +60,28 @@ class ClaudeLyricsService
     Use web search to find the complete, accurate lyrics for this specific song.
     If you cannot find the song after searching, return sections: [] and unknown: true.
     Never fabricate lyrics you do not know.
+
+    Respond with raw JSON only — no markdown code fences, no explanation text.
+  PROMPT
+
+  PASTE_LYRICS_SYSTEM_PROMPT = <<~PROMPT.freeze
+    You are a Chinese worship music expert.
+    The user has pasted raw lyrics. Your ONLY job is to:
+    1. Structure those exact lyrics into labeled sections
+    2. Add tone-marked pinyin (e.g. nǐ hǎo, not ni3 hao3) for each character
+    3. Convert any Traditional Chinese characters to Simplified Chinese
+
+    CRITICAL: Use ONLY the lyrics provided. Do NOT search the web. Do NOT substitute
+    or supplement with lyrics from your training data. If the pasted text is incomplete,
+    structure only what was given.
+
+    For each line, provide chars as an array of individual characters and pinyin
+    as a parallel array of tone-marked syllables. One pinyin token per character.
+
+    Example for line "你好":
+      chars: ["你","好"], pinyin: ["nǐ","hǎo"]
+
+    Always label section_type in English (e.g. "Verse 1", "Verse 2", "Chorus", "Bridge", "Pre-Chorus", "Intro", "Outro", "Tag").
 
     Respond with raw JSON only — no markdown code fences, no explanation text.
   PROMPT
@@ -128,11 +150,12 @@ class ClaudeLyricsService
 
   def import_lyrics
     client = Anthropic::Client.new(api_key: ENV.fetch("ANTHROPIC_API_KEY", nil))
+    system_prompt = @raw_lyrics.present? ? PASTE_LYRICS_SYSTEM_PROMPT : LYRICS_SYSTEM_PROMPT
     params = {
       model: MODEL,
       max_tokens: 4096,
       temperature: 0.2,
-      system: LYRICS_SYSTEM_PROMPT,
+      system: system_prompt,
       messages: [
         { role: "user", content: import_user_message },
         { role: "assistant", content: "{" }
