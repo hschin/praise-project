@@ -28,5 +28,9 @@ export default class extends Controller {
         this.importTitleTargets.forEach(el => { el.value = this.inputTarget.value.trim() })
       }
     }
+
+    if (this.hasImportTitleTarget) {
+      this.importTitleTargets.forEach(el => { el.value = this.inputTarget.value.trim() })
+    }
   }
 }
