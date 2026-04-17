@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["input", "item", "empty", "importSection", "importTitle"]
+  static targets = ["input", "item", "empty", "importSection", "importTitle", "pastePath"]
 
   filter() {
     const query = this.inputTarget.value.toLowerCase().trim()
@@ -31,6 +31,13 @@ export default class extends Controller {
 
     if (this.hasImportTitleTarget) {
       this.importTitleTargets.forEach(el => { el.value = this.inputTarget.value.trim() })
+    }
+
+    if (this.hasPastePathTarget) {
+      const title = this.inputTarget.value.trim()
+      const base = this.pastePathTarget.dataset.basePath || this.pastePathTarget.href.split("?")[0]
+      this.pastePathTarget.dataset.basePath = base
+      this.pastePathTarget.href = title ? `${base}?title=${encodeURIComponent(title)}` : base
     }
   }
 }

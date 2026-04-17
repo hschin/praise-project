@@ -69,81 +69,51 @@
       <% end %>
 
       <%# Import from web card %>
-      <div class="rounded-xl border border-dashed border-outline-variant/40 bg-surface-container-low/20 overflow-hidden flex flex-col p-5 gap-3">
-        <div class="flex items-center gap-2">
-          <span class="material-symbols-outlined text-outline text-[20px]">language</span>
-          <h3 class="font-headline text-lg text-on-surface">Import from web</h3>
-        </div>
-        <p class="text-xs text-on-surface-variant font-body">Search for a song by title and Claude will fetch and structure the lyrics automatically.</p>
-        <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex gap-2 mt-auto" do |f| %>
-          <%= f.text_field :title,
-                data: { "song-search-target": "importTitle" },
-                placeholder: "Song title...",
-                class: "flex-1 min-w-0 bg-surface-container-lowest border border-outline-variant/30 focus:ring-2 focus:ring-primary rounded-lg h-9 px-3 text-sm text-on-surface placeholder:text-on-surface-variant/40 font-body focus:outline-none" %>
-          <%= f.submit "Import",
-                class: "h-9 px-4 bg-tertiary text-on-tertiary rounded-lg font-medium hover:bg-tertiary-container transition-colors cursor-pointer text-sm font-label flex-shrink-0" %>
-        <% end %>
-      </div>
+      <%= form_with url: import_songs_path, method: :post, data: { turbo: false } do |f| %>
+        <%= f.hidden_field :title, data: { "song-search-target": "importTitle" } %>
+        <button type="submit" class="w-full h-full text-left rounded-xl border border-dashed border-outline-variant/40 bg-surface-container-low/20 hover:bg-surface-container-low hover:border-outline-variant/60 transition-all p-5 flex flex-col gap-2 group">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">language</span>
+            <h3 class="font-headline text-lg text-on-surface group-hover:text-primary transition-colors">Import from web</h3>
+          </div>
+          <p class="text-xs text-on-surface-variant font-body">Claude will search and structure the lyrics automatically.</p>
+        </button>
+      <% end %>
 
       <%# Paste lyrics card %>
-      <div class="rounded-xl border border-dashed border-outline-variant/40 bg-surface-container-low/20 overflow-hidden flex flex-col p-5 gap-3">
+      <%= link_to paste_songs_path, data: { "song-search-target": "pastePath" },
+            class: "rounded-xl border border-dashed border-outline-variant/40 bg-surface-container-low/20 hover:bg-surface-container-low hover:border-outline-variant/60 transition-all p-5 flex flex-col gap-2 group" do %>
         <div class="flex items-center gap-2">
-          <span class="material-symbols-outlined text-outline text-[20px]">content_paste</span>
-          <h3 class="font-headline text-lg text-on-surface">Paste lyrics</h3>
+          <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">content_paste</span>
+          <h3 class="font-headline text-lg text-on-surface group-hover:text-primary transition-colors">Paste lyrics</h3>
         </div>
-        <p class="text-xs text-on-surface-variant font-body">Already have the lyrics? Paste them in and Claude will format and add pinyin.</p>
-        <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex flex-col gap-2 mt-auto" do |f| %>
-          <%= f.text_field :title,
-                data: { "song-search-target": "importTitle" },
-                placeholder: "Song title",
-                class: "w-full bg-surface-container-lowest border border-outline-variant/30 focus:ring-2 focus:ring-primary rounded-lg h-9 px-3 text-sm text-on-surface placeholder:text-on-surface-variant/40 font-body focus:outline-none" %>
-          <%= f.text_area :raw_lyrics,
-                placeholder: "Paste raw lyrics here...",
-                rows: 3,
-                class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary text-on-surface placeholder:text-on-surface-variant/40 font-body text-sm focus:outline-none resize-none" %>
-          <%= f.submit "Import Pasted Lyrics",
-                class: "w-full bg-gradient-to-r from-primary to-primary-container text-on-primary text-sm px-3 py-2 rounded-lg font-medium hover:opacity-95 cursor-pointer font-label" %>
-        <% end %>
-      </div>
+        <p class="text-xs text-on-surface-variant font-body">Already have the lyrics? Paste them in and Claude will add pinyin.</p>
+      <% end %>
 
     </div>
   <% else %>
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
       <%# Import from web card %>
-      <div class="rounded-xl border border-dashed border-outline-variant/40 bg-surface-container-low/20 overflow-hidden flex flex-col p-5 gap-3">
-        <div class="flex items-center gap-2">
-          <span class="material-symbols-outlined text-outline text-[20px]">language</span>
-          <h3 class="font-headline text-lg text-on-surface">Import from web</h3>
-        </div>
-        <p class="text-xs text-on-surface-variant font-body">Search for a song by title and Claude will fetch and structure the lyrics automatically.</p>
-        <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex gap-2 mt-auto" do |f| %>
-          <%= f.text_field :title,
-                placeholder: "Song title...",
-                class: "flex-1 min-w-0 bg-surface-container-lowest border border-outline-variant/30 focus:ring-2 focus:ring-primary rounded-lg h-9 px-3 text-sm text-on-surface placeholder:text-on-surface-variant/40 font-body focus:outline-none" %>
-          <%= f.submit "Import",
-                class: "h-9 px-4 bg-tertiary text-on-tertiary rounded-lg font-medium hover:bg-tertiary-container transition-colors cursor-pointer text-sm font-label flex-shrink-0" %>
-        <% end %>
-      </div>
+      <%= form_with url: import_songs_path, method: :post, data: { turbo: false } do |f| %>
+        <%= f.hidden_field :title, data: { "song-search-target": "importTitle" } %>
+        <button type="submit" class="w-full h-full text-left rounded-xl border border-dashed border-outline-variant/40 bg-surface-container-low/20 hover:bg-surface-container-low hover:border-outline-variant/60 transition-all p-5 flex flex-col gap-2 group">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">language</span>
+            <h3 class="font-headline text-lg text-on-surface group-hover:text-primary transition-colors">Import from web</h3>
+          </div>
+          <p class="text-xs text-on-surface-variant font-body">Claude will search and structure the lyrics automatically.</p>
+        </button>
+      <% end %>
 
       <%# Paste lyrics card %>
-      <div class="rounded-xl border border-dashed border-outline-variant/40 bg-surface-container-low/20 overflow-hidden flex flex-col p-5 gap-3">
+      <%= link_to paste_songs_path,
+            class: "rounded-xl border border-dashed border-outline-variant/40 bg-surface-container-low/20 hover:bg-surface-container-low hover:border-outline-variant/60 transition-all p-5 flex flex-col gap-2 group" do %>
         <div class="flex items-center gap-2">
-          <span class="material-symbols-outlined text-outline text-[20px]">content_paste</span>
-          <h3 class="font-headline text-lg text-on-surface">Paste lyrics</h3>
+          <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[20px]">content_paste</span>
+          <h3 class="font-headline text-lg text-on-surface group-hover:text-primary transition-colors">Paste lyrics</h3>
         </div>
-        <p class="text-xs text-on-surface-variant font-body">Already have the lyrics? Paste them in and Claude will format and add pinyin.</p>
-        <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex flex-col gap-2 mt-auto" do |f| %>
-          <%= f.text_field :title,
-                placeholder: "Song title",
-                class: "w-full bg-surface-container-lowest border border-outline-variant/30 focus:ring-2 focus:ring-primary rounded-lg h-9 px-3 text-sm text-on-surface placeholder:text-on-surface-variant/40 font-body focus:outline-none" %>
-          <%= f.text_area :raw_lyrics,
-                placeholder: "Paste raw lyrics here...",
-                rows: 3,
-                class: "w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary text-on-surface placeholder:text-on-surface-variant/40 font-body text-sm focus:outline-none resize-none" %>
-          <%= f.submit "Import Pasted Lyrics",
-                class: "w-full bg-gradient-to-r from-primary to-primary-container text-on-primary text-sm px-3 py-2 rounded-lg font-medium hover:opacity-95 cursor-pointer font-label" %>
-        <% end %>
-      </div>
+        <p class="text-xs text-on-surface-variant font-body">Already have the lyrics? Paste them in and Claude will add pinyin.</p>
+      <% end %>
     </div>
   <% end %>
 
