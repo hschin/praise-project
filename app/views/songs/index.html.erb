@@ -78,9 +78,9 @@
               <p class="text-sm text-on-surface-variant/70 font-body mt-0.5 truncate min-h-[1.25rem]"><%= song.english_title %></p>
               <div class="flex items-center gap-2 mt-1.5 overflow-hidden">
                 <% meta = [
-                     { icon: "person",     label: song.artist.presence,       placeholder: "Unknown artist" },
-                     { icon: "music_note", label: song.default_key.presence,  placeholder: "No key" },
-                     { icon: "tag",        label: song.ccli_number.presence ? "CCLI #{song.ccli_number}" : nil, placeholder: "No CCLI" },
+                     { icon: "person",     label: song.artist.presence,       placeholder: "—" },
+                     { icon: "music_note", label: song.default_key.presence,  placeholder: "—" },
+                     { icon: "tag",        label: song.ccli_number.presence ? "CCLI #{song.ccli_number}" : nil, placeholder: "—" },
                    ] %>
                 <% meta.each_with_index do |m, i| %>
                   <% unless i == 0 %>
