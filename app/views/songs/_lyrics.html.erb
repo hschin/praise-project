@@ -35,7 +35,7 @@
                   <ruby><%= char %><rp>(</rp><rt><%= tokens[pinyin_idx] %></rt><rp>)</rp></ruby>
                   <% pinyin_idx += 1 %>
                 <% else %>
-                  <%= char %>
+                  <ruby><%= char %><rt></rt></ruby>
                 <% end %>
               <% end %>
             </div>
