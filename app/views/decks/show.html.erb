@@ -116,10 +116,18 @@
                class="w-full pl-10 pr-4 py-2.5 bg-surface-container-highest border-none rounded-xl focus:ring-2 focus:ring-primary/20 text-sm font-body text-on-surface placeholder:text-outline">
       </div>
 
-      <div class="space-y-1 max-h-52 overflow-y-auto">
-        <% library_songs = Song.where(import_status: "done").order(:title) %>
+      <div class="space-y-1">
+        <% already_added_ids = @deck.deck_songs.pluck(:song_id) %>
+        <% available_songs = Song.where(import_status: "done").where.not(id: already_added_ids) %>
+        <% library_songs = available_songs.order(:title) %>
+        <% suggested_ids = available_songs.order(Arel.sql("RANDOM()")).limit(5).pluck(:id).to_set %>
         <% library_songs.each do |song| %>
-          <div data-song-search-target="item" data-title="<%= song.title %>" data-english-title="<%= song.english_title %>" data-artist="<%= song.artist %>">
+          <div data-song-search-target="item"
+               data-title="<%= song.title %>"
+               data-english-title="<%= song.english_title %>"
+               data-artist="<%= song.artist %>"
+               data-suggested="<%= suggested_ids.include?(song.id) %>"
+               <%= suggested_ids.include?(song.id) ? "" : 'hidden' %>>
             <%= form_with url: deck_deck_songs_path(@deck), data: { controller: "add-song" } do |f| %>
               <%= f.hidden_field :song_id, value: song.id %>
               <button type="submit"
@@ -128,9 +136,17 @@
                       class="w-full text-left px-3 py-2 rounded-lg hover:bg-surface-container-high transition-colors flex items-center justify-between group">
                 <div>
                   <p class="text-sm font-medium text-on-surface font-body"><%= song.title %></p>
-                  <% if song.artist.present? %>
-                    <p class="text-[10px] text-outline font-body"><%= song.artist %></p>
-                  <% end %>
+                  <div class="flex flex-wrap gap-x-2 mt-0.5">
+                    <% if song.artist.present? %>
+                      <p class="text-[10px] text-outline font-body"><%= song.artist %></p>
+                    <% end %>
+                    <% if song.english_title.present? %>
+                      <p class="text-[10px] text-outline/70 font-body italic"><%= song.english_title %></p>
+                    <% end %>
+                    <% if song.default_key.present? %>
+                      <p class="text-[10px] text-outline/70 font-body">Key: <%= song.default_key %></p>
+                    <% end %>
+                  </div>
                 </div>
                 <span data-add-song-target="label" class="text-xs bg-surface-container-lowest border border-outline-variant/40 px-3 py-1 rounded-full group-hover:bg-primary group-hover:text-on-primary group-hover:border-transparent transition-all font-label shrink-0 ml-2">+ Add</span>
                 <span data-add-song-target="spinner" hidden class="shrink-0 ml-2">
