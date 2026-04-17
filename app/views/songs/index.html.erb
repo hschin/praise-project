@@ -71,7 +71,8 @@
       <% @songs.each do |song| %>
         <div class="group rounded-xl bg-surface-container-low/40 hover:bg-surface-container-low transition-all duration-200 shadow-[0_1px_3px_rgba(31,27,23,0.02)] hover:shadow-[0_4px_12px_rgba(31,27,23,0.06)] border border-outline-variant/8 overflow-hidden"
              data-song-search-target="item"
-             data-title="<%= song.title %>">
+             data-title="<%= song.title %>"
+             data-english-title="<%= song.english_title %>">
           <div class="flex items-start p-5 pb-3">
             <%= link_to song_path(song), class: "flex-1 min-w-0 focus:outline-none" do %>
               <h3 class="font-headline text-xl text-on-surface group-hover:text-primary transition-colors leading-tight truncate"><%= song.title %></h3>

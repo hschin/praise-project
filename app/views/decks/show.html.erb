@@ -119,7 +119,7 @@
       <div class="space-y-1 max-h-52 overflow-y-auto">
         <% library_songs = Song.where(import_status: "done").order(:title) %>
         <% library_songs.each do |song| %>
-          <div data-song-search-target="item" data-title="<%= song.title %>">
+          <div data-song-search-target="item" data-title="<%= song.title %>" data-english-title="<%= song.english_title %>">
             <%= form_with url: deck_deck_songs_path(@deck), data: { controller: "add-song" } do |f| %>
               <%= f.hidden_field :song_id, value: song.id %>
               <button type="submit"
