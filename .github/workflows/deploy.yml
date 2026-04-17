@@ -69,14 +69,6 @@ jobs:
           wait-for-service-stability: true
           enable-ecs-managed-tags: true
 
-      - name: Enable ECS Exec on service
-        run: |
-          aws ecs update-service \
-            --cluster ${{ secrets.ECS_CLUSTER }} \
-            --service ${{ secrets.ECS_SERVICE }} \
-            --enable-execute-command \
-            --region ${{ secrets.AWS_REGION }} > /dev/null
-
       # Run db:migrate as a one-off ECS task after the service is stable.
       # Uses the same task definition, overrides the container command.
       # Safe to run on every deploy — Rails migrate is idempotent.
