@@ -12,6 +12,7 @@ zh-CN:
     search_label: 搜索诗歌
     search_placeholder: 按标题、英文名或艺术家搜索……
     no_results: 没有符合条件的诗歌。
+    add_song_prompt: 找不到您想要的诗歌？
     import_web: 从网络导入
     import_web_subtitle: Claude 搜索并整理歌词
     paste_lyrics: 粘贴歌词
