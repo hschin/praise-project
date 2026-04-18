@@ -30,8 +30,8 @@
           <%= button_to "中文", locale_path(locale: :"zh-CN"), method: :patch,
                 class: "px-2.5 py-1 rounded-md transition-all cursor-pointer border-0 #{I18n.locale == :"zh-CN" ? 'bg-surface text-on-surface shadow-sm' : 'text-on-surface-variant hover:text-on-surface bg-transparent'}" %>
         </div>
-        <%= link_to t("landing.nav_sign_in"), new_user_session_path, class: "text-on-surface-variant font-medium hover:text-primary transition-colors" %>
-        <%= link_to t("landing.nav_get_started"), new_user_registration_path, class: "bg-gradient-to-r from-primary to-primary-container text-on-primary px-5 py-2 rounded-xl font-medium hover:opacity-90 transition-all active:scale-95 duration-150" %>
+        <%= link_to t("landing.nav_sign_in"), new_user_session_path, class: "hidden md:inline text-on-surface-variant font-medium hover:text-primary transition-colors" %>
+        <%= link_to t("landing.nav_get_started"), new_user_registration_path, class: "hidden md:inline bg-gradient-to-r from-primary to-primary-container text-on-primary px-5 py-2 rounded-xl font-medium hover:opacity-90 transition-all active:scale-95 duration-150" %>
       </div>
     </header>
 
