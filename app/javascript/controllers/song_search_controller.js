@@ -10,7 +10,7 @@ export default class extends Controller {
     this.itemTargets.forEach(item => {
       let show
       if (query === "") {
-        show = item.dataset.suggested === "true"
+        show = true
       } else {
         show = item.dataset.title.toLowerCase().includes(query) ||
           (item.dataset.englishTitle || "").toLowerCase().includes(query) ||
