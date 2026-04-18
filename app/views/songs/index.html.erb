@@ -20,9 +20,39 @@
     </p>
   </section>
 
-  <%# Song list %>
   <% if @songs.any? %>
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 grid-flow-dense">
+
+      <%# Add song — pinned to rightmost column, first row %>
+      <div class="flex flex-col gap-4 md:col-start-2 xl:col-start-3 row-start-1">
+        <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant"><%= t("songs.add_song_prompt") %></p>
+        <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex grow" do |f| %>
+          <%= f.hidden_field :title, data: { "song-search-target": "importTitle" } %>
+          <button type="submit" class="w-full text-left rounded-xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container hover:shadow-md active:scale-[0.98] transition-all p-4 flex items-center gap-4 group shadow-sm cursor-pointer grow">
+            <div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-tertiary/20 transition-colors">
+              <span class="material-symbols-outlined text-tertiary text-[20px]">language</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="font-headline text-base text-on-surface group-hover:text-primary transition-colors"><%= t("songs.import_web") %></p>
+              <p class="text-xs text-on-surface-variant font-body mt-0.5"><%= t("songs.import_web_subtitle") %></p>
+            </div>
+            <span class="material-symbols-outlined text-outline/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all">arrow_forward</span>
+          </button>
+        <% end %>
+        <%= link_to new_song_path, data: { "song-search-target": "pastePath" },
+              class: "rounded-xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container hover:shadow-md active:scale-[0.98] transition-all p-4 flex items-center gap-4 group shadow-sm grow" do %>
+          <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+            <span class="material-symbols-outlined text-primary text-[20px]">content_paste</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="font-headline text-base text-on-surface group-hover:text-primary transition-colors"><%= t("songs.paste_lyrics") %></p>
+            <p class="text-xs text-on-surface-variant font-body mt-0.5"><%= t("songs.paste_lyrics_subtitle") %></p>
+          </div>
+          <span class="material-symbols-outlined text-outline/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all">arrow_forward</span>
+        <% end %>
+      </div>
+
+      <%# Song cards %>
       <% @songs.each do |song| %>
         <div class="group rounded-xl bg-surface-container-low/40 hover:bg-surface-container-low transition-all duration-200 shadow-[0_1px_3px_rgba(31,27,23,0.02)] hover:shadow-[0_4px_12px_rgba(31,27,23,0.06)] border border-outline-variant/8 overflow-hidden"
              data-song-search-target="item"
@@ -68,39 +98,11 @@
         </div>
       <% end %>
 
-      <%# Add song — 2 cards stacked in 1 cell %>
-      <div class="flex flex-col gap-4 h-full">
-        <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex grow" do |f| %>
-          <%= f.hidden_field :title, data: { "song-search-target": "importTitle" } %>
-          <button type="submit" class="w-full text-left rounded-xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container hover:shadow-md active:scale-[0.98] transition-all p-4 flex items-center gap-4 group shadow-sm cursor-pointer grow">
-            <div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-tertiary/20 transition-colors">
-              <span class="material-symbols-outlined text-tertiary text-[20px]">language</span>
-            </div>
-            <div class="flex-1 min-w-0">
-              <p class="font-headline text-base text-on-surface group-hover:text-primary transition-colors"><%= t("songs.import_web") %></p>
-              <p class="text-xs text-on-surface-variant font-body mt-0.5"><%= t("songs.import_web_subtitle") %></p>
-            </div>
-            <span class="material-symbols-outlined text-outline/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all">arrow_forward</span>
-          </button>
-        <% end %>
-        <%= link_to new_song_path, data: { "song-search-target": "pastePath" },
-              class: "rounded-xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container hover:shadow-md active:scale-[0.98] transition-all p-4 flex items-center gap-4 group shadow-sm grow" do %>
-          <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
-            <span class="material-symbols-outlined text-primary text-[20px]">content_paste</span>
-          </div>
-          <div class="flex-1 min-w-0">
-            <p class="font-headline text-base text-on-surface group-hover:text-primary transition-colors"><%= t("songs.paste_lyrics") %></p>
-            <p class="text-xs text-on-surface-variant font-body mt-0.5"><%= t("songs.paste_lyrics_subtitle") %></p>
-          </div>
-          <span class="material-symbols-outlined text-outline/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all">arrow_forward</span>
-        <% end %>
-      </div>
-
     </div>
   <% else %>
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-      <%# Add song — 2 cards stacked in 1 cell %>
-      <div class="flex flex-col gap-4 h-full">
+      <div class="flex flex-col gap-4">
+        <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant"><%= t("songs.add_song_prompt") %></p>
         <%= form_with url: import_songs_path, method: :post, data: { turbo: false }, class: "flex grow" do |f| %>
           <%= f.hidden_field :title, data: { "song-search-target": "importTitle" } %>
           <button type="submit" class="w-full text-left rounded-xl bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container hover:shadow-md active:scale-[0.98] transition-all p-4 flex items-center gap-4 group shadow-sm cursor-pointer grow">

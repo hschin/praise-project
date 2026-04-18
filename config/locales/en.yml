@@ -12,6 +12,7 @@ en:
     search_label: Search songs
     search_placeholder: Search by title, English name, or artist...
     no_results: No songs in your library match that title.
+    add_song_prompt: Don't see the song you want?
     import_web: Import from web
     import_web_subtitle: Claude searches and structures lyrics
     paste_lyrics: Paste lyrics
