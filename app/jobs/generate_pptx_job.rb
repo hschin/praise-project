@@ -89,6 +89,8 @@ class GeneratePptxJob < ApplicationJob
 
   def broadcast_error(deck_id, message)
     deck = Deck.find_by(id: deck_id)
+    return unless deck  # nothing to update if the deck no longer exists
+
     Turbo::StreamsChannel.broadcast_update_to(
       "deck_export_#{deck_id}",
       target: "export_button_#{deck_id}",
