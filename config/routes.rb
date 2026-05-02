@@ -41,4 +41,7 @@ Rails.application.routes.draw do
   patch "locale", to: "locales#update", as: :locale
 
   get "up" => "rails/health#show", as: :rails_health_check
+
+  # Rich health check — used by ALB health check target and external monitors
+  get "health" => "health#show", as: :health_check
 end
