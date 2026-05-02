@@ -322,11 +322,11 @@ The app is deployed to **AWS ECS Fargate** (ap-southeast-1) via GitHub Actions o
 | Region | `ap-southeast-1` |
 | ECS Cluster | `praise-project-cluster` |
 | ECS Service | `praise-project-service` (Fargate, 512 CPU / 1024 MB) |
-| ECR Repository | `ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/praise-project` |
-| ALB | `<alb-dns-prefix>.ap-southeast-1.elb.amazonaws.com` |
+| ECR Repository | `<account-id>.dkr.ecr.ap-southeast-1.amazonaws.com/praise-project` |
+| ALB | `praise-project-alb.<region>.elb.amazonaws.com` |
 | ALB Target Group | `praise-project-tg-3000` (port 3000, health check: `GET /health`) |
-| RDS | PostgreSQL on `<rds-endpoint>` |
-| S3 Bucket | `praise-project-uploads-ACCOUNT_ID` (ActiveStorage uploads) |
+| RDS | PostgreSQL — endpoint stored in SSM, not committed |
+| S3 Bucket | `praise-project-uploads-<account-id>` (ActiveStorage uploads) |
 | ACM Certificate | `*.hschin.com` (ap-southeast-1) |
 
 ### Secrets Management
@@ -338,7 +338,7 @@ All production secrets are stored in **AWS SSM Parameter Store** under `/praise-
 | `/praise-project/RAILS_MASTER_KEY` | Decrypts `config/credentials.yml.enc` |
 | `/praise-project/DATABASE_URL` | PostgreSQL connection string |
 | `/praise-project/ANTHROPIC_API_KEY` | Claude API key |
-| `/praise-project/APP_HOST` | Public hostname (`praise-project.hschin.com`) |
+| `/praise-project/APP_HOST` | Public hostname (e.g. `praise-project.example.com`) |
 | `/praise-project/S3_BUCKET` | ActiveStorage bucket name |
 | `/praise-project/UNSPLASH_ACCESS_KEY` | Unsplash API key |
 
@@ -375,8 +375,8 @@ GitHub Actions authenticates to AWS via **OIDC** (no long-lived access keys).
 | `ECS_SERVICE` | `praise-project-service` |
 | `ECS_CLUSTER` | `praise-project-cluster` |
 | `ECS_TASK_DEFINITION` | `praise-project` |
-| `ECS_SUBNETS` | `<subnet-1a>,<subnet-1c>,<subnet-1b>` |
-| `ECS_SECURITY_GROUPS` | `<ecs-sg>` |
+| `ECS_SUBNETS` | Comma-separated subnet IDs from your VPC |
+| `ECS_SECURITY_GROUPS` | ECS task security group ID |
 
 ### Health Check
 
