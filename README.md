@@ -37,7 +37,7 @@ A Ruby on Rails web app that generates PowerPoint slide decks for Chinese church
 | Layer | Technology |
 |---|---|
 | Language | Ruby 4.0.1 |
-| Framework | Rails 8.1.2 |
+| Framework | Rails 8.1.3 |
 | Database | PostgreSQL 18 |
 | Frontend | Hotwire (Turbo + Stimulus), Importmap |
 | CSS | Tailwind CSS 4 |
@@ -307,35 +307,121 @@ All four must pass before merging.
 
 ## Deployment
 
-The app is deployed to **AWS ECS Fargate** via GitHub Actions on every push to `main`.
+The app is deployed to **AWS ECS Fargate** (ap-southeast-1) via GitHub Actions on every push to `main`.
 
 ### Pipeline
 
 1. Docker image built and pushed to Amazon ECR
-2. ECS service updated with the new task definition
-3. One-off ECS task runs `bin/rails db:migrate` after the new containers are stable
+2. ECS service updated with the new task definition (waits for stability)
+3. One-off ECS task runs `bin/rails db:migrate` after containers are healthy
+
+### AWS Infrastructure
+
+| Resource | Details |
+|---|---|
+| Region | `ap-southeast-1` |
+| ECS Cluster | `praise-project-cluster` |
+| ECS Service | `praise-project-service` (Fargate, 512 CPU / 1024 MB) |
+| ECR Repository | `ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/praise-project` |
+| ALB | `<alb-dns-prefix>.ap-southeast-1.elb.amazonaws.com` |
+| ALB Target Group | `praise-project-tg-3000` (port 3000, health check: `GET /health`) |
+| RDS | PostgreSQL on `<rds-endpoint>` |
+| S3 Bucket | `praise-project-uploads-ACCOUNT_ID` (ActiveStorage uploads) |
+| ACM Certificate | `*.hschin.com` (ap-southeast-1) |
+
+### Secrets Management
+
+All production secrets are stored in **AWS SSM Parameter Store** under `/praise-project/` and injected into the ECS task at launch — nothing is baked into the image.
+
+| SSM Parameter | Description |
+|---|---|
+| `/praise-project/RAILS_MASTER_KEY` | Decrypts `config/credentials.yml.enc` |
+| `/praise-project/DATABASE_URL` | PostgreSQL connection string |
+| `/praise-project/ANTHROPIC_API_KEY` | Claude API key |
+| `/praise-project/APP_HOST` | Public hostname (`praise-project.hschin.com`) |
+| `/praise-project/S3_BUCKET` | ActiveStorage bucket name |
+| `/praise-project/UNSPLASH_ACCESS_KEY` | Unsplash API key |
+
+To add a new secret:
+```bash
+aws ssm put-parameter \
+  --name "/praise-project/NEW_KEY" \
+  --value "..." \
+  --type SecureString \
+  --region ap-southeast-1 \
+  --profile excide
+```
+Then add it to the `secrets` array in `aws/task-definition.json` and push to `main`.
+
+### IAM Roles
+
+Two roles are required — both are created by `aws/setup.sh`:
+
+| Role | Purpose |
+|---|---|
+| `praise-project-execution-role` | Used by the ECS agent to pull the ECR image and fetch SSM secrets at task launch |
+| `praise-project-task-role` | Used by the running Rails app for S3 read/write access |
+
+GitHub Actions authenticates to AWS via **OIDC** (no long-lived access keys).
 
 ### Required GitHub Actions Secrets
 
 | Secret | Description |
 |---|---|
 | `AWS_ROLE_ARN` | OIDC IAM role ARN for ECR/ECS access |
-| `AWS_REGION` | AWS region (e.g. `us-east-1`) |
-| `ECR_REPOSITORY` | ECR repository name |
-| `CONTAINER_NAME` | ECS container name |
-| `ECS_SERVICE` | ECS service name |
-| `ECS_CLUSTER` | ECS cluster name |
-| `ECS_TASK_DEFINITION` | Task definition name |
-| `ECS_SUBNETS` | Comma-separated subnet IDs |
-| `ECS_SECURITY_GROUPS` | Comma-separated security group IDs |
+| `AWS_REGION` | `ap-southeast-1` |
+| `ECR_REPOSITORY` | `praise-project` |
+| `CONTAINER_NAME` | `praise-project` |
+| `ECS_SERVICE` | `praise-project-service` |
+| `ECS_CLUSTER` | `praise-project-cluster` |
+| `ECS_TASK_DEFINITION` | `praise-project` |
+| `ECS_SUBNETS` | `<subnet-1a>,<subnet-1c>,<subnet-1b>` |
+| `ECS_SECURITY_GROUPS` | `<ecs-sg>` |
 
-### Required Production Environment Variables
+### Health Check
 
-| Variable | Description |
+The app exposes a rich health endpoint at `GET /health` (used by the ALB):
+
+```json
+{
+  "status": "ok",
+  "checks": {
+    "database": true,
+    "queue": true,
+    "storage": true
+  },
+  "timestamp": "2026-05-02T12:00:00Z",
+  "version": "unknown"
+}
+```
+
+Returns `200 OK` when all checks pass, `503 Service Unavailable` when any fail. The ALB stops routing to a task if this endpoint returns non-2xx.
+
+### Observability
+
+CloudWatch is set up via `aws/observability.sh`. Run it with:
+
+```bash
+ALERT_EMAIL=you@example.com AWS_PROFILE=excide bash aws/observability.sh
+```
+
+| What | Detail |
 |---|---|
-| `ANTHROPIC_API_KEY` | Claude API key |
-| `UNSPLASH_ACCESS_KEY` | Unsplash API key |
-| `RAILS_MASTER_KEY` | Decrypts `config/credentials.yml.enc` |
-| `DATABASE_URL` | PostgreSQL connection string |
+| **Alarms** (7) | No healthy hosts, 5xx error rate, response time > 5s, ECS CPU > 80%, ECS memory > 85%, RDS connections ≥ 4, RDS free storage < 1 GB |
+| **Notifications** | SNS topic `praise-project-alerts` → email |
+| **Container Insights** | Enabled on `praise-project-cluster` — per-task CPU/memory graphs |
+| **Log metric filters** | `RailsErrors`, `Http5xxResponses`, `PptxScriptFailures` in namespace `PraiseProject` |
+| **Dashboard** | [CloudWatch → praise-project](https://ap-southeast-1.console.aws.amazon.com/cloudwatch/home?region=ap-southeast-1#dashboards:name=praise-project) |
+| **Log group** | `/ecs/praise-project` |
+
+### Re-running Infrastructure Setup
+
+Initial AWS infrastructure (VPC, RDS, IAM, ECR, ECS, ALB) is provisioned by:
+
+```bash
+AWS_PROFILE=excide bash aws/setup.sh
+```
+
+Safe to re-run — all resources use idempotent create-or-skip logic.
 
 > `config/deploy.yml` (Kamal) and `render.yaml` are retained for reference but are not the active deployment targets.
