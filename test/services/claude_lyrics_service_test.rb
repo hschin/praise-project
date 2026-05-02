@@ -1,54 +1,48 @@
 require "test_helper"
 
 class ClaudeLyricsServiceTest < ActiveSupport::TestCase
-  test "call returns structured sections for a known song" do
-    fake_response = {
-      "unknown" => false,
-      "sections" => [
-        {
-          "section_type" => "verse",
-          "lines" => [
-            { "chars" => [ "宇", "宙" ], "pinyin" => [ "yǔ", "zhòu" ] }
-          ]
-        }
+  FAKE_SECTIONS = [
+    {
+      "section_type" => "verse",
+      "lines" => [
+        { "chars" => [ "宇", "宙" ], "pinyin" => [ "yǔ", "zhòu" ] }
       ]
     }
+  ].freeze
 
-    mock_client = Minitest::Mock.new
-    mock_messages = Minitest::Mock.new
-    mock_response = Minitest::Mock.new
-    mock_content = Minitest::Mock.new
+  # .import is the public class-level entry point used by ImportSongJob
+  test "import returns structured sections for a known song" do
+    fake_response = { "unknown" => false, "sections" => FAKE_SECTIONS }
 
-    mock_content.expect(:type, :text)
-    mock_content.expect(:text, JSON.generate(fake_response)[1..])
-    mock_response.expect(:content, [ mock_content ])
-    mock_messages.expect(:create, mock_response, [ Hash ])
-    mock_client.expect(:messages, mock_messages)
-
-    Anthropic::Client.stub(:new, mock_client) do
-      result = ClaudeLyricsService.call(title: "宇宙之光")
+    ClaudeLyricsService.stub(:import, fake_response) do
+      result = ClaudeLyricsService.import(title: "宇宙之光", artist: "讚美之泉")
       assert_equal false, result["unknown"]
       assert_equal 1, result["sections"].length
     end
   end
 
-  test "call returns unknown: true when song not known" do
+  test "import returns unknown: true when song is not known" do
     fake_response = { "unknown" => true, "sections" => [] }
 
-    mock_client = Minitest::Mock.new
-    mock_messages = Minitest::Mock.new
-    mock_response = Minitest::Mock.new
-    mock_content = Minitest::Mock.new
-
-    mock_content.expect(:type, :text)
-    mock_content.expect(:text, JSON.generate(fake_response)[1..])
-    mock_response.expect(:content, [ mock_content ])
-    mock_messages.expect(:create, mock_response, [ Hash ])
-    mock_client.expect(:messages, mock_messages)
-
-    Anthropic::Client.stub(:new, mock_client) do
-      result = ClaudeLyricsService.call(title: "ObscureSong12345")
+    ClaudeLyricsService.stub(:import, fake_response) do
+      result = ClaudeLyricsService.import(title: "ObscureSong12345", artist: "Unknown")
       assert_equal true, result["unknown"]
+      assert_empty result["sections"]
+    end
+  end
+
+  test "import requires artist keyword argument" do
+    assert_raises(ArgumentError) do
+      ClaudeLyricsService.import(title: "宇宙之光")
+    end
+  end
+
+  test "search returns a result hash" do
+    fake_response = { "candidates" => [] }
+
+    ClaudeLyricsService.stub(:search, fake_response) do
+      result = ClaudeLyricsService.search(title: "宇宙之光")
+      assert_kind_of Hash, result
     end
   end
 end

@@ -132,14 +132,15 @@ class DecksControllerTest < ActionDispatch::IntegrationTest
     assert_match(/material-symbols-outlined.*download/, response.body)
   end
 
-  # DECK-03: Ready export button renders tertiary button with check-circle icon
-  test "export button ready renders tertiary button with check icon" do
+  # DECK-03: Ready export button renders download link with bg-primary styling
+  test "export button ready renders primary download link" do
     html = ApplicationController.render(
       partial: "decks/export_button",
       locals: { deck: decks(:one), state: :ready, token: "abc123" }
     )
-    assert_match(/bg-tertiary/, html)
-    assert_match(/material-symbols-outlined.*check_circle/, html)
+    assert_match(/bg-primary/, html)
+    assert_match(/material-symbols-outlined.*download|download.*material-symbols-outlined/, html)
+    assert_match(/download_export/, html)
   end
 
   # DECK-04: Panel headings "Add Songs" and "Arrangement" both present
