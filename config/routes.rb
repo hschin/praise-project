@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { passwords: "users/passwords" }
 
   root "home#index"
   get "app", to: "decks#index", as: :app
