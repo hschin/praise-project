@@ -341,6 +341,8 @@ All production secrets are stored in **AWS SSM Parameter Store** under `/praise-
 | `/praise-project/APP_HOST` | Public hostname (e.g. `praise-project.example.com`) |
 | `/praise-project/S3_BUCKET` | ActiveStorage bucket name |
 | `/praise-project/UNSPLASH_ACCESS_KEY` | Unsplash API key |
+| `/praise-project/SES_SMTP_USERNAME` | AWS SES SMTP username (IAM access key ID) |
+| `/praise-project/SES_SMTP_PASSWORD` | AWS SES SMTP derived password |
 
 To add a new secret:
 ```bash
@@ -413,6 +415,19 @@ ALERT_EMAIL=you@example.com AWS_PROFILE=excide bash aws/observability.sh
 | **Log metric filters** | `RailsErrors`, `Http5xxResponses`, `PptxScriptFailures` in namespace `PraiseProject` |
 | **Dashboard** | [CloudWatch → praise-project](https://ap-southeast-1.console.aws.amazon.com/cloudwatch/home?region=ap-southeast-1#dashboards:name=praise-project) |
 | **Log group** | `/ecs/praise-project` |
+
+### Email
+
+Transactional email (password reset, Devise notifications) is sent via **AWS SES** from `noreply@praise-project.hschin.com`.
+
+| Item | Detail |
+|---|---|
+| Domain | `praise-project.hschin.com` — verified, DKIM active |
+| SES account | Production (out of sandbox) — 50k emails/day |
+| IAM user | `praise-project-ses-smtp` (`ses:SendEmail` only) |
+| Rails config | `config/environments/production.rb` (SMTP via SES endpoint) |
+| Devise sender | `Praise Project <noreply@praise-project.hschin.com>` |
+| SMTP credentials | In SSM — `SES_SMTP_USERNAME` / `SES_SMTP_PASSWORD` |
 
 ### Re-running Infrastructure Setup
 
