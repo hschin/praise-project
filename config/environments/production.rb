@@ -63,14 +63,18 @@ Rails.application.configure do
   # APP_HOST is set in the ECS task environment (e.g. "myapp.example.com").
   config.hosts = [ ENV.fetch("APP_HOST", nil), "localhost", /\A\d+\.\d+\.\d+\.\d+(:\d+)?\z/ ].compact
 
-  # Specify outgoing SMTP server. Remember to add smtp/* credentials via bin/rails credentials:edit.
-  # config.action_mailer.smtp_settings = {
-  #   user_name: Rails.application.credentials.dig(:smtp, :user_name),
-  #   password: Rails.application.credentials.dig(:smtp, :password),
-  #   address: "smtp.example.com",
-  #   port: 587,
-  #   authentication: :plain
-  # }
+  # Specify outgoing SMTP server via AWS SES.
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.smtp_settings = {
+    address:              "email-smtp.ap-southeast-1.amazonaws.com",
+    port:                 587,
+    domain:               ENV.fetch("APP_HOST", "praise-project.hschin.com"),
+    authentication:       :login,
+    enable_starttls_auto: true,
+    user_name:            ENV.fetch("SES_SMTP_USERNAME", nil),
+    password:             ENV.fetch("SES_SMTP_PASSWORD", nil)
+  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

@@ -50,6 +50,14 @@
         {
           "name": "UNSPLASH_ACCESS_KEY",
           "valueFrom": "arn:aws:ssm:ap-southeast-1:068645775727:parameter/praise-project/UNSPLASH_ACCESS_KEY"
+        },
+        {
+          "name": "SES_SMTP_USERNAME",
+          "valueFrom": "arn:aws:ssm:ap-southeast-1:068645775727:parameter/praise-project/SES_SMTP_USERNAME"
+        },
+        {
+          "name": "SES_SMTP_PASSWORD",
+          "valueFrom": "arn:aws:ssm:ap-southeast-1:068645775727:parameter/praise-project/SES_SMTP_PASSWORD"
         }
       ],
       "logConfiguration": {
@@ -62,7 +70,7 @@
         }
       },
       "healthCheck": {
-        "command": ["CMD-SHELL", "curl -f http://localhost:3000/up || exit 1"],
+        "command": ["CMD-SHELL", "curl -f http://localhost:3000/health || exit 1"],
         "interval": 30,
         "timeout": 10,
         "retries": 5,
